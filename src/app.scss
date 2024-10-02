@@ -1,0 +1,69 @@
+/* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */
+@use "sass:color";
+
+:root {
+    background-color: $bg;
+    font-size: clamp(12px, 2.2vw, 18px);
+}
+
+body {
+	margin: 0;
+}
+
+*,
+:after,
+:before {
+	box-sizing: border-box;
+}
+
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: $text;
+	margin: 0;
+	margin-bottom: 0;
+	font-weight: bold;
+	line-height: 1.1;
+	font-family: $font;
+}
+
+.toast {
+	font-family: $font;
+	background: $gray-8 !important;
+	color: $text !important;
+	border: 2px solid $gray-7;
+}
+
+input,
+textarea {
+	border: none;
+	outline: none;
+	color: $text;
+	font-family: 'Roboto';
+	font-weight: bolder;
+}
+
+.col {
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 auto;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	// flex: 0 0 auto;
+}
+
+.w-100 {
+	width: 100dvw;
+}
+
+.h-100 {
+	height: 100%;
+}
