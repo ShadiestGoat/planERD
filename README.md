@@ -6,7 +6,16 @@ Welcome to drawERD - A fully local Entity Relations Diagram (ERD) drawing tool.
 
 ## Project Status
 
-This project is still in development. See the [todo file](/TODO.md) (very useful if viewing with [a TODO.md kanban viewer](https://github.com/coddx-hq/coddx-alpha)) to get a picture of current status & next priorities
+This project is still in development. Its not in a real usable state. Some major features that are still missing are:
+- [ ] Table Creator (almost there though t-t)
+- [ ] Enums
+- [ ] Table node resizing
+- [ ] Data saving
+- [ ] Data Relations
+- [ ] Exporter
+- [ ] Various bugs
+
+See the [todo file](/TODO.md) (very useful if viewing with [a TODO.md kanban viewer](https://github.com/coddx-hq/coddx-alpha)) to get a picture of current status & next priorities
 
 ## Info
 
@@ -22,6 +31,14 @@ Have a bug/feature request? [Create an issue](https://github.com/ShadiestGoat/dr
 
 Want to write code & have a feature in mind? Fork & Make a PR
 Want to write code, but don't know what to do? [Check out the TODO.md](./TODO.md)
+
+## Running locally 
+
+1. Clone repo
+2. `pnpm i`
+3. If you're doing this for dev purposes, `pnpm dev`. Otherwise `pnpm preview`
+4. Go to `localhost:5173`
+5. Donezo :3
 
 ## Acknowledgements
 
