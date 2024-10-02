@@ -10,17 +10,17 @@ Explanation of categories of TODOs:
 
 ### Backlog
 
-<!-- Lint/CICD Stuff -->
-- [ ] Force separate line for type imports
-- [ ] Make ci/cd do lint checking
-- [ ] Make ci/cd do format checking (clump in with lint)
-- [ ] Add  cd/cd cspell
-- [ ] Make ci/cd check for any `TODO.md`
-<!-- Table Node Styling -->  
+- <!-- Lint/CICD Stuff -->  
+- [ ] Force separate line for type imports  
+- [ ] Make ci/cd do lint checking  
+- [ ] Make ci/cd do format checking (clump in with lint)  
+- [ ] Add  cd/cd cspell  
+- [ ] Make ci/cd check for any TODO.md changes  
+- <!-- Table Node Styling -->  
 - [ ] table node: fix resize styling  
 - [ ] table node: fix min size  
 - [ ] table node: investigate resizing font (smaller)  
-- <!-- Multi-Col indices -->
+- <!-- Multi-Col indices -->  
 - [ ] table creator: visualize multi-col indices  
 - [ ] table node: visualize multi-col indices  
 - [ ] table creator: allow creating multi-col indices  
@@ -34,6 +34,7 @@ Explanation of categories of TODOs:
 - [ ] table creator: tooltip for icon buttons  
 - [ ] table creator: allow swapping order of columns  
 - [ ] table creator: allow changing array level of col type  
+- [ ] table creator: allow type args eg. numeric precision  
 - <!-- Table Comment -->  
 - [ ] table node: visualize table comment  
 - [ ] table creator: visualize table comment  
@@ -60,12 +61,13 @@ Explanation of categories of TODOs:
 - <!-- Table Creator Improvements part 2 -->  
 - [ ] sidebar: add search (for table names)  
 - [ ] table creator: add search/autocomplete for col types  
+- [ ] sidebar: allow smaller sidebar, but hide some icons  
 
-### Todo ()
+### Todo
 
-- [ ] sidebar: fix min size  
 - [ ] table creator: create new cols  
 - [ ] table creator: allow editing table name  
+- [ ] table creator: allow deleting columns  
 - [ ] sidebar: allow creating new tables  
 
 ### In Progress :3
@@ -73,6 +75,7 @@ Explanation of categories of TODOs:
 
 ### Done :33
 
+- [ ] sidebar: fix min size  
 - [ ] An acceptable readme.md file  
 - [ ] resizable sidebar (& real affect on 'canvas')  
 - [ ] make table node  

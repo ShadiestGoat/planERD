@@ -18,16 +18,30 @@
     let curWidth = 0;
 
     const defaultWidthRatio = 0.35
+    // total = 0.75rem + 12 * 2 + 12 * 2 + 12 + col-grid
+    // col-grid = 24 + 12ch + 12ch + 2ch + 2ch + 3 * 26
+    // col-grid = 102 + 28ch
+    // 1rem ~= 15px
+    // 1ch ~= 11px
+    // total = 0.75 * 15 + 60 + 102 + 28 * 11
+    // total = 481.25
+    // total ~= 500
+    const ABS_MIN_WIDTH = 500
 
     clientWidth.subscribe((newV) => {
         const shouldSetCurWidth = curWidth == maxWidth * defaultWidthRatio || !widthMade
 
         maxWidth = Math.floor(newV * 0.75)
         minWidth = Math.floor(newV * 0.1)
+        if (minWidth < ABS_MIN_WIDTH) {
+            minWidth = ABS_MIN_WIDTH
+        }
 
         if (shouldSetCurWidth) {
             curWidth = maxWidth * defaultWidthRatio
-        } else if (curWidth > maxWidth) {
+        }
+        
+        if (curWidth > maxWidth) {
             curWidth = maxWidth
         } else if (curWidth < minWidth) {
             curWidth = minWidth

@@ -136,7 +136,7 @@
             {#each tableData.cols as col, i}
                 {@const singleIndex = singleIndexCache[col.name]}
 
-                <div class="row col-data">
+                <div class="col-data">
                     <GripVertical size={18} color="white" />
                     <input
                         class="{colInputStates[col.name].good ? '' : 'bad'}"
