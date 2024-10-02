@@ -62,6 +62,7 @@ Explanation of categories of TODOs:
 - [ ] sidebar: add search (for table names)  
 - [ ] table creator: add search/autocomplete for col types  
 - [ ] sidebar: allow smaller sidebar, but hide some icons  
+- [ ] table creator: collapse unused tables
 
 ### Todo
 

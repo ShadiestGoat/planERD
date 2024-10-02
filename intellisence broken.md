@@ -1,2 +1,0 @@
-- <svlete:window /> breaks the intellisence (/maybe a part of that block breaks it)
-- also figure out wtf the render() suggestion even is and why its there
