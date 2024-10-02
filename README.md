@@ -32,6 +32,8 @@ Have a bug/feature request? [Create an issue](https://github.com/ShadiestGoat/dr
 Want to write code & have a feature in mind? Fork & Make a PR
 Want to write code, but don't know what to do? [Check out the TODO.md](./TODO.md)
 
+If you're going to contribute code - check out the [CONTRIBUTING.md](/CONTRIBUTING.md)
+
 ## Running locally 
 
 1. Clone repo
