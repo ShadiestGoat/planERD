@@ -66,16 +66,16 @@ Explanation of categories of TODOs:
 
 ### Todo
 
-- [ ] table creator: create new cols  
 - [ ] table creator: allow editing table name  
 - [ ] sidebar: allow creating new tables  
-- [ ] table creator: close index popup by clicking out of it
+- [ ] table creator: close index popup by clicking out of it  
 
 ### In Progress :3
 
 
 ### Done :33
 
+- [ ] table creator: create new cols  
 - [ ] table creator: allow deleting columns  
 - [ ] sidebar: fix min size  
 - [ ] An acceptable readme.md file  

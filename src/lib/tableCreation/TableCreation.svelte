@@ -5,10 +5,15 @@
 	import ColCreation from "./ColCreation.svelte";
 	import IconButton from "$lib/IconButton.svelte";
 
+    const DEFAULT_COL_TYPE = 'text'
+    const DEFAULT_COL_NAME = 'col_name'
+
     export let tableName = ""
 
     $: tableData = $tables[tableName]
     $: tableInd = $indices[tableName] ?? []
+
+    let indexPopup = -1
 
     function deleteColumn(i: number) {
         const colData = tableData.cols[i]
@@ -35,8 +40,6 @@
 
         // TODO: rm relations
     }
-
-    let indexPopup = -1
 
     type SingleIndexCache = Record<string, { i: number, v: Index }>
 
@@ -97,6 +100,39 @@
 
         // TODO: Rename relations
     }
+
+    function addColumn() {
+        let highest_col_name = -1
+
+        $tables[tableName].cols.forEach(v => {
+            if (!v.name.startsWith(DEFAULT_COL_NAME)) {
+                return
+            }
+
+            let col_n = 0
+            if (v.name.length > DEFAULT_COL_NAME.length + 1) {
+                const num = parseInt(v.name.slice(DEFAULT_COL_NAME.length + 1))
+                if (isNaN(num)) {
+                    return
+                }
+
+                col_n = num
+            }
+
+            if (col_n > highest_col_name) {
+                highest_col_name = col_n
+            }
+        })
+
+        $tables[tableName].cols.push({
+            arrayLevel: 0,
+            name: DEFAULT_COL_NAME + (highest_col_name === -1 ? "" : `_${highest_col_name + 1}`),
+            nullable: false,
+            type: DEFAULT_COL_TYPE,
+        })
+
+        $tables[tableName].cols = $tables[tableName].cols
+    }
 </script>
 
 <div class="table-wrapper col">
@@ -106,8 +142,9 @@
     <div class="col-container col">
         <div class="row sub-header">
             <h4>Columns</h4>
-            <IconButton active={false}>
-                <Plus size={18} color="white" />
+
+            <IconButton on:input={addColumn} extraClass="plus-btn" active={false}>
+                <Plus size={24} color="white" />
             </IconButton>
         </div>
 
@@ -155,5 +192,9 @@
 
     .sub-header {
         justify-content: space-between;
+
+        > :global(.plus-btn) {
+            width: auto;
+        }
     }
 </style>
