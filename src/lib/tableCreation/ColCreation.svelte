@@ -4,11 +4,13 @@
 
     import { allSQLTypes, tables } from '$lib/data'
     import { IndexType } from '$lib/types'
-    import type { Index } from '$lib/types'
+    import type { Column, Index } from '$lib/types'
 
     import IndexIcon from './IndexIcon.svelte'
     import IndexPopup from './IndexPopup.svelte'
     import IconButton from '$lib/IconButton.svelte'
+    import Input from '$lib/utils/Input.svelte'
+    import { validateColName } from './vlidators'
 
     export let tableName: string
 
@@ -23,33 +25,26 @@
         setIndex: IndexType
     }>()
 
-    let colNameIsGood = true
     export let colNameValue: string
 
-    function onNameInput(re: Event): void {
-        // typescript, am i right?
-        const e = re as InputEvent & { target: HTMLInputElement }
-
-        const newName = e.target.value
-        if (!newName || newName.includes(' ')) {
-            colNameIsGood = false
-
-            return
-        }
-
-        colNameIsGood = true
-        dispatch('setName', colNameValue)
+    function mkOtherColNames(cols: Column[], col: number): string[] {
+        return [
+            ...cols.slice(0, col),
+            ...cols.slice(col + 1)
+        ].map(v => v.name)
     }
+
+    $: otherColNames = mkOtherColNames($tables[tableName].cols, colIndex)
 </script>
 
 <div class="col-data">
     <GripVertical size={18} color="white" />
-    <input
-        class={colNameIsGood ? '' : 'bad'}
+
+    <Input
         placeholder="Column Name"
-        type="text"
-        bind:value={colNameValue}
-        on:input={onNameInput}
+        curValue={colNameValue}
+        isInputGood={validateColName(otherColNames)}
+        on:input={({ detail }) => dispatch('setName', detail)}
     />
 
     <select bind:value={$tables[tableName].cols[colIndex].type}>
@@ -105,13 +100,14 @@
         />
     </IconButton>
 
-    <IconButton extraClass="trash" active={true} on:input={() => dispatch('delete')}>
+    <IconButton extraClass="trash" active={false} on:input={() => dispatch('delete')}>
         <Trash2 size={18} class="trash" />
     </IconButton>
 </div>
 
 <style lang="scss">
     @use 'sass:list';
+    @use '$lib/utils/input';
 
     .col-data {
         display: grid;
@@ -132,25 +128,6 @@
             repeat(3, 26px);
     }
 
-    input,
-    select {
-        border: none;
-        background: $gray-9;
-        padding: 0.25rem 0.5rem;
-        width: 100%;
-        border-radius: 6.25px;
-        color: $primary;
-        --outline-color: #{$primary};
-
-        &:focus-within {
-            outline: var(--outline-color) 1px solid;
-        }
-    }
-
-    input.bad {
-        --outline-color: #{$danger};
-    }
-
     $types: trash, special, nullable;
 
     .col-data {
@@ -167,5 +144,14 @@
                 grid-column: calc(-1 - $i);
             }
         }
+
+        :global(.icon-btn) {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    select {
+        @include input.input
     }
 </style>

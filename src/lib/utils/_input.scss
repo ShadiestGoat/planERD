@@ -1,0 +1,24 @@
+@use '/src/variables.scss' as *;
+
+@mixin input($bg: $gray-9) {
+    border: none;
+    background: $bg;
+    padding: 0.25rem 0.5rem;
+    width: 100%;
+    border-radius: 6.25px;
+    color: $primary;
+    --outline-color: #{$primary};
+    --border-color: #{$bg};
+
+    border: var(--border-color) 1px solid;
+
+    &:focus-within {
+        border: $bg 1px solid;
+        outline: var(--outline-color) 1px solid;
+    }
+
+    &.bad {
+        --outline-color: #{$danger};
+        --border-color: #{$danger};
+    }
+}
