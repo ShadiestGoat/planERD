@@ -7,6 +7,8 @@
     export let active: boolean
     export let extraClass = ''
     export let doToggle = false
+    export let noColor = false
+    export let disabled = false
 
     const onInput = inputHandlerFactory((e) => {
         if (doToggle) {
@@ -18,7 +20,8 @@
 </script>
 
 <div
-    class="wrapper col {extraClass} {active ? 'active' : ''}"
+    aria-disabled={disabled}
+    class="wrapper col icon-btn {extraClass} {active ? 'active' : ''} {noColor ? '' : 'color'}"
     role="button"
     tabindex="0"
     on:click={onInput}
@@ -40,32 +43,42 @@
     }
 
     div {
-        width: 100%;
-        height: 100%;
         border-radius: 6px;
         justify-content: center;
         align-items: center;
         transition: 0.25s;
+        padding: 2px;
         cursor: pointer;
 
-        &:hover,
-        &:focus-visible,
-        &.active {
-            background: $gray-8;
+        &[aria-disabled=true] {
+            cursor: not-allowed;
+            --color: #{$gray-6};
         }
 
-        &.active {
-            outline: var(--color-active) 1px solid;
-        }
+        &:not([aria-disabled=true]) {
+            &:hover,
+            &:focus-visible,
+            &.active {
+                background: $gray-8;
+            }
 
-        &:hover,
-        &:focus-visible {
-            outline: var(--color-secondary) 1px solid;
+            &.active {
+                outline: var(--color-active) 1px solid;
+            }
+
+            &:hover,
+            &:focus-visible {
+                outline: var(--color-secondary) 1px solid;
+            }
         }
     }
 
     div > :global(*) {
-        color: var(--color);
         pointer-events: none;
+        transition: 0.25s;
+    }
+
+    .color > :global(*) {
+        color: var(--color);
     }
 </style>
