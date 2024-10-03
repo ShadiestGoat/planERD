@@ -64,6 +64,7 @@ Done: Self explanatory, no?
 
 - [ ] table creator: allow editing table name  
 - [ ] sidebar: allow creating new tables  
+- [ ] make tables have an explicit order
 
 ### In Progress :3
 
