@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { indices, tables } from "../data";
-	import { Plus } from "lucide-svelte";
-	import { IndexType, type Index } from "../types";
-	import ColCreation from "./ColCreation.svelte";
-	import IconButton from "$lib/IconButton.svelte";
+    import { indices, tables } from '../data'
+    import { Plus } from 'lucide-svelte'
+    import { IndexType, type Index } from '../types'
+    import ColCreation from './ColCreation.svelte'
+    import IconButton from '$lib/IconButton.svelte'
 
     const DEFAULT_COL_TYPE = 'text'
     const DEFAULT_COL_NAME = 'col_name'
 
-    export let tableName = ""
+    export let tableName = ''
 
     $: tableData = $tables[tableName]
     $: tableInd = $indices[tableName] ?? []
 
     let indexPopup = -1
 
-    function deleteColumn(i: number) {
+    function deleteColumn(i: number): void {
         const colData = tableData.cols[i]
 
         // Delete col data in table data
@@ -24,26 +24,28 @@
 
         // Remove ind
         if ($indices[tableName]) {
-            $indices[tableName] = $indices[tableName].map((v) => {
-                const ind = v.colNames.indexOf(colData.name)
-                if (ind == -1) return null
+            $indices[tableName] = $indices[tableName]
+                .map((v) => {
+                    const ind = v.colNames.indexOf(colData.name)
+                    if (ind == -1) return null
 
-                if (v.colNames.length <= 2) {
-                    return null
-                }
+                    if (v.colNames.length <= 2) {
+                        return null
+                    }
 
-                v.colNames.splice(ind, 1)
+                    v.colNames.splice(ind, 1)
 
-                return v
-            }).filter(v => v !== null)
+                    return v
+                })
+                .filter((v) => v !== null)
         }
 
         // TODO: rm relations
     }
 
-    type SingleIndexCache = Record<string, { i: number, v: Index }>
+    type SingleIndexCache = Record<string, { i: number; v: Index }>
 
-    function makeSingleIndexCache(tableIndices: Index[]): Record<string, { i: number, v: Index }> {
+    function makeSingleIndexCache(tableIndices: Index[]): Record<string, { i: number; v: Index }> {
         const cache: SingleIndexCache = {}
 
         tableIndices.forEach((v, i) => {
@@ -57,7 +59,7 @@
 
     $: singleIndexCache = makeSingleIndexCache(tableInd)
 
-    function setSingleIndex(colName: string, newIndexType: IndexType) {
+    function setSingleIndex(colName: string, newIndexType: IndexType): void {
         const oldI = singleIndexCache[colName]?.i ?? -1
 
         if (oldI == -1) {
@@ -67,7 +69,7 @@
                 ...$indices[tableName],
                 {
                     colNames: [colName],
-                    type: newIndexType,
+                    type: newIndexType
                 }
             ]
         } else if (newIndexType == IndexType.NONE) {
@@ -82,7 +84,7 @@
         console.log($indices[tableName])
     }
 
-    function onColumnRename(i: number, newName: string) {
+    function onColumnRename(i: number, newName: string): void {
         const oldName = $tables[tableName].cols[i].name
 
         // Rename real table col
@@ -101,10 +103,10 @@
         // TODO: Rename relations
     }
 
-    function addColumn() {
+    function addColumn(): void {
         let highest_col_name = -1
 
-        $tables[tableName].cols.forEach(v => {
+        $tables[tableName].cols.forEach((v) => {
             if (!v.name.startsWith(DEFAULT_COL_NAME)) {
                 return
             }
@@ -126,9 +128,9 @@
 
         $tables[tableName].cols.push({
             arrayLevel: 0,
-            name: DEFAULT_COL_NAME + (highest_col_name === -1 ? "" : `_${highest_col_name + 1}`),
+            name: DEFAULT_COL_NAME + (highest_col_name === -1 ? '' : `_${highest_col_name + 1}`),
             nullable: false,
-            type: DEFAULT_COL_TYPE,
+            type: DEFAULT_COL_TYPE
         })
 
         $tables[tableName].cols = $tables[tableName].cols
@@ -156,7 +158,6 @@
                     singleIndex={singleIndexCache[col.name]?.v}
                     {tableName}
                     colNameValue={col.name}
-
                     on:delete={() => deleteColumn(i)}
                     on:setIndex={({ detail }) => setSingleIndex(col.name, detail)}
                     on:setName={({ detail }) => onColumnRename(i, detail)}
@@ -181,7 +182,8 @@
     .col-container {
         padding-left: 12px;
 
-        &, .col-wrapper {
+        &,
+        .col-wrapper {
             gap: 12px;
         }
     }

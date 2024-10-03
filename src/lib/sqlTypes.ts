@@ -11,102 +11,82 @@ type SQLTypeBigConf = {
 
 type SQLTypeConf = SQLTypeBigConf | string
 
-const customNumericArgs: SQLTypeBigConf['args'] = [
-    ["precision"],
-    ["precision", "scale"],
-]
+const customNumericArgs: SQLTypeBigConf['args'] = [['precision'], ['precision', 'scale']]
 
 const numeric: SQLTypeConf[] = [
-    "smallint",
-    "integer",
-    "bigint",
+    'smallint',
+    'integer',
+    'bigint',
 
     {
-        name: "decimal",
+        name: 'decimal',
         args: customNumericArgs
     },
     {
-        name: "numeric",
+        name: 'numeric',
         args: customNumericArgs
     },
 
-    "real",
-    "double precision",
-    "smallserial",
-    "serial",
-    "bigserial"
+    'real',
+    'double precision',
+    'smallserial',
+    'serial',
+    'bigserial'
 ]
 
 const character: SQLTypeConf[] = [
     {
-        name: "varchar",
-        args: ["n"]
+        name: 'varchar',
+        args: ['n']
     },
     {
-        name: "char",
-        args: ["n"]
+        name: 'char',
+        args: ['n']
     },
-    "bpchar",
-    "text"
+    'bpchar',
+    'text'
 ]
 
-const timestamp:SQLTypeConf[] = [
-    "timestamp",
-    "timestamptz",
-    "date",
-    "time with time zone",
-    "time without time zone",
-    "interval"
+const timestamp: SQLTypeConf[] = [
+    'timestamp',
+    'timestamptz',
+    'date',
+    'time with time zone',
+    'time without time zone',
+    'interval'
 ]
 
-const geometric: SQLTypeConf[] = [
-    "point",
-    "line",
-    "lseg",
-    "box",
-    "path",
-    "polygon",
-    "circle"
-]
+const geometric: SQLTypeConf[] = ['point', 'line', 'lseg', 'box', 'path', 'polygon', 'circle']
 
-const network: SQLTypeConf[] = [
-    "cidr",
-    "inet",
-    "macaddr",
-    "macaddr8"
-]
+const network: SQLTypeConf[] = ['cidr', 'inet', 'macaddr', 'macaddr8']
 
 const bit: SQLTypeConf[] = [
     {
-        name: "bit",
-        args: ["n"]
+        name: 'bit',
+        args: ['n']
     },
     {
-        name: "bit varying",
-        args: ["n"]
+        name: 'bit varying',
+        args: ['n']
     }
 ]
 
 const dataConf: [string, SQLTypeConf[]][] = [
-    ["Numeric", numeric],
-    ["Monetary", [ "money" ]],
-    ["Character", character],
-    ["Binary", [ "bytea" ]],
-    ["Date/Time", timestamp],
-    ["Boolean", [ "boolean" ]],
-    ["Geometric", geometric],
-    ["Network Address", network],
-    ["Bit String", bit],
-    ["Text Search", [ "tsvector" ]],
-    ["Misc", [
-        "uuid",
-        "jsonb",
-        "xml",
-    ]]
+    ['Numeric', numeric],
+    ['Monetary', ['money']],
+    ['Character', character],
+    ['Binary', ['bytea']],
+    ['Date/Time', timestamp],
+    ['Boolean', ['boolean']],
+    ['Geometric', geometric],
+    ['Network Address', network],
+    ['Bit String', bit],
+    ['Text Search', ['tsvector']],
+    ['Misc', ['uuid', 'jsonb', 'xml']]
 ]
 
 function parseSQLTypeConf(t: SQLTypeConf): SQLType {
-    if (typeof t === "string") {
+    if (typeof t === 'string') {
         return {
             name: t,
             args: []
@@ -121,7 +101,6 @@ function parseSQLTypeConf(t: SQLTypeConf): SQLType {
     }
 }
 
-export const SQLTypes: [string, SQLType[]][] = dataConf.map(v => {
-
-    return [v[0] + " Types", v[1].map(parseSQLTypeConf)]
+export const SQLTypes: [string, SQLType[]][] = dataConf.map((v) => {
+    return [v[0] + ' Types', v[1].map(parseSQLTypeConf)]
 })

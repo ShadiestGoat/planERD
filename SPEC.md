@@ -1,30 +1,30 @@
-- performant
-- made in svelte
-- foss
-- be able to create: 
-  - tables
-  - fields
-  - indices
-  - relations
-  - custom enums
-- be able to export data as:
-  - sql (postgres)
-  - json
-- be able to support all basic sql types AND:
-  - arrays (arrays of arrays too)
-  - enums
-- on each table visualize:
-  - all columns
-  - all indices (in 1 way or another)
-  - all relations
-  - table comment
-- on each col visualize:
-  - single index
-  - uniqueness
-  - primary key
-  - relation
-- relations can be:
-  - 1:N
-  - N:1
-  - 1:1
-  - 1:1 (strict)
+-   performant
+-   made in svelte
+-   foss
+-   be able to create:
+    -   tables
+    -   fields
+    -   indices
+    -   relations
+    -   custom enums
+-   be able to export data as:
+    -   sql (postgres)
+    -   json
+-   be able to support all basic sql types AND:
+    -   arrays (arrays of arrays too)
+    -   enums
+-   on each table visualize:
+    -   all columns
+    -   all indices (in 1 way or another)
+    -   all relations
+    -   table comment
+-   on each col visualize:
+    -   single index
+    -   uniqueness
+    -   primary key
+    -   relation
+-   relations can be:
+    -   1:N
+    -   N:1
+    -   1:1
+    -   1:1 (strict)

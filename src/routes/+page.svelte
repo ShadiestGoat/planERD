@@ -1,21 +1,29 @@
 <script lang="ts">
-	import { tables } from '$lib/data';
-	import TableCreation from '$lib/tableCreation/TableCreation.svelte';
-    import TableNode from '$lib/TableNode.svelte';
-    import { Background, BackgroundVariant, Controls, MiniMap, SvelteFlow, type Node, type Edge } from '@xyflow/svelte';
-    import '@xyflow/svelte/dist/style.css';
-	import { writable } from 'svelte/store';
+    import { tables } from '$lib/data'
+    import TableCreation from '$lib/tableCreation/TableCreation.svelte'
+    import TableNode from '$lib/TableNode.svelte'
+    import {
+        Background,
+        BackgroundVariant,
+        Controls,
+        MiniMap,
+        SvelteFlow,
+        type Node,
+        type Edge
+    } from '@xyflow/svelte'
+    import '@xyflow/svelte/dist/style.css'
+    import { writable } from 'svelte/store'
 
     // Also set the scss var
-    const BAR_DRAG_WIDTH = 8;
+    const BAR_DRAG_WIDTH = 8
 
-    let clientWidth = writable<number>(1920);
-    let widthMade = false;
+    let clientWidth = writable<number>(1920)
+    let widthMade = false
 
-    let maxWidth = 0;
-    let minWidth = 0;
+    let maxWidth = 0
+    let minWidth = 0
 
-    let curWidth = 0;
+    let curWidth = 0
 
     const defaultWidthRatio = 0.35
     // total = 0.75rem + 12 * 2 + 12 * 2 + 12 + col-grid
@@ -40,7 +48,7 @@
         if (shouldSetCurWidth) {
             curWidth = maxWidth * defaultWidthRatio
         }
-        
+
         if (curWidth > maxWidth) {
             curWidth = maxWidth
         } else if (curWidth < minWidth) {
@@ -52,7 +60,7 @@
         }
     })
 
-    function mouseMoveForDrag(clientX: number) {
+    function mouseMoveForDrag(clientX: number): void {
         if (!dragging) {
             return
         }
@@ -71,15 +79,15 @@
             data: { name: 'cool-table' },
             position: { x: 0, y: 150 }
         }
-    ]);
+    ])
 
     // same for edges
-    const edges = writable<Edge[]>([]);
+    const edges = writable<Edge[]>([])
 </script>
 
 <svelte:window
     bind:innerWidth={$clientWidth}
-    on:mouseup={() => dragging = false}
+    on:mouseup={() => (dragging = false)}
     on:mousemove={(e) => mouseMoveForDrag(e.clientX)}
 />
 
@@ -94,7 +102,11 @@
         {/each}
     </div>
 
-    <div class="col resize-bar {dragging ? 'active' : ''}" role="presentation" on:mousedown={(e) => dragging = e.buttons === 1} />
+    <div
+        class="col resize-bar {dragging ? 'active' : ''}"
+        role="presentation"
+        on:mousedown={(e) => (dragging = e.buttons === 1)}
+    />
 
     <div class="col draw-wrapper" style="--width:{$clientWidth - curWidth - BAR_DRAG_WIDTH}px">
         <SvelteFlow
@@ -106,7 +118,7 @@
             nodeTypes={{
                 table: TableNode
             }}
-            colorMode={"dark"}
+            colorMode={'dark'}
         >
             <Controls />
             <Background bgColor="#0d1117" variant={BackgroundVariant.Cross} />
@@ -123,7 +135,7 @@
         height: $headerHeight;
         justify-content: center;
         align-items: center;
-        
+
         h3 {
             color: $primary;
         }
@@ -137,7 +149,8 @@
         transition: 0.35s;
         border: 0;
 
-        &:hover, &.active {
+        &:hover,
+        &.active {
             background-color: $primary;
         }
     }
@@ -156,7 +169,8 @@
             gap: 4px;
         }
 
-        .sidebar, .draw-wrapper {
+        .sidebar,
+        .draw-wrapper {
             width: var(--width);
         }
     }

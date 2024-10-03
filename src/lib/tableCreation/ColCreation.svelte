@@ -1,11 +1,14 @@
 <script lang="ts">
-	import { allSQLTypes, tables } from "$lib/data";
-	import IconButton from "$lib/IconButton.svelte";
-	import { IndexType, type Index } from "$lib/types";
-	import { createEventDispatcher } from "svelte";
-	import { GripVertical, Ghost, Trash2 } from "lucide-svelte";
-	import IndexPopup from "./IndexPopup.svelte";
-	import IndexIcon from "./IndexIcon.svelte";
+    import { GripVertical, Ghost, Trash2 } from 'lucide-svelte'
+    import { createEventDispatcher } from 'svelte'
+
+    import { allSQLTypes, tables } from '$lib/data'
+    import { IndexType } from '$lib/types'
+    import type { Index } from '$lib/types'
+
+    import IndexIcon from './IndexIcon.svelte'
+    import IndexPopup from './IndexPopup.svelte'
+    import IconButton from '$lib/IconButton.svelte'
 
     export let tableName: string
 
@@ -15,20 +18,20 @@
     export let indexPopup: number
 
     const dispatch = createEventDispatcher<{
-        setName: string,
-        delete: void,
+        setName: string
+        delete: void
         setIndex: IndexType
     }>()
 
     let colNameIsGood = true
     export let colNameValue: string
 
-    function onNameInput(re: Event) {
+    function onNameInput(re: Event): void {
         // typescript, am i right?
         const e = re as InputEvent & { target: HTMLInputElement }
 
         const newName = e.target.value
-        if (!newName || newName.includes(" ")) {
+        if (!newName || newName.includes(' ')) {
             colNameIsGood = false
 
             return
@@ -42,7 +45,7 @@
 <div class="col-data">
     <GripVertical size={18} color="white" />
     <input
-        class="{colNameIsGood ? '' : 'bad'}"
+        class={colNameIsGood ? '' : 'bad'}
         placeholder="Column Name"
         type="text"
         bind:value={colNameValue}
@@ -53,7 +56,7 @@
         {#each allSQLTypes as typeGroup}
             <optgroup label={typeGroup[0]}>
                 {#each typeGroup[1] as t}
-                    <option value="{t.name}">{t.name}</option>
+                    <option value={t.name}>{t.name}</option>
                 {/each}
             </optgroup>
         {/each}
@@ -98,18 +101,14 @@
             type={singleIndex ? singleIndex.type : IndexType.NONE}
         />
     </IconButton>
-    
-    <IconButton
-        extraClass="trash"
-        active={true}
-        on:input={() => dispatch('delete')}
-    >
+
+    <IconButton extraClass="trash" active={true} on:input={() => dispatch('delete')}>
         <Trash2 size={18} class="trash" />
     </IconButton>
 </div>
 
 <style lang="scss">
-    @use "sass:list";
+    @use 'sass:list';
 
     .col-data {
         display: grid;
@@ -120,16 +119,18 @@
         gap: 4px;
 
         //                   draggable
-        grid-template: 1fr / 24px
-        //                   col name, type, args (1), args (2)
-                             12ch      12ch  2ch     2ch
-                             // empty space  
-                             1fr
-        //                   nullable, index type, trash
-                             repeat(3, 26px);
+        grid-template:
+            1fr / 24px
+            //                   col name, type, args (1), args (2)
+            12ch 12ch 2ch 2ch
+            // empty space
+            1fr
+            //                   nullable, index type, trash
+            repeat(3, 26px);
     }
 
-    input, select {
+    input,
+    select {
         border: none;
         background: $gray-9;
         padding: 0.25rem 0.5rem;

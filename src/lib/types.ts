@@ -1,11 +1,11 @@
 // place files you want to import through the `$lib` alias in this folder.
 
 export type Column = {
-    name: string;
-    type: string;
-    arrayLevel: number;
-    comment?: string;
-    nullable: boolean;
+    name: string
+    type: string
+    arrayLevel: number
+    comment?: string
+    nullable: boolean
 }
 
 export enum IndexType {
@@ -18,26 +18,26 @@ export enum IndexType {
 
 export type Index = {
     colNames: string[]
-    type: IndexType;
+    type: IndexType
 }
 
 export enum ColRelationType {
     ONE_TO_N,
     N_TO_ONE,
     ONE_TO_ONE,
-    ONE_TO_ONE_STRICT,
+    ONE_TO_ONE_STRICT
 }
 
 export type ColRelation = {
-    colRef: string;
+    colRef: string
     type: ColRelationType
 }
 
 export type Relation = {
     /** These are col refs - tableName.colName */
-    from: ColRelation;
+    from: ColRelation
     /** These are col refs - tableName.colName */
-    to: ColRelation;
+    to: ColRelation
 }
 
 export type Table = {

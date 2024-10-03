@@ -2,24 +2,25 @@
 
 Welcome to drawERD - A fully local Entity Relations Diagram (ERD) drawing tool.
 
-*PS: Its made in svelte <3*
+_PS: Its made in svelte <3_
 
 ## Project Status
 
 This project is still in development. Its not in a real usable state. Some major features that are still missing are:
-- [ ] Table Creator (almost there though t-t)
-- [ ] Enums
-- [ ] Table node resizing
-- [ ] Data saving
-- [ ] Data Relations
-- [ ] Exporter
-- [ ] Various bugs
+
+-   [ ] Table Creator (almost there though t-t)
+-   [ ] Enums
+-   [ ] Table node resizing
+-   [ ] Data saving
+-   [ ] Data Relations
+-   [ ] Exporter
+-   [ ] Various bugs
 
 See the [todo file](/TODO.md) (very useful if viewing with [a TODO.md kanban viewer](https://github.com/coddx-hq/coddx-alpha)) to get a picture of current status & next priorities
 
 ## Info
 
-### Is this *really* an ERD drawer?
+### Is this _really_ an ERD drawer?
 
 AFAIK, its actually not. Its actually more of a Data Structure Diagram (DSD), or a United Modeling Language (UML) structure diagram. ERD is just the more well known name for all db-related diagrams
 
@@ -34,7 +35,7 @@ Want to write code, but don't know what to do? [Check out the TODO.md](./TODO.md
 
 If you're going to contribute code - check out the [CONTRIBUTING.md](/CONTRIBUTING.md)
 
-## Running locally 
+## Running locally
 
 1. Clone repo
 2. `pnpm i`

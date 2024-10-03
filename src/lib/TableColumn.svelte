@@ -1,29 +1,29 @@
 <script lang="ts">
-	import { Handle, Position } from "@xyflow/svelte";
-	import { indices } from "./data";
-    import { IndexType, type Column, type Index } from "./types";
-    import { KeyRound, Snowflake, Bookmark } from "lucide-svelte"
+    import { Handle, Position } from '@xyflow/svelte'
+    import { indices } from './data'
+    import { IndexType, type Column, type Index } from './types'
+    import { KeyRound, Snowflake, Bookmark } from 'lucide-svelte'
 
     const ICON_SIZE = 12
 
     export let col: Column
     export let tableName: string
-    export let row: number;
+    export let row: number
 
-    $: typeName = function (t, arrLevel) {
-        let arr = ""
+    $: typeName = (function (t, arrLevel) {
+        let arr = ''
         for (let i = 0; i < arrLevel; i++) {
-            arr += "[]"
+            arr += '[]'
         }
 
         return t + arr
-    }(col.type, col.arrayLevel)
+    })(col.type, col.arrayLevel)
 
-    $: index = function (tableIndices: Index[] | null, n: string) {
+    $: index = (function (tableIndices: Index[] | null, n: string) {
         if (!tableIndices) return
 
         return tableIndices.find((ind) => ind.colNames.length == 1 && ind.colNames[0] == n)
-    }($indices[tableName], col.name)
+    })($indices[tableName], col.name)
 </script>
 
 <div class="index" style="--row: {row}">
@@ -46,8 +46,8 @@
     <p class="dull">{typeName}</p>
 </div>
 
-<Handle type="target" position={Position.Left}    id="{tableName}.{col.name}" />
-<Handle type="source" position={Position.Right}   id="{tableName}.{col.name}" />
+<Handle type="target" position={Position.Left} id="{tableName}.{col.name}" />
+<Handle type="source" position={Position.Right} id="{tableName}.{col.name}" />
 
 <style lang="scss">
     p {

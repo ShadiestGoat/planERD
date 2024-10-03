@@ -1,24 +1,29 @@
 <script lang="ts">
-	import { inputHandlerFactory } from "$lib/input";
-	import { createEventDispatcher } from "svelte";
-
+    import { inputHandlerFactory } from '$lib/input'
+    import { createEventDispatcher } from 'svelte'
 
     const dispatch = createEventDispatcher<{ input: Element }>()
 
     export let active: boolean
-    export let extraClass = ""
+    export let extraClass = ''
     export let doToggle = false
 
     const onInput = inputHandlerFactory((e) => {
         if (doToggle) {
             active = !active
         }
-    
+
         dispatch('input', e.target as Element)
     })
 </script>
 
-<div class="wrapper col {extraClass} {active ? 'active' : ''}" role="button" tabindex="0" on:click={onInput} on:keypress={onInput}>
+<div
+    class="wrapper col {extraClass} {active ? 'active' : ''}"
+    role="button"
+    tabindex="0"
+    on:click={onInput}
+    on:keypress={onInput}
+>
     <slot />
 </div>
 
@@ -43,7 +48,9 @@
         transition: 0.25s;
         cursor: pointer;
 
-        &:hover, &:focus-visible, &.active {
+        &:hover,
+        &:focus-visible,
+        &.active {
             background: $gray-8;
         }
 
@@ -51,7 +58,8 @@
             outline: var(--color-active) 1px solid;
         }
 
-        &:hover, &:focus-visible {
+        &:hover,
+        &:focus-visible {
             outline: var(--color-secondary) 1px solid;
         }
     }
