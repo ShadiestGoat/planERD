@@ -69,6 +69,7 @@ Explanation of categories of TODOs:
 - [ ] table creator: create new cols  
 - [ ] table creator: allow editing table name  
 - [ ] sidebar: allow creating new tables  
+- [ ] table creator: close index popup by clicking out of it
 
 ### In Progress :3
 
