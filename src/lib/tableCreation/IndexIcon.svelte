@@ -15,16 +15,8 @@
     }
 </script>
 
-<svelte:component this={icons[type]} {size} class="{active ? 'active' : 'not-active'}" />
-
-<style lang="scss">
-    :global(svg) {
-        &.active {
-            color: $primary;
-        }
-
-        &.not-active {
-            color: $secondary;
-        }
-    }
-</style>
+<svelte:component
+    this={icons[type]}
+    {size}
+    class="{active ? 'primary' : 'secondary'}"
+/>

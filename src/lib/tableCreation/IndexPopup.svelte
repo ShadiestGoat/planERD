@@ -108,18 +108,8 @@
         border-radius: 12px;
         cursor: pointer;
 
-        --color: #{$secondary};
-
         &:hover, &:focus-visible {
             background: $gray-8;
-        }
-
-        &.active {
-            --color: #{$primary};
-        }
-
-        > :global(:first-child) {
-            color: var(--color);
         }
     }
 </style>
