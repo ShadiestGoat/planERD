@@ -12,7 +12,32 @@
     $: tableInd = $indices[tableName] ?? []
 
     function deleteColumn(i: number) {
+        const colData = tableData.cols[i]
 
+        // Del input data
+        delete colInputStates[colData.name]
+
+        // Delete col data in table data
+        $tables[tableName].cols.splice(i, 1)
+        $tables[tableName].cols = $tables[tableName].cols
+
+        // Remove ind
+        if ($indices[tableName]) {
+            $indices[tableName] = $indices[tableName].map((v) => {
+                const ind = v.colNames.indexOf(colData.name)
+                if (ind == -1) return null
+
+                if (v.colNames.length <= 2) {
+                    return null
+                }
+
+                v.colNames.splice(ind, 1)
+
+                return v
+            }).filter(v => v !== null)
+        }
+
+        // TODO: rm relations
     }
 
     function setColNull(i: number) {

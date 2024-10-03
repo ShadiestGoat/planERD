@@ -62,13 +62,12 @@ Explanation of categories of TODOs:
 - [ ] sidebar: add search (for table names)  
 - [ ] table creator: add search/autocomplete for col types  
 - [ ] sidebar: allow smaller sidebar, but hide some icons  
-- [ ] table creator: collapse unused tables
+- [ ] table creator: collapse unused tables  
 
 ### Todo
 
 - [ ] table creator: create new cols  
 - [ ] table creator: allow editing table name  
-- [ ] table creator: allow deleting columns  
 - [ ] sidebar: allow creating new tables  
 
 ### In Progress :3
@@ -76,6 +75,7 @@ Explanation of categories of TODOs:
 
 ### Done :33
 
+- [ ] table creator: allow deleting columns  
 - [ ] sidebar: fix min size  
 - [ ] An acceptable readme.md file  
 - [ ] resizable sidebar (& real affect on 'canvas')  
