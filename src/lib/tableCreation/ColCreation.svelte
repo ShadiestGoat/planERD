@@ -81,13 +81,16 @@
                 dispatch('setIndex', detail)
                 indexPopup = -1
             }}
+            on:close={() => indexPopup = -1}
         />
     {/if}
 
     <IconButton
         extraClass="ind"
         active={!!singleIndex}
-        on:input={() => {
+        on:input={({ detail: e }) => {
+            e.stopPropagation()
+
             if (indexPopup == colIndex) {
                 indexPopup = -1
             } else {

@@ -58,19 +58,19 @@ Done: Self explanatory, no?
 - [ ] sidebar: allow smaller sidebar, but hide some icons  
 - [ ] table creator: collapse unused tables  
 - <!-- Lint/CICD Stuff -->  
-- [ ] Add cd/cd cspell  
+- [ ] Add ci/cd cspell  
 
 ### Todo
 
 - [ ] table creator: allow editing table name  
 - [ ] sidebar: allow creating new tables  
-- [ ] table creator: close index popup by clicking out of it  
 
 ### In Progress :3
 
 
 ### Done :33
 
+- [ ] table creator: close index popup by clicking out of it  
 - [ ] Make ci/cd do format checking (clump in with lint)  
 - [ ] Make ci/cd do lint checking  
 - [ ] table creator: create new cols  

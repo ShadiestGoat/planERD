@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { inputHandlerFactory } from '$lib/input'
+    import { inputHandlerFactory, type AnyInputEvent } from '$lib/input'
     import { createEventDispatcher } from 'svelte'
 
-    const dispatch = createEventDispatcher<{ input: Element }>()
+    const dispatch = createEventDispatcher<{ input: AnyInputEvent & { target: Element } }>()
 
     export let active: boolean
     export let extraClass = ''
@@ -13,7 +13,7 @@
             active = !active
         }
 
-        dispatch('input', e.target as Element)
+        dispatch('input', e as AnyInputEvent & { target: Element })
     })
 </script>
 

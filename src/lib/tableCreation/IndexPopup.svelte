@@ -14,8 +14,13 @@
         ['Primary Key', IndexType.PRIMARY]
     ]
 
+    let debounce = true
+    setTimeout(() => {
+        debounce = false
+    }, 2)
+
     export let curIndexType: realIndexType
-    const dispatch = createEventDispatcher<{ input: realIndexType }>()
+    const dispatch = createEventDispatcher<{ input: realIndexType, close: void }>()
 
     const onInput = (v: realIndexType): InputHandler => {
         return inputHandlerFactory(() => dispatch('input', v))
@@ -40,6 +45,14 @@
 
     <div class="tip" />
 </div>
+
+<svelte:window on:click={(e) => {
+    if (debounce) return
+
+    e.preventDefault()
+    e.stopPropagation()
+    dispatch('close')
+}} />
 
 <style lang="scss">
     $width: clamp(180px, 18dvw, 210px);
