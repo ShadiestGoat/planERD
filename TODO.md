@@ -53,7 +53,6 @@ Done: Self explanatory, no?
 - [ ] enum creator: create an enum creator  
 - [ ] enum node: create an enum node  
 - <!-- Table Creator Improvements part 2 -->  
-- [ ] sidebar: add search (for table names)  
 - [ ] table creator: add search/autocomplete for col types  
 - [ ] sidebar: allow smaller sidebar, but hide some icons  
 - [ ] table creator: collapse unused tables  
@@ -69,6 +68,7 @@ Done: Self explanatory, no?
 
 ### Done :33
 
+- [ ] sidebar: add search (for table names)  
 - [ ] table creator: allow editing table name  
 - [ ] make tables have an explicit order
 - [ ] table creator: close index popup by clicking out of it  

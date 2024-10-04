@@ -14,6 +14,8 @@
     import '@xyflow/svelte/dist/style.css'
     import { writable } from 'svelte/store'
     import { initData } from '$lib/dal/init'
+    import { Search, Plus } from 'lucide-svelte'
+    import IconButton from '$lib/IconButton.svelte'
 
     // Also set the scss var
     const BAR_DRAG_WIDTH = 8
@@ -76,6 +78,30 @@
     const edges = writable<Edge[]>([])
 
     initData()
+
+    let tableSearchValue = ""
+
+    function doSearch(allNames: string[], search: string): string[] {
+        if (!search) return allNames
+
+        return allNames.filter(cur => {
+            let i = 0
+
+            // fuzzy search bitches
+            for (const l of search) {
+                const j = cur.indexOf(l, i)
+                if (j == -1) {
+                    return false
+                }
+
+                i = j
+            }
+
+            return true
+        })
+    }
+
+    $: tables = doSearch($tableOrder, tableSearchValue)
 </script>
 
 <svelte:window
@@ -90,7 +116,15 @@
 
 <div class="page-container row" style="--cursor:{dragging ? 'grabbing' : ''}">
     <div class="col sidebar" style="--width:{curWidth}px">
-        {#each $tableOrder as name}
+        <div class="row search">
+            <Search size={24} class="primary icon" />
+            <input bind:value={tableSearchValue} placeholder="Search Tables" />
+            <IconButton>
+                <Plus class="icon" />
+            </IconButton>
+        </div>
+
+        {#each tables as name}
             <TableCreation tableName={name} />
         {/each}
     </div>
@@ -121,6 +155,8 @@
 </div>
 
 <style lang="scss">
+    @use '$lib/utils/input';
+
     $resizeBarWidth: 8px;
     $headerHeight: 5dvh;
 
@@ -148,6 +184,17 @@
         }
     }
 
+    .sidebar {
+        background-color: $gray-9;
+        padding: 0.75rem;
+        gap: 12px;
+    }
+
+    .sidebar,
+    .draw-wrapper {
+        width: var(--width);
+    }
+
     .page-container {
         cursor: var(--cursor);
         height: calc(100dvh - $headerHeight);
@@ -155,16 +202,28 @@
         > * {
             height: 100%;
         }
+    }
 
-        .sidebar {
-            background-color: $gray-9;
-            padding: 0.75rem;
-            gap: 4px;
+    .search {
+        align-items: center;
+        gap: 12px;
+
+        $fs: 1.1rem;
+        $iconSize: 1.3rem;
+
+        input {
+            @include input.input($gray-10);
+            font-size: $fs;
         }
 
-        .sidebar,
-        .draw-wrapper {
-            width: var(--width);
+        :global(*) {
+            --color: #{$primary};
+            --color-secondary: #{$primary};
+        }
+
+        :global(.icon) {
+            width: $iconSize;
+            height: $iconSize;
         }
     }
 </style>

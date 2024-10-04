@@ -4,7 +4,7 @@
 
     const dispatch = createEventDispatcher<{ input: AnyInputEvent & { target: Element } }>()
 
-    export let active: boolean
+    export let active = false
     export let extraClass = ''
     export let doToggle = false
     export let noColor = false
