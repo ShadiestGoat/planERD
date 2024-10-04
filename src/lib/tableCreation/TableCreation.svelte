@@ -62,6 +62,10 @@
     function setSingleIndex(colName: string, newIndexType: IndexType): void {
         const oldI = singleIndexCache[colName]?.i ?? -1
 
+        if (!$indices[tableName]) {
+            $indices[tableName] = []
+        }
+
         if (oldI == -1) {
             if (newIndexType == IndexType.NONE) return
 
