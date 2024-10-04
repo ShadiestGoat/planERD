@@ -15,10 +15,6 @@ Done: Self explanatory, no?
 - [ ] table node: visualize multi-col indices  
 - [ ] table creator: allow creating multi-col indices  
 - [ ] table creator: allow editing multi-col indices  
-- <!-- Saver -->  
-- [ ] saver: save table data  
-- [ ] saver: save indices  
-- [ ] saver: save relations  
 - <!-- Table Node Styling -->  
 - [ ] table node: fix resize styling  
 - [ ] table node: fix min size  
@@ -61,6 +57,9 @@ Done: Self explanatory, no?
 
 ### Todo
 
+- [ ] saver: save table data  
+- [ ] saver: save indices  
+- [ ] saver: save relations  
 
 ### In Progress :3
 
