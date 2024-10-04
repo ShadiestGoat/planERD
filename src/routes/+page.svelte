@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { tables } from '$lib/data'
+    import { nodes } from '$lib/dal/nodes'
     import TableCreation from '$lib/tableCreation/TableCreation.svelte'
-    import TableNode from '$lib/TableNode.svelte'
+    import TableNode from '$lib/canvas/TableNode.svelte'
     import {
         Background,
         BackgroundVariant,
@@ -13,6 +13,7 @@
     } from '@xyflow/svelte'
     import '@xyflow/svelte/dist/style.css'
     import { writable } from 'svelte/store'
+    import { initData } from '$lib/dal/init'
 
     // Also set the scss var
     const BAR_DRAG_WIDTH = 8
@@ -71,18 +72,10 @@
 
     let dragging = false
 
-    // We are using writables for the nodes and edges to sync them easily. When a user drags a node for example, Svelte Flow updates its position. This also makes it easier to update nodes in user land.
-    const nodes = writable<Node[]>([
-        {
-            id: '2',
-            type: 'table',
-            data: { name: 'cool-table' },
-            position: { x: 0, y: 150 }
-        }
-    ])
-
     // same for edges
     const edges = writable<Edge[]>([])
+
+    initData()
 </script>
 
 <svelte:window

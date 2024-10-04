@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { indices, tables } from '../data'
+    import { indices, tables } from '../dal/data'
     import { Plus } from 'lucide-svelte'
     import { IndexType, type Index } from '../types'
     import ColCreation from './ColCreation.svelte'
     import IconButton from '$lib/IconButton.svelte'
+    
+    import { defaultColumn } from '$lib/dal/api'
 
-    const DEFAULT_COL_TYPE = 'text'
-    const DEFAULT_COL_NAME = 'col_name'
 
     export let tableName = ''
 

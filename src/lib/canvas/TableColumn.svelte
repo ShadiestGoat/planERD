@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Handle, Position } from '@xyflow/svelte'
-    import { indices } from './data'
-    import { IndexType, type Column, type Index } from './types'
+    import { indices } from '../dal/data'
+    import { IndexType, type Column, type Index } from '../types'
     import { KeyRound, Snowflake, Bookmark } from 'lucide-svelte'
 
     const ICON_SIZE = 12

@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
-import { type Index, type Table, type Relation, IndexType } from './types'
-import { SQLTypes, type SQLType } from './sqlTypes'
+import { type Index, type Table, type Relation, IndexType } from '../types'
+import { SQLTypes, type SQLType } from '../sqlTypes'
 
 /** Table name -> relevant indicies */
 export const indices = writable<Record<string, Index[]>>({
@@ -15,29 +15,11 @@ export const indices = writable<Record<string, Index[]>>({
         }
     ]
 })
+
 /** Table name -> data */
-export const tables = writable<Record<string, Table>>({
-    'cool-table': {
-        name: 'aaa',
-        cols: [
-            {
-                arrayLevel: 0,
-                name: 'cool_col',
-                type: 'asdsadasdasd',
-                nullable: false
-            },
-            {
-                arrayLevel: 1,
-                name: 'cool_col2',
-                type: 'string',
-                nullable: true
-            }
-        ]
-    }
-})
-
+export const tables = writable<Record<string, Table>>({})
+export const tableOrder = writable<string[]>([])
 export const relations = writable<Relation[]>([])
-
 export const enums = writable<Record<string, string[]>>({})
 
 export const rawSQLArgRef: Record<string, string[][]> = Object.fromEntries(

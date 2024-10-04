@@ -2,7 +2,7 @@
     import { GripVertical, Ghost, Trash2 } from 'lucide-svelte'
     import { createEventDispatcher } from 'svelte'
 
-    import { allSQLTypes, tables } from '$lib/data'
+    import { allSQLTypes, tables } from '$lib/dal/data'
     import { IndexType } from '$lib/types'
     import type { Column, Index } from '$lib/types'
 

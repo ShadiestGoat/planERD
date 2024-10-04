@@ -1,6 +1,6 @@
 <script lang="ts">
     import { NodeResizer, type NodeProps } from '@xyflow/svelte'
-    import { tables } from './data'
+    import { tables } from '../dal/data'
     import TableColumn from './TableColumn.svelte'
 
     // Also change in sass
@@ -15,8 +15,7 @@
     export let data: NodeData
     export let selected = false
 
-    const { name } = data
-    $: tableData = $tables[name]
+    let { name } = data
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     $$restProps
@@ -30,7 +29,7 @@
             <h4>{name}</h4>
         </div>
 
-        {#each tableData.cols as col, i}
+        {#each $tables[name].cols as col, i}
             <div class="bg stupid-bg" style="--row: {i + 2}" />
             <TableColumn {col} tableName={name} row={i + 2} />
         {/each}
