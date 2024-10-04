@@ -2,7 +2,12 @@ import { get } from 'svelte/store'
 import { indices, tableOrder, tables } from './data'
 import { nodes } from './nodes'
 import type { Column, Table } from '$lib/types'
-import { DEFAULT_COL_NAME, DEFAULT_COL_TYPE, DEFAULT_TABLE_COLUMN, DEFAULT_TABLE_NAME } from './settings'
+import {
+    DEFAULT_COL_NAME,
+    DEFAULT_COL_TYPE,
+    DEFAULT_TABLE_COLUMN,
+    DEFAULT_TABLE_NAME
+} from './settings'
 import { type XYPosition } from '@xyflow/svelte'
 
 export function renameTable(oldName: string, newName: string): void {
@@ -81,7 +86,10 @@ function defaultName(def: string, all: string[]): string {
 export function defaultColumn(cols: Column[]): Column {
     return {
         arrayLevel: 0,
-        name: defaultName(DEFAULT_COL_NAME, cols.map(v => v.name)),
+        name: defaultName(
+            DEFAULT_COL_NAME,
+            cols.map((v) => v.name)
+        ),
         nullable: false,
         type: DEFAULT_COL_TYPE
     }
@@ -92,9 +100,7 @@ export function defaultTable(): Table {
 
     const t: Table = {
         name: defaultName(DEFAULT_TABLE_NAME, tableNames),
-        cols: [
-            {...DEFAULT_TABLE_COLUMN}
-        ],
+        cols: [{ ...DEFAULT_TABLE_COLUMN }]
     }
 
     return t

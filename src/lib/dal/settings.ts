@@ -1,4 +1,4 @@
-import type { Column } from "$lib/types"
+import type { Column } from '$lib/types'
 
 export const DEFAULT_COL_TYPE = 'text'
 export const DEFAULT_COL_NAME = 'col_name'

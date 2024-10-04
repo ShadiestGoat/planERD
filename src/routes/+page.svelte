@@ -81,12 +81,12 @@
 
     initData()
 
-    let tableSearchValue = ""
+    let tableSearchValue = ''
 
     function doSearch(allNames: string[], search: string): string[] {
         if (!search) return allNames
 
-        return allNames.filter(cur => {
+        return allNames.filter((cur) => {
             let i = 0
 
             // fuzzy search bitches
