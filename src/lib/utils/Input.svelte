@@ -9,7 +9,10 @@
 
     export let isInputGood: ((v: string) => boolean) | undefined = undefined
 
-    const dispatch = createEventDispatcher<{ input: string }>()
+    const dispatch = createEventDispatcher<{
+        input: string
+        submit: void
+    }>()
 </script>
 
 <input
@@ -24,6 +27,11 @@
 
         if (!valueIsGood) return
         dispatch('input', curValue)
+    }}
+    on:keydown={(e) => {
+        if (e.key != 'Enter') return
+
+        dispatch('submit')
     }}
 />
 
