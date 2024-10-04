@@ -1,12 +1,13 @@
 <script lang="ts">
     import { indices, tables } from '../dal/data'
-    import { Plus } from 'lucide-svelte'
+    import { Plus, Pencil, Check } from 'lucide-svelte'
     import { IndexType, type Index } from '../types'
     import ColCreation from './ColCreation.svelte'
     import IconButton from '$lib/IconButton.svelte'
-    
-    import { defaultColumn } from '$lib/dal/api'
 
+    import Input from '$lib/utils/Input.svelte'
+    import { validateTableName } from './vlidators'
+    import { defaultColumn, renameTable } from '$lib/dal/api'
 
     export let tableName = ''
 
@@ -108,49 +109,77 @@
     }
 
     function addColumn(): void {
-        let highest_col_name = -1
+        const col = defaultColumn($tables[tableName].cols)
 
-        $tables[tableName].cols.forEach((v) => {
-            if (!v.name.startsWith(DEFAULT_COL_NAME)) {
-                return
-            }
-
-            let col_n = 0
-            if (v.name.length > DEFAULT_COL_NAME.length + 1) {
-                const num = parseInt(v.name.slice(DEFAULT_COL_NAME.length + 1))
-                if (isNaN(num)) {
-                    return
-                }
-
-                col_n = num
-            }
-
-            if (col_n > highest_col_name) {
-                highest_col_name = col_n
-            }
-        })
-
-        $tables[tableName].cols.push({
-            arrayLevel: 0,
-            name: DEFAULT_COL_NAME + (highest_col_name === -1 ? '' : `_${highest_col_name + 1}`),
-            nullable: false,
-            type: DEFAULT_COL_TYPE
-        })
-
+        $tables[tableName].cols.push(col)
         $tables[tableName].cols = $tables[tableName].cols
+    }
+
+    $: otherTableNames = Object.keys($tables).filter(v => v != tableName)
+
+    let editingName = false
+    let nameIsGood = true
+    let editingNameValue = tableName
+
+    function onEditIcon(): void {
+        nameIsGood = true
+        editingName = true
+    }
+
+    function onNameSubmit(): void {
+        if (editingNameValue == tableName) {
+            editingName = false
+            return
+        }
+
+        if (!nameIsGood) return
+
+        renameTable(tableName, editingNameValue)
+
+        tableName = editingNameValue
+        editingName = false
     }
 </script>
 
 <div class="table-wrapper col">
     <div class="header row">
-        <h2>{tableName}</h2>
+        {#if editingName}
+            <Input
+                placeholder="Table Name"
+                curValue={editingNameValue}
+                isInputGood={validateTableName(otherTableNames)}
+                bind:valueIsGood={nameIsGood}
+                on:input={({ detail }) => editingNameValue = detail}
+                on:submit={onNameSubmit}
+            />
+        {:else}
+            <h2>{tableName}</h2>
+        {/if}
+
+        <IconButton
+            on:input={editingName ? onNameSubmit : onEditIcon}
+            extraClass="header-btn {editingName ? 'check' : 'edit'}"
+            active={false}
+            disabled={!nameIsGood}
+        >
+            {#if editingName}
+                <Check size={24} />
+            {:else}
+                <Pencil size={20} />
+            {/if}
+        </IconButton>
     </div>
     <div class="col-container col">
         <div class="row sub-header">
             <h4>Columns</h4>
 
-            <IconButton on:input={addColumn} extraClass="plus-btn" active={false}>
-                <Plus size={24} color="white" />
+            <IconButton
+                on:input={addColumn}
+                extraClass="header-btn"
+                active={false}
+                noColor
+            >
+                <Plus size={24} class="primary" />
             </IconButton>
         </div>
 
@@ -175,6 +204,8 @@
 </div>
 
 <style lang="scss">
+    $tableNameFS: 1.5rem;
+
     .table-wrapper {
         width: 100%;
         background: $bg;
@@ -197,10 +228,30 @@
     }
 
     .sub-header {
+        align-items: center;
         justify-content: space-between;
+    }
 
-        > :global(.plus-btn) {
-            width: auto;
+    .header {
+        gap: 12px;
+        align-items: center;
+
+        h2 {
+            font-size: $tableNameFS;
+        }
+
+        :global(.edit) {
+            --color-active: #{$primary};
+            --color-secondary: #{$primary};
+        }
+
+        :global(.check) {
+            --color-active: #{$green-4};
+            --color-secondary: #{$green-4};
+        }
+
+        > :global(input) {
+            font-size: $tableNameFS;
         }
     }
 </style>

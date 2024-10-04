@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { tableOrder } from '$lib/dal/data'
     import { nodes } from '$lib/dal/nodes'
     import TableCreation from '$lib/tableCreation/TableCreation.svelte'
     import TableNode from '$lib/canvas/TableNode.svelte'
@@ -8,7 +9,6 @@
         Controls,
         MiniMap,
         SvelteFlow,
-        type Node,
         type Edge
     } from '@xyflow/svelte'
     import '@xyflow/svelte/dist/style.css'
@@ -90,8 +90,8 @@
 
 <div class="page-container row" style="--cursor:{dragging ? 'grabbing' : ''}">
     <div class="col sidebar" style="--width:{curWidth}px">
-        {#each Object.keys($tables) as tab}
-            <TableCreation tableName={tab} />
+        {#each $tableOrder as name}
+            <TableCreation tableName={name} />
         {/each}
     </div>
 
