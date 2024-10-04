@@ -115,7 +115,7 @@
         $tables[tableName].cols = $tables[tableName].cols
     }
 
-    $: otherTableNames = Object.keys($tables).filter(v => v != tableName)
+    $: otherTableNames = Object.keys($tables).filter((v) => v != tableName)
 
     let editingName = false
     let nameIsGood = true
@@ -149,7 +149,7 @@
                 curValue={editingNameValue}
                 isInputGood={validateTableName(otherTableNames)}
                 bind:valueIsGood={nameIsGood}
-                on:input={({ detail }) => editingNameValue = detail}
+                on:input={({ detail }) => (editingNameValue = detail)}
                 on:submit={onNameSubmit}
             />
         {:else}
@@ -173,12 +173,7 @@
         <div class="row sub-header">
             <h4>Columns</h4>
 
-            <IconButton
-                on:input={addColumn}
-                extraClass="header-btn"
-                active={false}
-                noColor
-            >
+            <IconButton on:input={addColumn} extraClass="header-btn" active={false} noColor>
                 <Plus size={24} class="primary" />
             </IconButton>
         </div>

@@ -50,12 +50,12 @@
         padding: 2px;
         cursor: pointer;
 
-        &[aria-disabled=true] {
+        &[aria-disabled='true'] {
             cursor: not-allowed;
             --color: #{$gray-6};
         }
 
-        &:not([aria-disabled=true]) {
+        &:not([aria-disabled='true']) {
             &:hover,
             &:focus-visible,
             &.active {

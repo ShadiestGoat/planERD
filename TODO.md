@@ -10,10 +10,6 @@ Done: Self explanatory, no?
 
 ### Backlog
 
-- <!-- Table Node Styling -->  
-- [ ] table node: fix resize styling  
-- [ ] table node: fix min size  
-- [ ] table node: investigate resizing font (smaller)  
 - <!-- Multi-Col indices -->  
 - [ ] table creator: visualize multi-col indices  
 - [ ] table node: visualize multi-col indices  
@@ -23,6 +19,10 @@ Done: Self explanatory, no?
 - [ ] saver: save table data  
 - [ ] saver: save indices  
 - [ ] saver: save relations  
+- <!-- Table Node Styling -->  
+- [ ] table node: fix resize styling  
+- [ ] table node: fix min size  
+- [ ] table node: investigate resizing font (smaller)  
 - <!-- Table Creator improvements -->  
 - [ ] table creator: validate col names (reserved words)  
 - [ ] table creator: tooltip for icon buttons  
@@ -62,15 +62,15 @@ Done: Self explanatory, no?
 
 ### Todo
 
-- [ ] table creator: allow editing table name  
 - [ ] sidebar: allow creating new tables  
-- [ ] make tables have an explicit order
 
 ### In Progress :3
 
 
 ### Done :33
 
+- [ ] table creator: allow editing table name  
+- [ ] make tables have an explicit order
 - [ ] table creator: close index popup by clicking out of it  
 - [ ] Make ci/cd do format checking (clump in with lint)  
 - [ ] Make ci/cd do lint checking  

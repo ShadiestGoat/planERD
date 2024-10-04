@@ -1,5 +1,5 @@
-import type { Table } from "$lib/types"
-import { addTableData } from "./api"
+import type { Table } from '$lib/types'
+import { addTableData } from './api'
 
 export const testTables: Record<string, Table> = {
     'cool-table': {

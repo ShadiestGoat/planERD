@@ -1,8 +1,7 @@
-
 type ValidationFunc = (v: string) => boolean
 
 export function validateNoSpaces(v: string): boolean {
-    return v.length > 0 && !v.includes(" ")
+    return v.length > 0 && !v.includes(' ')
 }
 
 function validateBase(existing: string[]): ValidationFunc {

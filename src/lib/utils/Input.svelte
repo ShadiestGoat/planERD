@@ -1,10 +1,9 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte"
+    import { createEventDispatcher } from 'svelte'
 
-
-    export let extraClass = ""
-    export let curValue = ""
-    export let placeholder = ""
+    export let extraClass = ''
+    export let curValue = ''
+    export let placeholder = ''
     export let valueIsGood = true
 
     export let isInputGood: ((v: string) => boolean) | undefined = undefined

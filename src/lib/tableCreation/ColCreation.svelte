@@ -28,10 +28,7 @@
     export let colNameValue: string
 
     function mkOtherColNames(cols: Column[], col: number): string[] {
-        return [
-            ...cols.slice(0, col),
-            ...cols.slice(col + 1)
-        ].map(v => v.name)
+        return [...cols.slice(0, col), ...cols.slice(col + 1)].map((v) => v.name)
     }
 
     $: otherColNames = mkOtherColNames($tables[tableName].cols, colIndex)
@@ -76,7 +73,7 @@
                 dispatch('setIndex', detail)
                 indexPopup = -1
             }}
-            on:close={() => indexPopup = -1}
+            on:close={() => (indexPopup = -1)}
         />
     {/if}
 
@@ -152,6 +149,6 @@
     }
 
     select {
-        @include input.input
+        @include input.input;
     }
 </style>

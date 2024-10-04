@@ -1,9 +1,9 @@
-import { get } from "svelte/store"
-import { indices, tableOrder, tables } from "./data"
-import { nodes } from "./nodes"
-import type { Column, Table } from "$lib/types"
-import { DEFAULT_COL_NAME, DEFAULT_COL_TYPE } from "./settings"
-import { type XYPosition } from "@xyflow/svelte"
+import { get } from 'svelte/store'
+import { indices, tableOrder, tables } from './data'
+import { nodes } from './nodes'
+import type { Column, Table } from '$lib/types'
+import { DEFAULT_COL_NAME, DEFAULT_COL_TYPE } from './settings'
+import { type XYPosition } from '@xyflow/svelte'
 
 export function renameTable(oldName: string, newName: string): void {
     const curIndices = get(indices)
@@ -17,21 +17,21 @@ export function renameTable(oldName: string, newName: string): void {
         delete curIndices[oldName]
     }
 
-    tables.update(cur => {
+    tables.update((cur) => {
         cur[newName] = cur[oldName]
 
         return cur
     })
 
-    nodes.update(cur => {
-        const nID = cur.findIndex(v => v.type == 'table' && v.data?.name == oldName)
+    nodes.update((cur) => {
+        const nID = cur.findIndex((v) => v.type == 'table' && v.data?.name == oldName)
         cur[nID].data.name = newName
         cur[nID].id = newName
 
         return cur
     })
 
-    tableOrder.update(cur => {
+    tableOrder.update((cur) => {
         cur[cur.indexOf(oldName)] = newName
 
         return cur
@@ -44,13 +44,12 @@ export function renameTable(oldName: string, newName: string): void {
             indices.set(curIndices)
         }
 
-        tables.update(cur => {
+        tables.update((cur) => {
             delete cur[oldName]
 
             return cur
         })
     }, 1)
-
 }
 
 export function defaultColumn(cols: Column[]): Column {
@@ -86,10 +85,8 @@ export function defaultColumn(cols: Column[]): Column {
 
 export function addTable(name: string): Table {
     const t: Table = {
-        cols: [
-            defaultColumn([])
-        ],
-        name,
+        cols: [defaultColumn([])],
+        name
     }
 
     addTableData(t)
@@ -98,13 +95,13 @@ export function addTable(name: string): Table {
 }
 
 export function addTableData(t: Table, pos?: XYPosition): void {
-    tableOrder.update(cur => {
+    tableOrder.update((cur) => {
         cur.push(t.name)
 
         return cur
     })
 
-    tables.update(cur => {
+    tables.update((cur) => {
         cur[t.name] = t
 
         return cur
@@ -114,7 +111,7 @@ export function addTableData(t: Table, pos?: XYPosition): void {
         pos = { x: 0, y: 0 }
     }
 
-    nodes.update(cur => {
+    nodes.update((cur) => {
         console.log(cur)
 
         cur.push({
