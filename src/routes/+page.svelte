@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { tableOrder } from '$lib/dal/data'
+    import { indices, tableOrder } from '$lib/dal/data'
     import { nodes } from '$lib/dal/nodes'
     import TableCreation from '$lib/tableCreation/TableCreation.svelte'
     import TableNode from '$lib/canvas/TableNode.svelte'
@@ -16,6 +16,8 @@
     import { initData } from '$lib/dal/init'
     import { Search, Plus } from 'lucide-svelte'
     import IconButton from '$lib/IconButton.svelte'
+    import { addTableData, defaultTable } from '$lib/dal/api'
+    import { IndexType } from '$lib/types'
 
     // Also set the scss var
     const BAR_DRAG_WIDTH = 8
@@ -102,6 +104,18 @@
     }
 
     $: tables = doSearch($tableOrder, tableSearchValue)
+
+    function addTable(): void {
+        const t = defaultTable()
+        addTableData(t)
+
+        $indices[t.name] = [
+            {
+                colNames: [t.cols[0].name],
+                type: IndexType.PRIMARY
+            }
+        ]
+    }
 </script>
 
 <svelte:window
@@ -119,7 +133,7 @@
         <div class="row search">
             <Search size={24} class="primary icon" />
             <input bind:value={tableSearchValue} placeholder="Search Tables" />
-            <IconButton>
+            <IconButton on:input={addTable}>
                 <Plus class="icon" />
             </IconButton>
         </div>
@@ -188,6 +202,7 @@
         background-color: $gray-9;
         padding: 0.75rem;
         gap: 12px;
+        overflow-y: scroll;
     }
 
     .sidebar,

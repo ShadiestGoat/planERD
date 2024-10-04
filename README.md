@@ -8,7 +8,6 @@ _PS: Its made in svelte <3_
 
 This project is still in development. Its not in a real usable state. Some major features that are still missing are:
 
--   [ ] Table Creator (almost there though t-t)
 -   [ ] Enums
 -   [ ] Table node resizing
 -   [ ] Data saving

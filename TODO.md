@@ -61,16 +61,16 @@ Done: Self explanatory, no?
 
 ### Todo
 
-- [ ] sidebar: allow creating new tables  
 
 ### In Progress :3
 
 
 ### Done :33
 
+- [ ] sidebar: allow creating new tables  
 - [ ] sidebar: add search (for table names)  
 - [ ] table creator: allow editing table name  
-- [ ] make tables have an explicit order
+- [ ] make tables have an explicit order  
 - [ ] table creator: close index popup by clicking out of it  
 - [ ] Make ci/cd do format checking (clump in with lint)  
 - [ ] Make ci/cd do lint checking  

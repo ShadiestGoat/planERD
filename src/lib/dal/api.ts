@@ -2,7 +2,7 @@ import { get } from 'svelte/store'
 import { indices, tableOrder, tables } from './data'
 import { nodes } from './nodes'
 import type { Column, Table } from '$lib/types'
-import { DEFAULT_COL_NAME, DEFAULT_COL_TYPE } from './settings'
+import { DEFAULT_COL_NAME, DEFAULT_COL_TYPE, DEFAULT_TABLE_COLUMN, DEFAULT_TABLE_NAME } from './settings'
 import { type XYPosition } from '@xyflow/svelte'
 
 export function renameTable(oldName: string, newName: string): void {
@@ -52,44 +52,50 @@ export function renameTable(oldName: string, newName: string): void {
     }, 1)
 }
 
-export function defaultColumn(cols: Column[]): Column {
-    let highest_col_name = -1
+function defaultName(def: string, all: string[]): string {
+    let highest_name = -1
 
-    cols.forEach((v) => {
-        if (!v.name.startsWith(DEFAULT_COL_NAME)) {
+    all.forEach((v) => {
+        if (!v.startsWith(def)) {
             return
         }
 
-        let col_n = 0
-        if (v.name.length > DEFAULT_COL_NAME.length + 1) {
-            const num = parseInt(v.name.slice(DEFAULT_COL_NAME.length + 1))
+        let cur_name_n = 0
+        if (v.length > def.length + 1) {
+            const num = parseInt(v.slice(def.length + 1))
             if (isNaN(num)) {
                 return
             }
 
-            col_n = num
+            cur_name_n = num
         }
 
-        if (col_n > highest_col_name) {
-            highest_col_name = col_n
+        if (cur_name_n > highest_name) {
+            highest_name = cur_name_n
         }
     })
 
+    return def + (highest_name === -1 ? '' : `_${highest_name + 1}`)
+}
+
+export function defaultColumn(cols: Column[]): Column {
     return {
         arrayLevel: 0,
-        name: DEFAULT_COL_NAME + (highest_col_name === -1 ? '' : `_${highest_col_name + 1}`),
+        name: defaultName(DEFAULT_COL_NAME, cols.map(v => v.name)),
         nullable: false,
         type: DEFAULT_COL_TYPE
     }
 }
 
-export function addTable(name: string): Table {
-    const t: Table = {
-        cols: [defaultColumn([])],
-        name
-    }
+export function defaultTable(): Table {
+    const tableNames = get(tableOrder)
 
-    addTableData(t)
+    const t: Table = {
+        name: defaultName(DEFAULT_TABLE_NAME, tableNames),
+        cols: [
+            {...DEFAULT_TABLE_COLUMN}
+        ],
+    }
 
     return t
 }
