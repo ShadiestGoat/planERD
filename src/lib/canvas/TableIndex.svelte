@@ -39,7 +39,7 @@
         border-radius: $border-radius;
         padding: math.div($border-radius, 2);
 
-        gap: 2px 4px;
+        gap: 4px;
 
         flex-wrap: wrap;
         justify-content: space-evenly;
