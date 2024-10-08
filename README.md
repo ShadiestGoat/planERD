@@ -7,15 +7,12 @@ _PS: Its made in svelte <3_
 ## Project Status
 
 This project is still in development. Its not in a real usable state. Some major features that are still missing are:
-
 -   [ ] Enums
 -   [ ] Table node resizing
 -   [ ] Data saving
 -   [ ] Data Relations
 -   [ ] Exporter
 -   [ ] Various bugs
-
-See the [todo file](/TODO.md) (very useful if viewing with [a TODO.md kanban viewer](https://github.com/coddx-hq/coddx-alpha)) to get a picture of current status & next priorities
 
 ## Info
 
