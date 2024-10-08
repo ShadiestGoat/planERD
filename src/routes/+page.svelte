@@ -79,12 +79,12 @@
     let dragging = false
 
     const edges = writable<Edge[]>([])
+    const { fitView: flowFitView } = useStore()
 
     onMount(async () => {
         loadData()
 
-        const { fitView } = useStore()
-        fitView()
+        flowFitView()
     })
 
     let tableSearchValue = ''
@@ -113,7 +113,23 @@
 
     function addTable(): void {
         const t = defaultTable()
-        addTableData(t)
+
+        const rightNode = $nodes.length ?
+            [...$nodes].sort(
+                (a, b) => (
+                    (b.position.x + (b.measured?.width ?? 0)) -
+                    (a.position.x + (a.measured?.width ?? 0))
+                )
+            )[0] : null
+
+        addTableData(t, rightNode ? {
+            x: rightNode.position.x + (rightNode.measured?.width ?? 0) + 40,
+            y: 0
+        } : undefined)
+
+        setTimeout(() => {
+            flowFitView()
+        }, 2)
 
         $indices[t.name] = [
             {
