@@ -1,38 +1,41 @@
-import type { Node, XYPosition } from "@xyflow/svelte"
-import type { Index, Table } from "$lib/types"
-import { nodes } from "./nodes"
-import { indices, tableOrder, tables } from "./data"
-import { get } from "svelte/store"
-import { tableNode } from "./api"
+import type { Node, XYPosition } from '@xyflow/svelte'
+import type { Index, Table } from '$lib/types'
+import { nodes } from './nodes'
+import { indices, tableOrder, tables } from './data'
+import { get } from 'svelte/store'
+import { tableNode } from './api'
 
 export let dataLoaded = false
 
 export enum StorageKeys {
     POS = 'xy',
     TABLES = 'tables',
-    INDICES = 'indices',
+    INDICES = 'indices'
     // RELATIONS = 'relations'
 }
 
 type StorageData = {
-    [StorageKeys.POS]: Record<string, XYPosition>,
-    [StorageKeys.TABLES]: Table[],
-    [StorageKeys.INDICES]: Record<string, Index[]>,
+    [StorageKeys.POS]: Record<string, XYPosition>
+    [StorageKeys.TABLES]: Table[]
+    [StorageKeys.INDICES]: Record<string, Index[]>
     // [StorageKeys.RELATIONS]: Relation[],
 }
 
 function savePos(allNodes: Node[]): void {
-    localStorage.setItem(StorageKeys.POS, JSON.stringify(
-        Object.fromEntries(
-            allNodes.map(n => {
-                return [`${n.type}-${n.id}`, n.position]
-            })
+    localStorage.setItem(
+        StorageKeys.POS,
+        JSON.stringify(
+            Object.fromEntries(
+                allNodes.map((n) => {
+                    return [`${n.type}-${n.id}`, n.position]
+                })
+            )
         )
-    ))
+    )
 }
 
 export function saveTables(order: string[], tables: Record<string, Table>): void {
-    const d = order.map(n => tables[n])
+    const d = order.map((n) => tables[n])
 
     localStorage.setItem(StorageKeys.TABLES, JSON.stringify(d))
 }
@@ -41,7 +44,7 @@ export function saveIndices(ind: Record<string, Index[]>): void {
     localStorage.setItem(StorageKeys.INDICES, JSON.stringify(ind))
 }
 
-nodes.subscribe(v => {
+nodes.subscribe((v) => {
     if (!dataLoaded) return
 
     setTimeout(() => {
@@ -49,7 +52,7 @@ nodes.subscribe(v => {
     }, 1)
 })
 
-tableOrder.subscribe(v => {
+tableOrder.subscribe((v) => {
     if (!dataLoaded) return
 
     setTimeout(() => {
@@ -57,7 +60,7 @@ tableOrder.subscribe(v => {
     }, 1)
 })
 
-tables.subscribe(v => {
+tables.subscribe((v) => {
     if (!dataLoaded) return
 
     setTimeout(() => {
@@ -65,7 +68,7 @@ tables.subscribe(v => {
     }, 1)
 })
 
-indices.subscribe(v => {
+indices.subscribe((v) => {
     if (!dataLoaded) return
 
     setTimeout(() => {
@@ -73,7 +76,10 @@ indices.subscribe(v => {
     })
 })
 
-async function readLocalStorageAsync<K extends StorageKeys>(k: K, defVal: StorageData[K]): Promise<StorageData[K]> {
+async function readLocalStorageAsync<K extends StorageKeys>(
+    k: K,
+    defVal: StorageData[K]
+): Promise<StorageData[K]> {
     const d = localStorage.getItem(k)
 
     if (!d) return defVal
@@ -86,12 +92,12 @@ export async function loadData(): Promise<void> {
     const [dataPos, dataIndex, dataTable] = await Promise.all([
         readLocalStorageAsync(StorageKeys.POS, {}),
         readLocalStorageAsync(StorageKeys.INDICES, {}),
-        readLocalStorageAsync(StorageKeys.TABLES, []),
+        readLocalStorageAsync(StorageKeys.TABLES, [])
     ])
 
-    const order = dataTable.map(v => v.name)
+    const order = dataTable.map((v) => v.name)
     const realTables = Object.fromEntries(
-        dataTable.map(v => {
+        dataTable.map((v) => {
             return [v.name, v]
         })
     )
@@ -99,17 +105,19 @@ export async function loadData(): Promise<void> {
     tables.set(realTables)
     tableOrder.set(order)
 
-    const loadedNodes = Object.keys(dataPos).map(n => {
-        const ind = n.indexOf("-")
-        if (ind == -1) return null
+    const loadedNodes = Object.keys(dataPos)
+        .map((n) => {
+            const ind = n.indexOf('-')
+            if (ind == -1) return null
 
-        const nodeType = n.slice(0, ind)
-        const name = n.slice(ind + 1)
+            const nodeType = n.slice(0, ind)
+            const name = n.slice(ind + 1)
 
-        if (nodeType != 'table') return null
+            if (nodeType != 'table') return null
 
-        return tableNode(name, dataPos[n])
-    }).filter(v => v !== null)
+            return tableNode(name, dataPos[n])
+        })
+        .filter((v) => v !== null)
 
     nodes.set(loadedNodes)
 
