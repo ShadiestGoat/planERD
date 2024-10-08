@@ -1,7 +1,9 @@
 <script lang="ts">
     import { NodeResizer, type NodeProps } from '@xyflow/svelte'
-    import { tables } from '../dal/data'
+    import { indices, tables } from '../dal/data'
     import TableColumn from './TableColumn.svelte'
+    import TableIndex from './TableIndex.svelte'
+    import TableNodeSection from './TableNodeSection.svelte'
 
     // Also change in sass
     const ICON_SIZE = 12
@@ -17,6 +19,8 @@
 
     let { name } = data
 
+    $: multiColInd = ($indices[name] ?? []).filter(v => v.colNames.length > 1)
+
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     $$restProps
 </script>
@@ -29,15 +33,8 @@
             <h4>{name}</h4>
         </div>
 
-        <hr class="separator thick" />
-
-        {#each $tables[name].cols as col, i}
-            <TableColumn {col} tableName={name} />
-
-            {#if $tables[name].cols.length - 1 != i}
-                <hr class="separator" />
-            {/if}
-        {/each}
+        <TableNodeSection data={$tables[name].cols} restOfTheData={{tableName: name}} comp={TableColumn} />
+        <TableNodeSection data={multiColInd} comp={TableIndex} />
     </div>
 </div>
 
@@ -49,22 +46,6 @@
     .maxxer {
         height: 100%;
         width: 100%;
-    }
-
-    .separator {
-        height: 2px;
-        padding: 0;
-        margin: 0;
-        border: 0;
-        background-color: $nodeBG2;
-        width: 100%;
-        grid-column-start: 1;
-        grid-column-end: -1;
-        border-radius: 25px;
-
-        &.thick {
-            height: 4px;
-        }
     }
 
     .node-wrapper {
@@ -79,13 +60,8 @@
 
         background-color: $nodeBG;
 
-        gap: 1px 4px;
+        gap: 6px 4px;
         grid-template-columns: calc($iconSize + 4px) 1fr min-content;
-
-        > :global(*) {
-            padding-top: 4px;
-            padding-bottom: 4px;
-        }
     }
 
     .header {

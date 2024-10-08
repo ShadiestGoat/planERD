@@ -1,12 +1,11 @@
 <script lang="ts">
     import { Handle, Position } from '@xyflow/svelte'
     import { indices } from '../dal/data'
-    import { IndexType, type Column, type Index } from '../types'
-    import { KeyRound, Snowflake, Bookmark } from 'lucide-svelte'
+    import { type Column, type Index } from '../types'
+    import IndexIcon from '$lib/tableCreation/IndexIcon.svelte'
+    import { ICON_SIZE } from '.'
 
-    const ICON_SIZE = 12
-
-    export let col: Column
+    export let data: Column
     export let tableName: string
 
     $: typeName = (function (t, arrLevel) {
@@ -16,41 +15,37 @@
         }
 
         return t + arr
-    })(col.type, col.arrayLevel)
+    })(data.type, data.arrayLevel)
 
     $: index = (function (tableIndices: Index[] | null, n: string) {
         if (!tableIndices) return
 
         return tableIndices.find((ind) => ind.colNames.length == 1 && ind.colNames[0] == n)
-    })($indices[tableName], col.name)
+    })($indices[tableName], data.name)
 </script>
 
 <div class="index">
     {#if index}
-        {#if index.type == IndexType.PRIMARY}
-            <KeyRound size={ICON_SIZE} />
-        {:else if index.type == IndexType.UNIQUE}
-            <Snowflake size={ICON_SIZE} />
-        {:else}
-            <Bookmark size={ICON_SIZE} />
-        {/if}
+        <IndexIcon size={ICON_SIZE} type={index.type} active />
     {/if}
 </div>
 <div class="col-name">
     <p>
-        {col.name}{#if col.nullable}<span class="dull">?</span>{/if}
+        {data.name}{#if data.nullable}<span class="dull">?</span>{/if}
     </p>
 </div>
 <div class="col-type">
     <p class="dull">{typeName}</p>
 </div>
 
-<Handle type="target" position={Position.Left} id="{tableName}.{col.name}" />
-<Handle type="source" position={Position.Right} id="{tableName}.{col.name}" />
+<Handle type="target" position={Position.Left} id="{tableName}.{data.name}" />
+<Handle type="source" position={Position.Right} id="{tableName}.{data.name}" />
 
 <style lang="scss">
+    @use 'vars';
+
     p {
-        font-size: 0.9rem;
+        font-size: vars.$font-size;
         word-break: keep-all;
         white-space: nowrap;
         white-space-collapse: discard;
@@ -60,15 +55,6 @@
     div {
         align-self: center;
         justify-self: left;
-    }
-
-    .index {
-        justify-self: center;
-        grid-column: 1;
-
-        & > :global(*) {
-            color: $primary;
-        }
     }
 
     .col-name {
