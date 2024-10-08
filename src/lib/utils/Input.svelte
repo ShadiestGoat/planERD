@@ -5,6 +5,7 @@
     export let curValue = ''
     export let placeholder = ''
     export let valueIsGood = true
+    export let autofocus = false
 
     export let isInputGood: ((v: string) => boolean) | undefined = undefined
 
@@ -14,9 +15,11 @@
     }>()
 </script>
 
+<!-- svelte-ignore a11y-autofocus -->
 <input
     class="{valueIsGood ? '' : 'bad'} {extraClass}"
     {placeholder}
+    {autofocus}
     type="text"
     bind:value={curValue}
     on:input={() => {

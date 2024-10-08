@@ -85,8 +85,6 @@
         } else {
             $indices[tableName][oldI].type = newIndexType
         }
-
-        console.log($indices[tableName])
     }
 
     function onColumnRename(i: number, newName: string): void {
@@ -145,6 +143,7 @@
     <div class="header row">
         {#if editingName}
             <Input
+                autofocus
                 placeholder="Table Name"
                 curValue={editingNameValue}
                 isInputGood={validateTableName(otherTableNames)}
