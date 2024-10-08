@@ -8,7 +8,6 @@
 
     export let col: Column
     export let tableName: string
-    export let row: number
 
     $: typeName = (function (t, arrLevel) {
         let arr = ''
@@ -26,7 +25,7 @@
     })($indices[tableName], col.name)
 </script>
 
-<div class="index" style="--row: {row}">
+<div class="index">
     {#if index}
         {#if index.type == IndexType.PRIMARY}
             <KeyRound size={ICON_SIZE} />
@@ -37,12 +36,12 @@
         {/if}
     {/if}
 </div>
-<div class="col-name" style="--row: {row}">
+<div class="col-name">
     <p>
         {col.name}{#if col.nullable}<span class="dull">?</span>{/if}
     </p>
 </div>
-<div class="col-type" style="--row: {row}">
+<div class="col-type">
     <p class="dull">{typeName}</p>
 </div>
 
@@ -61,7 +60,6 @@
     div {
         align-self: center;
         justify-self: left;
-        grid-row: var(--row);
     }
 
     .index {

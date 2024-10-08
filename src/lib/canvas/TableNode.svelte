@@ -25,13 +25,18 @@
     <NodeResizer isVisible={selected} minWidth={ICON_SIZE * 4 + 100} />
 
     <div class="node maxxer">
-        <div class="header bg col">
+        <div class="header col">
             <h4>{name}</h4>
         </div>
 
+        <hr class="separator thick" />
+
         {#each $tables[name].cols as col, i}
-            <div class="bg stupid-bg" style="--row: {i + 2}" />
-            <TableColumn {col} tableName={name} row={i + 2} />
+            <TableColumn {col} tableName={name} />
+
+            {#if $tables[name].cols.length - 1 != i}
+                <hr class="separator" />
+            {/if}
         {/each}
     </div>
 </div>
@@ -46,6 +51,22 @@
         width: 100%;
     }
 
+    .separator {
+        height: 2px;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background-color: $nodeBG2;
+        width: 100%;
+        grid-column-start: 1;
+        grid-column-end: -1;
+        border-radius: 25px;
+
+        &.thick {
+            height: 4px;
+        }
+    }
+
     .node-wrapper {
         background-color: $nodeBG;
 
@@ -53,22 +74,12 @@
         border-radius: 12.5px;
     }
 
-    .bg {
-        background-color: $nodeBG;
-    }
-
-    .stupid-bg {
-        grid-row: var(--row);
-        grid-column-start: 1;
-        grid-column-end: -1;
-    }
-
     .node {
         display: grid;
 
-        background-color: $nodeBG2;
+        background-color: $nodeBG;
 
-        gap: 1px;
+        gap: 1px 4px;
         grid-template-columns: calc($iconSize + 4px) 1fr min-content;
 
         > :global(*) {
