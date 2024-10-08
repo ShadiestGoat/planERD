@@ -103,7 +103,7 @@
         })
     }
 
-    $: tables = doSearch($tableOrder, tableSearchValue)
+    $: visibleTables = doSearch($tableOrder, tableSearchValue)
 
     function addTable(): void {
         const t = defaultTable()
@@ -138,7 +138,7 @@
             </IconButton>
         </div>
 
-        {#each tables as name}
+        {#each visibleTables as name}
             <TableCreation tableName={name} />
         {/each}
     </div>
