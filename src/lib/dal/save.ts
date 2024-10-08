@@ -31,13 +31,13 @@ function savePos(allNodes: Node[]): void {
     ))
 }
 
-function saveTables(order: string[], tables: Record<string, Table>): void {
+export function saveTables(order: string[], tables: Record<string, Table>): void {
     const d = order.map(n => tables[n])
 
     localStorage.setItem(StorageKeys.TABLES, JSON.stringify(d))
 }
 
-function saveIndices(ind: Record<string, Index[]>): void {
+export function saveIndices(ind: Record<string, Index[]>): void {
     localStorage.setItem(StorageKeys.INDICES, JSON.stringify(ind))
 }
 
@@ -110,8 +110,6 @@ export async function loadData(): Promise<void> {
 
         return tableNode(name, dataPos[n])
     }).filter(v => v !== null)
-
-    console.log(loadedNodes)
 
     nodes.set(loadedNodes)
 

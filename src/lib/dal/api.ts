@@ -24,6 +24,7 @@ export function renameTable(oldName: string, newName: string): void {
 
     tables.update((cur) => {
         cur[newName] = cur[oldName]
+        cur[newName].name = newName
 
         return cur
     })
@@ -43,7 +44,7 @@ export function renameTable(oldName: string, newName: string): void {
     })
 
     // Now we delete our shit
-
+    // This is a bug compensation - if not done async, it'll break a bunch of component destruction
     setTimeout(() => {
         if (curIndices[oldName]) {
             indices.set(curIndices)
