@@ -114,6 +114,7 @@ export async function loadData(): Promise<void> {
             const name = n.slice(ind + 1)
 
             if (nodeType != 'table') return null
+            if (!realTables[name]) return null
 
             return tableNode(name, dataPos[n])
         })
