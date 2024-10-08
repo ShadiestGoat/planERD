@@ -1,13 +1,13 @@
 <script lang="ts">
     import { indices, tables } from '../dal/data'
-    import { Plus, Pencil, Check } from 'lucide-svelte'
+    import { Plus, Pencil, Check, Trash2 } from 'lucide-svelte'
     import { IndexType, type Index } from '../types'
     import ColCreation from './ColCreation.svelte'
     import IconButton from '$lib/IconButton.svelte'
 
     import Input from '$lib/utils/Input.svelte'
     import { validateTableName } from './vlidators'
-    import { defaultColumn, renameTable } from '$lib/dal/api'
+    import { defaultColumn, removeTable, renameTable } from '$lib/dal/api'
 
     export let tableName = ''
 
@@ -137,6 +137,10 @@
         tableName = editingNameValue
         editingName = false
     }
+
+    function delTable(): void {
+        removeTable(tableName)
+    }
 </script>
 
 <div class="table-wrapper col">
@@ -167,6 +171,17 @@
                 <Pencil size={20} />
             {/if}
         </IconButton>
+
+        {#if !editingName}
+            <div class="pad" />
+
+            <IconButton
+                extraClass="cross"
+                on:input={delTable}
+            >
+                <Trash2 size={24} />
+            </IconButton>
+        {/if}
     </div>
     <div class="col-container col">
         <div class="row sub-header">
@@ -226,6 +241,13 @@
         justify-content: space-between;
     }
 
+    @mixin forceIcon($color, $cls) {
+        :global(.#{$cls}) {
+            --color-active: #{$color};
+            --color-secondary: #{$color};
+        }
+    }
+
     .header {
         gap: 12px;
         align-items: center;
@@ -234,15 +256,14 @@
             font-size: $tableNameFS;
         }
 
-        :global(.edit) {
-            --color-active: #{$primary};
-            --color-secondary: #{$primary};
+        .pad {
+            width: 100%;
+            flex-grow: 1;
         }
 
-        :global(.check) {
-            --color-active: #{$green-4};
-            --color-secondary: #{$green-4};
-        }
+        @include forceIcon($primary, 'edit');
+        @include forceIcon($green-4, 'check');
+        @include forceIcon($danger, 'cross');
 
         > :global(input) {
             font-size: $tableNameFS;
