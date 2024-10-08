@@ -8,7 +8,7 @@ import {
     DEFAULT_TABLE_COLUMN,
     DEFAULT_TABLE_NAME
 } from './settings'
-import { type XYPosition } from '@xyflow/svelte'
+import { type Node, type XYPosition } from '@xyflow/svelte'
 
 export function renameTable(oldName: string, newName: string): void {
     const curIndices = get(indices)
@@ -106,6 +106,17 @@ export function defaultTable(): Table {
     return t
 }
 
+export function tableNode(n: string, pos: XYPosition): Node {
+    return {
+        id: n,
+        type: 'table',
+        data: {
+            name: n
+        },
+        position: pos ?? { x: 0, y: 0 }
+    }
+}
+
 export function addTableData(t: Table, pos?: XYPosition): void {
     tableOrder.update((cur) => {
         cur.push(t.name)
@@ -124,16 +135,7 @@ export function addTableData(t: Table, pos?: XYPosition): void {
     }
 
     nodes.update((cur) => {
-        console.log(cur)
-
-        cur.push({
-            id: t.name,
-            type: 'table',
-            data: {
-                name: t.name
-            },
-            position: pos
-        })
+        cur.push(tableNode(t.name, pos))
 
         return cur
     })

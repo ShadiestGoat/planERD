@@ -1,20 +1,9 @@
 import { writable } from 'svelte/store'
-import { type Index, type Table, type Relation, IndexType } from '../types'
+import { type Index, type Table, type Relation } from '../types'
 import { SQLTypes, type SQLType } from '../sqlTypes'
 
 /** Table name -> relevant indicies */
-export const indices = writable<Record<string, Index[]>>({
-    'cool-table': [
-        {
-            colNames: ['cool_col'],
-            type: IndexType.PRIMARY
-        },
-        {
-            colNames: ['cool_col1', 'cool_col2'],
-            type: IndexType.UNIQUE
-        }
-    ]
-})
+export const indices = writable<Record<string, Index[]>>({})
 
 /** Table name -> data */
 export const tables = writable<Record<string, Table>>({})

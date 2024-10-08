@@ -13,11 +13,12 @@
     } from '@xyflow/svelte'
     import '@xyflow/svelte/dist/style.css'
     import { writable } from 'svelte/store'
-    import { initData } from '$lib/dal/init'
     import { Search, Plus } from 'lucide-svelte'
     import IconButton from '$lib/IconButton.svelte'
     import { addTableData, defaultTable } from '$lib/dal/api'
     import { IndexType } from '$lib/types'
+    import { onMount } from 'svelte'
+    import { loadData } from '$lib/dal/save'
 
     // Also set the scss var
     const BAR_DRAG_WIDTH = 8
@@ -76,10 +77,9 @@
 
     let dragging = false
 
-    // same for edges
     const edges = writable<Edge[]>([])
 
-    initData()
+    onMount(loadData)
 
     let tableSearchValue = ''
 
