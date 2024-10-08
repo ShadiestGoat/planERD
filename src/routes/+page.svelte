@@ -9,7 +9,8 @@
         Controls,
         MiniMap,
         SvelteFlow,
-        type Edge
+        type Edge,
+        useStore
     } from '@xyflow/svelte'
     import '@xyflow/svelte/dist/style.css'
     import { writable } from 'svelte/store'
@@ -79,7 +80,12 @@
 
     const edges = writable<Edge[]>([])
 
-    onMount(loadData)
+    onMount(async () => {
+        loadData()
+
+        const { fitView } = useStore()
+        fitView()
+    })
 
     let tableSearchValue = ''
 
