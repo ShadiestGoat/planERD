@@ -22,3 +22,10 @@
         --border-color: #{$danger};
     }
 }
+
+@mixin forceIconColor($color, $cls) {
+    :global(.#{$cls}) {
+        --color-active: #{$color};
+        --color-secondary: #{$color};
+    }
+}

@@ -4,6 +4,7 @@
     import { createEventDispatcher } from 'svelte'
 
     export let title: string
+    export let disableAdd = false
 
     const dispatch = createEventDispatcher<{ add: void }>()
 </script>
@@ -12,8 +13,8 @@
     <div class="row sub-header">
         <h4>{title}</h4>
 
-        <IconButton on:input={() => dispatch('add')} extraClass="header-btn" active={false} noColor>
-            <Plus size={24} class="primary" />
+        <IconButton disabled={disableAdd} on:input={() => dispatch('add')} extraClass="plus header-btn" active={false}>
+            <Plus size={24} />
         </IconButton>
     </div>
 
@@ -23,6 +24,8 @@
 </div>
 
 <style lang="scss">
+    @use '$lib/utils/input';
+
     .col-container {
         padding-left: 12px;
 
@@ -39,5 +42,7 @@
     .sub-header {
         align-items: center;
         justify-content: space-between;
+
+        @include input.forceIconColor($primary, 'plus');
     }
 </style>

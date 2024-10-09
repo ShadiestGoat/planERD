@@ -7,6 +7,7 @@
     import { validateTableName } from './vlidators'
     import { removeTable, renameTable } from '$lib/dal/api'
     import SectionCols from './sections/SectionCols.svelte'
+    import SectionIndices from './sections/SectionIndices.svelte'
 
     export let tableName = ''
 
@@ -78,12 +79,12 @@
         {/if}
     </div>
     <SectionCols tableData={$tables[tableName]} />
-    <div class="indicies">
-        <!-- {#each} -->
-    </div>
+    <SectionIndices tableData={$tables[tableName]} />
 </div>
 
 <style lang="scss">
+    @use '../utils/input';
+
     $tableNameFS: 1.5rem;
 
     .table-wrapper {
@@ -92,13 +93,6 @@
         border-radius: 12.5px;
         padding: 12px;
         gap: 12px;
-    }
-
-    @mixin forceIcon($color, $cls) {
-        :global(.#{$cls}) {
-            --color-active: #{$color};
-            --color-secondary: #{$color};
-        }
     }
 
     .header {
@@ -114,9 +108,9 @@
             flex-grow: 1;
         }
 
-        @include forceIcon($primary, 'edit');
-        @include forceIcon($green-4, 'check');
-        @include forceIcon($danger, 'cross');
+        @include input.forceIconColor($primary, 'edit');
+        @include input.forceIconColor($green-4, 'check');
+        @include input.forceIconColor($danger, 'cross');
 
         > :global(input) {
             font-size: $tableNameFS;
