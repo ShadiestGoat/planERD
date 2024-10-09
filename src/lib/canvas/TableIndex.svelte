@@ -1,7 +1,7 @@
 <script lang="ts">
-    import IndexIcon from "$lib/tableCreation/IndexIcon.svelte"
-    import { type Index } from "$lib/types"
-    import { ICON_SIZE } from "."
+    import IndexIcon from '$lib/tableCreation/IndexIcon.svelte'
+    import { type Index } from '$lib/types'
+    import { ICON_SIZE } from '.'
 
     export let data: Index
 </script>

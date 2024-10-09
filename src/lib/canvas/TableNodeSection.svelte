@@ -1,5 +1,5 @@
 <script lang="ts" generics="T, P extends Record<string, unknown>">
-    import type { SvelteComponent } from "svelte"
+    import type { SvelteComponent } from 'svelte'
 
     export let data: T[]
     export let restOfTheData = {} as P
@@ -10,7 +10,7 @@
     <hr class="thick" />
 
     {#each data as d, i}
-        <svelte:component data={d} {...restOfTheData} this={comp} />
+        <svelte:component this={comp} data={d} {...restOfTheData} />
 
         {#if data.length - 1 != i}
             <hr />

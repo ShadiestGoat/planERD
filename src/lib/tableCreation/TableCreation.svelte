@@ -72,10 +72,7 @@
         {#if !editingName}
             <div class="pad" />
 
-            <IconButton
-                extraClass="cross"
-                on:input={delTable}
-            >
+            <IconButton extraClass="cross" on:input={delTable}>
                 <Trash2 size={24} />
             </IconButton>
         {/if}

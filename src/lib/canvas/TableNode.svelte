@@ -19,7 +19,7 @@
 
     let { name } = data
 
-    $: multiColInd = ($indices[name] ?? []).filter(v => v.colNames.length > 1)
+    $: multiColInd = ($indices[name] ?? []).filter((v) => v.colNames.length > 1)
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     $$restProps
@@ -33,7 +33,11 @@
             <h4>{name}</h4>
         </div>
 
-        <TableNodeSection data={$tables[name].cols} restOfTheData={{tableName: name}} comp={TableColumn} />
+        <TableNodeSection
+            data={$tables[name].cols}
+            restOfTheData={{ tableName: name }}
+            comp={TableColumn}
+        />
         <TableNodeSection data={multiColInd} comp={TableIndex} />
     </div>
 </div>

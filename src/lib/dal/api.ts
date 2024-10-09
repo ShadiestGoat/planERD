@@ -143,26 +143,32 @@ export function addTableData(t: Table, pos?: XYPosition): void {
 }
 
 export function removeTable(n: string): void {
-    tableOrder.update(cur => {
-        cur.splice(cur.findIndex(v => v == n), 1)
+    tableOrder.update((cur) => {
+        cur.splice(
+            cur.findIndex((v) => v == n),
+            1
+        )
 
         return cur
     })
 
-    nodes.update(cur => {
-        cur.splice(cur.findIndex(v => v.type == 'table' && v.data.name == n), 1)
+    nodes.update((cur) => {
+        cur.splice(
+            cur.findIndex((v) => v.type == 'table' && v.data.name == n),
+            1
+        )
 
         return cur
     })
 
     setTimeout(() => {
-        indices.update(cur => {
+        indices.update((cur) => {
             delete cur[n]
 
             return cur
         })
 
-        tables.update(cur => {
+        tables.update((cur) => {
             delete cur[n]
 
             return cur

@@ -1,10 +1,10 @@
 <script lang="ts">
-    import SectionBase from "./SectionBase.svelte"
+    import SectionBase from './SectionBase.svelte'
     import type { Index, Table } from '$lib/types'
     import { IndexType } from '$lib/types'
     import { indices, tables } from '$lib/dal/data'
-    import ColCreation from "../ColCreation.svelte"
-    import { defaultColumn } from "$lib/dal/api"
+    import ColCreation from '../ColCreation.svelte'
+    import { defaultColumn } from '$lib/dal/api'
 
     export let tableData: Table
 
@@ -113,10 +113,7 @@
     }
 </script>
 
-<SectionBase
-    title="Columns"
-    on:add={addColumn}
->
+<SectionBase title="Columns" on:add={addColumn}>
     {#each tableData.cols as col, i}
         <ColCreation
             colIndex={i}
@@ -124,7 +121,7 @@
             bind:colType={$tables[tableName].cols[i].type}
             bind:isNull={$tables[tableName].cols[i].nullable}
             singleIndex={singleIndexCache[col.name]?.v}
-            tableName={tableName}
+            {tableName}
             colNameValue={col.name}
             on:delete={() => deleteColumn(i)}
             on:setIndex={({ detail }) => setSingleIndex(col.name, detail)}

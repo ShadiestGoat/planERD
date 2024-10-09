@@ -1,7 +1,7 @@
 <script lang="ts">
-    import IconButton from "$lib/IconButton.svelte"
-    import { Plus } from "lucide-svelte"
-    import { createEventDispatcher } from "svelte"
+    import IconButton from '$lib/IconButton.svelte'
+    import { Plus } from 'lucide-svelte'
+    import { createEventDispatcher } from 'svelte'
 
     export let title: string
 

@@ -114,18 +114,24 @@
     function addTable(): void {
         const t = defaultTable()
 
-        const rightNode = $nodes.length ?
-            [...$nodes].sort(
-                (a, b) => (
-                    (b.position.x + (b.measured?.width ?? 0)) -
-                    (a.position.x + (a.measured?.width ?? 0))
-                )
-            )[0] : null
+        const rightNode = $nodes.length
+            ? [...$nodes].sort(
+                  (a, b) =>
+                      b.position.x +
+                      (b.measured?.width ?? 0) -
+                      (a.position.x + (a.measured?.width ?? 0))
+              )[0]
+            : null
 
-        addTableData(t, rightNode ? {
-            x: rightNode.position.x + (rightNode.measured?.width ?? 0) + 40,
-            y: 0
-        } : undefined)
+        addTableData(
+            t,
+            rightNode
+                ? {
+                      x: rightNode.position.x + (rightNode.measured?.width ?? 0) + 40,
+                      y: 0
+                  }
+                : undefined
+        )
 
         setTimeout(() => {
             flowFitView()

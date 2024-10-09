@@ -61,11 +61,7 @@
     <div />
     <div />
 
-    <IconButton
-        extraClass="nullable"
-        bind:active={isNull}
-        doToggle
-    >
+    <IconButton extraClass="nullable" bind:active={isNull} doToggle>
         <Ghost size={18} />
     </IconButton>
 
