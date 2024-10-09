@@ -17,7 +17,7 @@
             ...$indices[tableName],
             {
                 type: IndexType.INDEX,
-                colNames: tableData.cols.slice(0, 2).map(v => v.name)
+                colNames: tableData.cols.slice(0, 2).map((v) => v.name)
             }
         ]
     }

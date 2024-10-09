@@ -13,7 +13,12 @@
     <div class="row sub-header">
         <h4>{title}</h4>
 
-        <IconButton disabled={disableAdd} on:input={() => dispatch('add')} extraClass="plus header-btn" active={false}>
+        <IconButton
+            disabled={disableAdd}
+            on:input={() => dispatch('add')}
+            extraClass="plus header-btn"
+            active={false}
+        >
             <Plus size={24} />
         </IconButton>
     </div>
