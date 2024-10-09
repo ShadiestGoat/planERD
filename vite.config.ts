@@ -1,6 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
-// import type { Options } from "sass"
+import type { Options } from "sass"
 
 export default defineConfig({
     plugins: [sveltekit()],
@@ -11,8 +11,7 @@ export default defineConfig({
                 additionalData: '@use "./src/variables.scss" as *;\n',
                 api: 'modern',
                 loadPaths: ['.']
-            }
-            // satisfies Options<"async"> & { api: string; additionalData: string }
+            } satisfies Options<"async"> & { additionalData: string, api: string },
         }
     }
 })
