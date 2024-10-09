@@ -19,6 +19,9 @@
     export let colIndex: number
     export let indexPopup: number
 
+    export let isNull: boolean
+    export let colType: string
+
     const dispatch = createEventDispatcher<{
         setName: string
         delete: void
@@ -44,7 +47,7 @@
         on:input={({ detail }) => dispatch('setName', detail)}
     />
 
-    <select bind:value={$tables[tableName].cols[colIndex].type}>
+    <select bind:value={colType}>
         {#each allSQLTypes as typeGroup}
             <optgroup label={typeGroup[0]}>
                 {#each typeGroup[1] as t}
@@ -60,7 +63,7 @@
 
     <IconButton
         extraClass="nullable"
-        bind:active={$tables[tableName].cols[colIndex].nullable}
+        bind:active={isNull}
         doToggle
     >
         <Ghost size={18} />
