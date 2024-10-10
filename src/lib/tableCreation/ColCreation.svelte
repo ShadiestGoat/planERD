@@ -10,7 +10,7 @@
     import IndexPopup from './IndexPopup.svelte'
     import IconButton from '$lib/IconButton.svelte'
     import Input from '$lib/utils/Input.svelte'
-    import { validateColName } from './vlidators'
+    import { validateColName } from './validators'
 
     export let tableName: string
 

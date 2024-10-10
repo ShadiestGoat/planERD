@@ -4,7 +4,7 @@
     import IconButton from '$lib/IconButton.svelte'
 
     import Input from '$lib/utils/Input.svelte'
-    import { validateTableName } from './vlidators'
+    import { validateTableName } from './validators'
     import { removeTable, renameTable } from '$lib/dal/api'
     import SectionCols from './sections/SectionCols.svelte'
     import SectionIndices from './sections/SectionIndices.svelte'
