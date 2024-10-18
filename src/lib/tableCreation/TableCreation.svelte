@@ -1,6 +1,6 @@
 <script lang="ts">
     import { tables } from '../dal/data'
-    import { Pencil, Check, Trash2 } from 'lucide-svelte'
+    import { Pencil, Check, Trash2, X } from 'lucide-svelte'
     import IconButton from '$lib/IconButton.svelte'
 
     import Input from '$lib/utils/Input.svelte'
@@ -36,6 +36,12 @@
         editingName = false
     }
 
+    function onNameCancel(): void {
+        editingName = false
+        nameIsGood = true
+        editingNameValue = tableName
+    }
+
     function delTable(): void {
         removeTable(tableName)
     }
@@ -52,9 +58,14 @@
                 bind:valueIsGood={nameIsGood}
                 on:input={({ detail }) => (editingNameValue = detail)}
                 on:submit={onNameSubmit}
+                on:cancel={onNameCancel}
             />
         {:else}
             <h2>{tableName}</h2>
+        {/if}
+
+        {#if editingName}
+            <div class="pad" />
         {/if}
 
         <IconButton
@@ -70,9 +81,12 @@
             {/if}
         </IconButton>
 
-        {#if !editingName}
+        {#if editingName}
+            <IconButton extraClass="cross" on:input={delTable}>
+                <X size={24} />
+            </IconButton>
+        {:else}
             <div class="pad" />
-
             <IconButton extraClass="cross" on:input={delTable}>
                 <Trash2 size={24} />
             </IconButton>

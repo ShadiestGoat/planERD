@@ -12,6 +12,7 @@
     const dispatch = createEventDispatcher<{
         input: string
         submit: void
+        cancel: void,
     }>()
 </script>
 
@@ -31,9 +32,15 @@
         dispatch('input', curValue)
     }}
     on:keydown={(e) => {
-        if (e.key != 'Enter') return
-
-        dispatch('submit')
+        e.stopPropagation()
+        switch (e.key) {
+            case 'Enter':
+                dispatch('submit')
+                return
+            case 'Escape':
+                dispatch('cancel')
+                return
+        }
     }}
 />
 
