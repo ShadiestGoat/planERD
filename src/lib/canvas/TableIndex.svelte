@@ -1,5 +1,5 @@
 <script lang="ts">
-    import IndexIcon from '$lib/tableCreation/IndexIcon.svelte'
+    import IndexIcon from '$lib/IndexIcon.svelte'
     import { type Index } from '$lib/types'
     import { ICON_SIZE } from '.'
 

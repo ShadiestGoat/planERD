@@ -6,11 +6,11 @@
     import { IndexType } from '$lib/types'
     import type { Column, Index } from '$lib/types'
 
-    import IndexIcon from './IndexIcon.svelte'
+    import IndexIcon from '$lib/IndexIcon.svelte'
     import IndexPopup from './IndexPopup.svelte'
     import IconButton from '$lib/IconButton.svelte'
     import Input from '$lib/utils/Input.svelte'
-    import { validateColName } from './validators'
+    import { validateColName } from '$lib/tableCreation/validators'
 
     export let tableName: string
 

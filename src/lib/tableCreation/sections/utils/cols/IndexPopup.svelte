@@ -3,7 +3,8 @@
     import { IndexType } from '$lib/types'
     import { createEventDispatcher } from 'svelte'
     import { fly } from 'svelte/transition'
-    import IndexIcon from './IndexIcon.svelte'
+    import IndexIcon from '$lib/IndexIcon.svelte'
+    import BgCloser from '$lib/utils/BgCloser.svelte'
 
     type realIndexType = IndexType
 
@@ -14,11 +15,6 @@
         ['Primary Key', IndexType.PRIMARY]
     ]
 
-    let debounce = true
-    setTimeout(() => {
-        debounce = false
-    }, 2)
-
     export let curIndexType: realIndexType
     const dispatch = createEventDispatcher<{ input: realIndexType; close: void }>()
 
@@ -26,6 +22,8 @@
         return inputHandlerFactory(() => dispatch('input', v))
     }
 </script>
+
+<BgCloser {dispatch} />
 
 <div class="container row" in:fly={{ x: '1rem' }} out:fly={{ x: '1rem' }}>
     <div class="wrapper col">
@@ -45,16 +43,6 @@
 
     <div class="tip" />
 </div>
-
-<svelte:window
-    on:click={(e) => {
-        if (debounce) return
-
-        e.preventDefault()
-        e.stopPropagation()
-        dispatch('close')
-    }}
-/>
 
 <style lang="scss">
     $width: clamp(180px, 18dvw, 210px);

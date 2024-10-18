@@ -2,7 +2,7 @@
     import { Handle, Position } from '@xyflow/svelte'
     import { indices } from '../dal/data'
     import { type Column, type Index } from '../types'
-    import IndexIcon from '$lib/tableCreation/IndexIcon.svelte'
+    import IndexIcon from '$lib/IndexIcon.svelte'
     import { ICON_SIZE } from '.'
 
     export let data: Column
