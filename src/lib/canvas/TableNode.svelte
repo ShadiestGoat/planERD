@@ -1,6 +1,6 @@
 <script lang="ts">
     import { NodeResizer, type NodeProps } from '@xyflow/svelte'
-    import { indices, tables } from '../dal/data'
+    import { indices, multiColIndexExceptions, tables } from '../dal/data'
     import TableColumn from './TableColumn.svelte'
     import TableIndex from './TableIndex.svelte'
     import TableNodeSection from './TableNodeSection.svelte'
@@ -19,7 +19,9 @@
 
     let { name } = data
 
-    $: multiColInd = ($indices[name] ?? []).filter((v) => v.colNames.length > 1)
+    $: multiColInd = ($indices[name] ?? []).filter((v, i) => {
+        return v.colNames.length > 1 || $multiColIndexExceptions[name]?.has(i)
+    })
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     $$restProps
