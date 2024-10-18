@@ -39,7 +39,7 @@
 
 <div
     class="wrapper row" tabindex="0" role="button"
-    on:click={onDropdownInput} on:keypress={onDropdownInput}
+    on:click={onDropdownInput} on:keydown={onDropdownInput}
     aria-pressed={shouldShowDropdown}
 >
     {#if shouldShowDropdown}
