@@ -24,7 +24,7 @@
     })($indices[tableName], data.name)
 </script>
 
-<div class="index">
+<div class="index-icon-wrapper">
     {#if index}
         <IndexIcon size={ICON_SIZE} type={index.type} active />
     {/if}

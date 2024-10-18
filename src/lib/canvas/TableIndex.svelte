@@ -6,7 +6,7 @@
     export let data: Index
 </script>
 
-<div class="index">
+<div class="index-icon-wrapper">
     <IndexIcon size={ICON_SIZE} type={data.type} active />
 </div>
 
@@ -25,7 +25,7 @@
     $border-radius: 12.5px;
     $padding: 3px 6px;
 
-    .index {
+    .index-icon-wrapper {
         align-self: center;
     }
 

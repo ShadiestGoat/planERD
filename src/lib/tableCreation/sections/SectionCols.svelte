@@ -3,7 +3,7 @@
     import type { Index, Table } from '$lib/types'
     import { IndexType } from '$lib/types'
     import { indices, tables } from '$lib/dal/data'
-    import ColCreation from '../ColCreation.svelte'
+    import ColCreation from './utils/cols/ColCreation.svelte'
     import { defaultColumn } from '$lib/dal/api'
 
     export let tableData: Table
