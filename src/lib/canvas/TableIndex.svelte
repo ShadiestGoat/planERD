@@ -20,7 +20,7 @@
 
 <style lang="scss">
     @use 'vars';
-    @use 'sass:math';
+    @use '$lib/utils/multi_index' as ind;
 
     $border-radius: 12.5px;
     $padding: 3px 6px;
@@ -32,32 +32,15 @@
     .wrapper {
         grid-column-start: 2;
         grid-column-end: -1;
-
         height: 100%;
-        width: 100%;
-        background: $gray-8;
-        border-radius: $border-radius;
-        padding: math.div($border-radius, 2);
-
-        gap: 4px;
-
-        flex-wrap: wrap;
         justify-content: space-evenly;
 
+        @include ind.wrapper;
+
         .col-data {
-            padding: $padding;
-
-            border-radius: $border-radius;
-            background-color: $gray-9;
-
-            align-items: center;
-            justify-content: center;
-
             flex-grow: 1;
-        }
 
-        p {
-            font-size: calc(vars.$font-size * 0.65);
+            @include ind.col-data(calc(vars.$font-size * 0.65));
         }
     }
 </style>

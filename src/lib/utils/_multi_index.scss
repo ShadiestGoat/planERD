@@ -1,0 +1,35 @@
+@use '/src/variables.scss' as *;
+@use 'sass:math';
+
+$border-radius: 12.5px;
+
+$paddingVert: 6px;
+$paddingHorz: 8px;
+$padding: $paddingVert $paddingHorz;
+
+$wrapperPadding: math.div($border-radius, 2);
+
+@mixin wrapper {
+    width: 100%;
+    background: $gray-8;
+    border-radius: $border-radius;
+    padding: $wrapperPadding;
+
+    gap: 4px;
+
+    flex-wrap: wrap;
+}
+
+@mixin col-data($fs) {
+    padding: $padding;
+
+    border-radius: $border-radius;
+    background-color: $gray-9;
+
+    align-items: center;
+    justify-content: center;
+
+    p {
+        font-size: $fs;
+    }
+}
