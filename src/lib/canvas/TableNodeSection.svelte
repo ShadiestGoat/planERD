@@ -1,4 +1,5 @@
 <script lang="ts" generics="T, P extends Record<string, unknown>">
+    import Separator from '$lib/utils/Separator.svelte'
     import type { SvelteComponent } from 'svelte'
 
     export let data: T[]
@@ -7,31 +8,13 @@
 </script>
 
 {#if data.length}
-    <hr class="thick" />
+    <Separator thick />
 
     {#each data as d, i}
         <svelte:component this={comp} data={d} {...restOfTheData} />
 
         {#if data.length - 1 != i}
-            <hr />
+            <Separator />
         {/if}
     {/each}
 {/if}
-
-<style lang="scss">
-    hr {
-        height: 2px;
-        padding: 0;
-        margin: 0;
-        border: 0;
-        background-color: $gray-8;
-        width: 100%;
-        grid-column-start: 1;
-        grid-column-end: -1;
-        border-radius: 25px;
-
-        &.thick {
-            height: 4px;
-        }
-    }
-</style>
