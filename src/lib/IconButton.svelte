@@ -15,6 +15,7 @@
             active = !active
         }
 
+        e.stopPropagation()
         dispatch('input', e as AnyInputEvent & { target: Element })
     })
 </script>
