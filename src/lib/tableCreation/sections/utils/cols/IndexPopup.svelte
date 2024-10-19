@@ -14,6 +14,10 @@
     ]
 
     export let curIndexType: IndexType
+    export let direction: "left" | "right"
+
+    $: flyAmt = (direction == "right" ? '-' : '') + "1rem"
+
     const dispatch = createEventDispatcher<{ input: IndexType; close: void }>()
 
     const onInput = (v: IndexType): InputHandler => {
@@ -23,7 +27,7 @@
 
 <BgCloser {dispatch} />
 
-<div class="container row" in:fly={{ x: '1rem' }} out:fly={{ x: '1rem' }}>
+<div class="container row" in:fly={{ x: flyAmt }} out:fly={{ x: flyAmt }}>
     <div class="wrapper col">
         {#each icons as cfg}
             <div
@@ -39,7 +43,7 @@
         {/each}
     </div>
 
-    <div class="tip" />
+    <div class="tip-{direction}" />
 </div>
 
 <style lang="scss">
@@ -76,7 +80,15 @@
         z-index: 10;
     }
 
-    .tip {
+    .tip-right {
+        align-self: center;
+
+        border-top: $tipWidth solid transparent;
+        border-bottom: $tipWidth solid transparent;
+        border-left: $tipWidth solid $borderColor;
+    }
+
+    .tip-left {
         align-self: center;
 
         border-top: $tipWidth solid transparent;
