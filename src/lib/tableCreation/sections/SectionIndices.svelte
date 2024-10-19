@@ -71,6 +71,8 @@
                 } else {
                     $multiColIndexExceptions[tableName].delete(i)
                 }
+
+                $multiColIndexExceptions[tableName] = $multiColIndexExceptions[tableName]
             }}
             on:delete={() => removeIndex(i)}
         />
