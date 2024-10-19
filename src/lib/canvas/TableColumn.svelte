@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Handle, Position } from '@xyflow/svelte'
-    import { indices, multiColIndexExceptions } from '../dal/data'
+    import { indices } from '../dal/data'
+    import { multiColIndexExceptions } from '../dal/tmpData'
     import { type Column, type Index } from '../types'
     import IndexIcon from '$lib/IndexIcon.svelte'
     import { ICON_SIZE } from '.'

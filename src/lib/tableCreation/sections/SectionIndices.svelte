@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { indices, multiColIndexExceptions } from '$lib/dal/data'
+    import { indices } from '$lib/dal/data'
+    import { multiColIndexExceptions } from '$lib/dal/tmpData'
     import { IndexType, type Index, type Table } from '$lib/types'
     import SectionBase from './SectionBase.svelte'
     import IndexCreation from './utils/indices/IndexCreation.svelte'
