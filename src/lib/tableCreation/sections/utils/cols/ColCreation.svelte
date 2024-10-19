@@ -65,17 +65,6 @@
         <Ghost size={18} />
     </IconButton>
 
-    {#if colIndex == indexPopup}
-        <IndexPopup
-            curIndexType={singleIndex ? singleIndex.type : IndexType.NONE}
-            on:input={({ detail }) => {
-                dispatch('setIndex', detail)
-                indexPopup = -1
-            }}
-            on:close={() => (indexPopup = -1)}
-        />
-    {/if}
-
     <IconButton
         extraClass="ind"
         active={!!singleIndex}
@@ -95,6 +84,19 @@
             type={singleIndex ? singleIndex.type : IndexType.NONE}
         />
     </IconButton>
+
+    {#if colIndex == indexPopup}
+        <IndexPopup
+            curIndexType={singleIndex ? singleIndex.type : IndexType.NONE}
+            on:input={({ detail }) => {
+                dispatch('setIndex', detail)
+                indexPopup = -1
+            }}
+            direction="left"
+            allowSettingNone={true}
+            on:close={() => (indexPopup = -1)}
+        />
+    {/if}
 
     <IconButton extraClass="trash" active={false} on:input={() => dispatch('delete')}>
         <Trash2 size={18} class="trash" />

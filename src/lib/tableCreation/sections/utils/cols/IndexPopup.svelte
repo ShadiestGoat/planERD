@@ -15,8 +15,10 @@
 
     export let curIndexType: IndexType
     export let direction: "left" | "right"
+    export let allowSettingNone = false
 
     $: flyAmt = (direction == "right" ? '-' : '') + "1rem"
+    $: visibleIcons = allowSettingNone ? icons : icons.slice(1)
 
     const dispatch = createEventDispatcher<{ input: IndexType; close: void }>()
 
@@ -27,9 +29,9 @@
 
 <BgCloser {dispatch} />
 
-<div class="container row" in:fly={{ x: flyAmt }} out:fly={{ x: flyAmt }}>
+<div class="container row" style="--label-count: {visibleIcons.length}" in:fly={{ x: flyAmt }} out:fly={{ x: flyAmt }}>
     <div class="wrapper col">
-        {#each icons as cfg}
+        {#each visibleIcons as cfg}
             <div
                 class="row index-type {curIndexType == cfg[1] ? 'active' : ''}"
                 role="button"
@@ -52,16 +54,20 @@
     $tipWidth: 1rem;
     $borderColor: $gray-7;
 
-    $padTop: 0.25rem;
+    $padTop: 4px;
     $rowPadTop: 4px;
     $labelFontSize: 1rem;
-    $labelCount: 4;
 
-    $baseAllRowHeight: calc($padTop * 2 + $rowPadTop * $labelCount * 2);
+    @function totalHeight($fs) {
+        $base: calc($padTop * 2);
+        $perRowHeight: calc($rowPadTop * 2 + $fs * $lineHeightMult);
+
+        @return calc($base + $perRowHeight * var(--label-count));
+    }
+
     $height: max(
-        7rem,
-        calc($baseAllRowHeight + $labelFontSize * $labelCount),
-        calc($baseAllRowHeight + 18px * $labelCount)
+        totalHeight($labelFontSize),
+        totalHeight($maxRemSize),
     );
 
     h4 {
