@@ -12,7 +12,10 @@
     $: tableName = tableData.name
 
     type SingleIndexCache = Record<string, { i: number; v: Index }>
-    function makeSingleIndexCache(tableIndices: Index[], exceptions?: Set<number>): SingleIndexCache {
+    function makeSingleIndexCache(
+        tableIndices: Index[],
+        exceptions?: Set<number>
+    ): SingleIndexCache {
         if (!tableIndices || tableIndices.length == 0) return {}
 
         const cache: SingleIndexCache = {}
@@ -28,7 +31,10 @@
     }
 
     /** A record of col name -> data about all the single-column-indices */
-    $: singleIndexCache = makeSingleIndexCache($indices[tableName], $multiColIndexExceptions[tableName])
+    $: singleIndexCache = makeSingleIndexCache(
+        $indices[tableName],
+        $multiColIndexExceptions[tableName]
+    )
 
     function setSingleIndex(colName: string, newIndexType: IndexType): void {
         const oldI = singleIndexCache[colName]?.i ?? -1
@@ -83,7 +89,8 @@
                             $multiColIndexExceptions[tableName] = new Set([i])
                         } else {
                             $multiColIndexExceptions[tableName].add(i)
-                            $multiColIndexExceptions[tableName] = $multiColIndexExceptions[tableName]
+                            $multiColIndexExceptions[tableName] =
+                                $multiColIndexExceptions[tableName]
                         }
                     }
 

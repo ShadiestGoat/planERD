@@ -14,10 +14,10 @@
     ]
 
     export let curIndexType: IndexType
-    export let direction: "left" | "right"
+    export let direction: 'left' | 'right'
     export let allowSettingNone = false
 
-    $: flyAmt = (direction == "right" ? '-' : '') + "1rem"
+    $: flyAmt = (direction == 'right' ? '-' : '') + '1rem'
     $: visibleIcons = allowSettingNone ? icons : icons.slice(1)
 
     const dispatch = createEventDispatcher<{ input: IndexType; close: void }>()
@@ -29,8 +29,13 @@
 
 <BgCloser {dispatch} />
 
-<div class="container row {direction}" style="--label-count: {visibleIcons.length}" in:fly={{ x: flyAmt }} out:fly={{ x: flyAmt }}>
-    {#if direction == "right"}
+<div
+    class="container row {direction}"
+    style="--label-count: {visibleIcons.length}"
+    in:fly={{ x: flyAmt }}
+    out:fly={{ x: flyAmt }}
+>
+    {#if direction == 'right'}
         <div class="tip-right" />
     {/if}
 
@@ -49,7 +54,7 @@
         {/each}
     </div>
 
-    {#if direction == "left"}
+    {#if direction == 'left'}
         <div class="tip-left" />
     {/if}
 </div>
@@ -71,10 +76,7 @@
         @return calc($base + $perRowHeight * var(--label-count));
     }
 
-    $height: max(
-        totalHeight($labelFontSize),
-        totalHeight($maxRemSize),
-    );
+    $height: max(totalHeight($labelFontSize), totalHeight($maxRemSize));
 
     $baseOffset: -4px;
     $offsetOffset: calc($tipWidth + $width);
@@ -95,7 +97,7 @@
     }
 
     .left {
-        left: calc($baseOffset - $offsetOffset)
+        left: calc($baseOffset - $offsetOffset);
     }
 
     .right {

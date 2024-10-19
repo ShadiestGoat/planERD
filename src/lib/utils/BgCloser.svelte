@@ -1,13 +1,12 @@
 <script lang="ts">
-    import { type EventDispatcher } from "svelte"
-
+    import { type EventDispatcher } from 'svelte'
 
     let debounce = true
     setTimeout(() => {
         debounce = false
     }, 2)
 
-    export let dispatch: EventDispatcher<{ close: void}>
+    export let dispatch: EventDispatcher<{ close: void }>
 </script>
 
 <svelte:window

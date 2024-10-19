@@ -21,7 +21,9 @@
     $: index = (function (tableIndices: Index[] | null, n: string, exceptions?: Set<number>) {
         if (!tableIndices) return
 
-        return tableIndices.find((ind, i) => ind.colNames.length == 1 && ind.colNames[0] == n && !exceptions?.has(i))
+        return tableIndices.find(
+            (ind, i) => ind.colNames.length == 1 && ind.colNames[0] == n && !exceptions?.has(i)
+        )
     })($indices[tableName], data.name, $multiColIndexExceptions[tableName])
 </script>
 

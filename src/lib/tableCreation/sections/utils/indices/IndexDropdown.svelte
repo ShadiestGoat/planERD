@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Separator from "$lib/utils/Separator.svelte"
-    import Input from "$lib/utils/Input.svelte"
-    import { createEventDispatcher } from "svelte"
-    import BgCloser from "$lib/utils/BgCloser.svelte"
+    import Separator from '$lib/utils/Separator.svelte'
+    import Input from '$lib/utils/Input.svelte'
+    import { createEventDispatcher } from 'svelte'
+    import BgCloser from '$lib/utils/BgCloser.svelte'
 
     export let allColNames: string[]
 
@@ -35,7 +35,11 @@
     <div class="col all-cols">
         {#each allColNames as col}
             <label class="col-data row">
-                <input type="checkbox" checked={indexCols.includes(col)} on:change={() => toggleIndexColPresent(col)} />
+                <input
+                    type="checkbox"
+                    checked={indexCols.includes(col)}
+                    on:change={() => toggleIndexColPresent(col)}
+                />
                 <p>{col}</p>
             </label>
         {/each}
@@ -75,7 +79,7 @@
             appearance: none;
             margin: 0;
             color: inherit;
-            width:  $check-size;
+            width: $check-size;
             height: $check-size;
 
             border: 2px solid currentColor;
@@ -97,7 +101,6 @@
             }
         }
     }
-
 
     .wrapper {
         width: calc(100% - ind.$wrapperPadding * 2);

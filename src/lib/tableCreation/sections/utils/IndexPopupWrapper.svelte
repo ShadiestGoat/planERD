@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { indexPopupID } from "$lib/dal/tmpData"
-    import IconButton from "$lib/IconButton.svelte"
-    import IndexIcon from "$lib/IndexIcon.svelte"
-    import { IndexType } from "$lib/types"
-    import { createEventDispatcher } from "svelte"
-    import IndexPopup from "./cols/IndexPopup.svelte"
+    import { indexPopupID } from '$lib/dal/tmpData'
+    import IconButton from '$lib/IconButton.svelte'
+    import IndexIcon from '$lib/IndexIcon.svelte'
+    import { IndexType } from '$lib/types'
+    import { createEventDispatcher } from 'svelte'
+    import IndexPopup from './cols/IndexPopup.svelte'
 
     export let id: string
     export let indexType: IndexType
@@ -24,17 +24,13 @@
         e.stopPropagation()
 
         if ($indexPopupID == id) {
-            $indexPopupID = ""
+            $indexPopupID = ''
         } else {
             $indexPopupID = id
         }
     }}
 >
-    <IndexIcon
-        size={iconSize}
-        active={isPreset}
-        type={indexType}
-    />
+    <IndexIcon size={iconSize} active={isPreset} type={indexType} />
 </IconButton>
 
 {#if id == $indexPopupID}
@@ -43,9 +39,9 @@
         curIndexType={indexType}
         on:input={({ detail }) => {
             dispatch('setIndex', detail)
-            $indexPopupID = ""
+            $indexPopupID = ''
         }}
         {direction}
-        on:close={() => ($indexPopupID = "")}
+        on:close={() => ($indexPopupID = '')}
     />
 {/if}

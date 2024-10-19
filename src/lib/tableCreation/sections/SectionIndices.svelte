@@ -31,24 +31,28 @@
     function mkUsefulIndex(allIndices: Index[], exceptions: Set<number>): number[] {
         let cache = allIndices.map((v, i) => ({ v, i }))
 
-        return cache.filter((v) => {
-            return v.v.colNames.length > 1 || exceptions?.has(v.i)
-        }).map(v => v.i)
+        return cache
+            .filter((v) => {
+                return v.v.colNames.length > 1 || exceptions?.has(v.i)
+            })
+            .map((v) => v.i)
     }
 
     function removeIndex(i: number): void {
         dropdown = -1
 
         $multiColIndexExceptions[tableName] = new Set(
-            Array.from($multiColIndexExceptions[tableName] ?? []).map(v => {
-                if (v == i) {
-                    return null
-                } else if (v < i) {
-                    return v
-                } else {
-                    return v - 1
-                }
-            }).filter(v => v !== null)
+            Array.from($multiColIndexExceptions[tableName] ?? [])
+                .map((v) => {
+                    if (v == i) {
+                        return null
+                    } else if (v < i) {
+                        return v
+                    } else {
+                        return v - 1
+                    }
+                })
+                .filter((v) => v !== null)
         )
         $indices[tableName].splice(i, 1)
         $indices[tableName] = $indices[tableName]
@@ -65,9 +69,8 @@
             bind:curColNames={$indices[tableName][i].colNames}
             bind:indexType={$indices[tableName][i].type}
             indexIndex={i}
-            tableName={tableName}
+            {tableName}
             on:delete={() => removeIndex(i)}
         />
     {/each}
 </SectionBase>
-

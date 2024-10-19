@@ -12,7 +12,7 @@
     const dispatch = createEventDispatcher<{
         input: string
         submit: void
-        cancel: void,
+        cancel: void
     }>()
 </script>
 
