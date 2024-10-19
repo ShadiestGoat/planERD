@@ -1,17 +1,22 @@
 <script lang="ts">
+    import { indices } from '$lib/dal/data'
     import IndexIcon from '$lib/IndexIcon.svelte'
+    import { mkValidateMultiColIndex } from '$lib/tableCreation/validators'
     import { type Index } from '$lib/types'
     import { ICON_SIZE } from '.'
 
-    export let data: Index
+    export let data: { v: Index; i: number }
+    export let tableName: string
+
+    $: validate = mkValidateMultiColIndex($indices[tableName], data.i)
 </script>
 
 <div class="index-icon-wrapper">
-    <IndexIcon size={ICON_SIZE} type={data.type} active />
+    <IndexIcon size={ICON_SIZE} type={data.v.type} active />
 </div>
 
-<div class="row wrapper">
-    {#each data.colNames as col}
+<div class="row wrapper {validate(data.v.colNames) ? '' : 'bad'}">
+    {#each data.v.colNames as col}
         <div class="col col-data">
             <p>{col}</p>
         </div>

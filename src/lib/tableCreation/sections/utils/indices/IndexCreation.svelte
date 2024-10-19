@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { tables, multiColIndexExceptions } from '$lib/dal/data'
+    import { tables, multiColIndexExceptions, indices } from '$lib/dal/data'
     import { Trash2, Plus } from 'lucide-svelte'
     import IndexDropdown from './IndexDropdown.svelte'
     import IconButton from '$lib/IconButton.svelte'
@@ -7,6 +7,7 @@
     import { createEventDispatcher } from 'svelte'
     import type { IndexType } from '$lib/types'
     import IndexPopupWrapper from '../IndexPopupWrapper.svelte'
+    import { mkValidateMultiColIndex } from '$lib/tableCreation/validators'
 
     // The index of the index we are editing
     export let indexIndex: number
@@ -54,6 +55,8 @@
     const dispatch = createEventDispatcher<{
         delete: void
     }>()
+
+    $: validate = mkValidateMultiColIndex($indices[tableName], indexIndex)
 </script>
 
 <div class="row container">
@@ -69,7 +72,9 @@
     />
 
     <div
-        class="wrapper row {curColNames.length == 0 ? 'min' : ''}"
+        class="wrapper row {curColNames.length == 0 ? 'min' : ''} {validate(curColNames)
+            ? ''
+            : 'bad'}"
         tabindex="0"
         role="button"
         on:click={onDropdownInput}
@@ -141,10 +146,6 @@
         &.min {
             align-self: stretch;
             margin: 0.5rem 0;
-        }
-
-        &.bad {
-            outline: $danger 1px solid;
         }
 
         .pad {

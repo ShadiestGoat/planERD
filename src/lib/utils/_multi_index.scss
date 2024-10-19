@@ -18,6 +18,10 @@ $wrapperPadding: math.div($border-radius, 2);
     gap: 4px;
 
     flex-wrap: wrap;
+
+    &.bad {
+        border: $danger 1px solid;
+    }
 }
 
 @mixin col-data($fs) {

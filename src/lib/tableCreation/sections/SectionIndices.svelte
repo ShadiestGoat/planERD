@@ -61,7 +61,6 @@
 </script>
 
 <SectionBase title="Indices" disableAdd={tableData.cols.length < 2} on:add={add}>
-    <!-- TODO: Highlight indices red if theyre duplicates (or if len() < 2) -->
     {#each usefulIndex as i}
         <IndexCreation
             bind:dropdownID={dropdown}

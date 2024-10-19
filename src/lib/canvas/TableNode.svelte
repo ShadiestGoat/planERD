@@ -19,9 +19,11 @@
 
     let { name } = data
 
-    $: multiColInd = ($indices[name] ?? []).filter((v, i) => {
-        return v.colNames.length > 1 || $multiColIndexExceptions[name]?.has(i)
-    })
+    $: multiColInd = ($indices[name] ?? [])
+        .map((v, i) => ({ v, i }))
+        .filter(({ v, i }) => {
+            return v.colNames.length > 1 || $multiColIndexExceptions[name]?.has(i)
+        })
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     $$restProps
@@ -40,7 +42,11 @@
             restOfTheData={{ tableName: name }}
             comp={TableColumn}
         />
-        <TableNodeSection data={multiColInd} comp={TableIndex} />
+        <TableNodeSection
+            data={multiColInd}
+            comp={TableIndex}
+            restOfTheData={{ tableName: name }}
+        />
     </div>
 </div>
 
