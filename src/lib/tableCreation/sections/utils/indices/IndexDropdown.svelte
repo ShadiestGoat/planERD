@@ -4,6 +4,8 @@
     import { createEventDispatcher } from 'svelte'
     import BgCloser from '$lib/utils/BgCloser.svelte'
     import { fly } from 'svelte/transition'
+    import { Search } from 'lucide-svelte'
+    import { fuzzySearch } from '$lib/utils/search'
 
     export let allColNames: string[]
 
@@ -22,6 +24,9 @@
             indexCols = indexCols
         }
     }
+
+    let searchVal = ''
+    $: visibleCols = fuzzySearch(searchVal, allColNames)
 </script>
 
 <BgCloser {dispatch} />
@@ -34,12 +39,14 @@
     in:fly={{ y: '1rem' }}
     out:fly={{ y: '1rem' }}
 >
-    <!-- TODO: Use this input to filter visible columns -->
-    <Input />
+    <div class="row search">
+        <Search size="1.3rem" class="primary" />
+        <Input autofocus bind:curValue={searchVal} placeholder="Column Filter" />
+    </div>
     <Separator />
 
     <div class="col all-cols">
-        {#each allColNames as col}
+        {#each visibleCols as col}
             <label class="col-data row">
                 <input
                     type="checkbox"
@@ -55,20 +62,30 @@
 <style lang="scss">
     @use '$lib/utils/multi_index' as ind;
 
+    $fs: 1rem;
+    $check-size: calc($fs * 0.8);
+    $inner-check-size: calc($check-size * 0.4);
+    $max-search-rows: 7;
+    $search-gap: 6px;
+
     label {
         cursor: pointer;
     }
 
     .all-cols {
-        gap: 6px;
-        padding: 6px;
+        gap: $search-gap;
+        padding: $search-gap;
+        max-height: calc(($fs * $lineHeightMult + $search-gap) * $max-search-rows + $search-gap);
+        overflow-y: scroll;
+    }
+
+    .search {
+        padding: 0 4px;
+        gap: 4px;
+        align-items: center;
     }
 
     .col-data {
-        $fs: 1rem;
-        $check-size: calc($fs * 0.8);
-        $inner-check-size: calc($check-size * 0.4);
-
         gap: 4px;
         font-size: $fs;
         color: $primary;

@@ -20,6 +20,7 @@
     import { IndexType } from '$lib/types'
     import { onMount } from 'svelte'
     import { loadData } from '$lib/dal/save'
+    import { fuzzySearch } from '$lib/utils/search'
 
     // Also set the scss var
     const BAR_DRAG_WIDTH = 8
@@ -89,27 +90,7 @@
 
     let tableSearchValue = ''
 
-    function doSearch(allNames: string[], search: string): string[] {
-        if (!search) return allNames
-
-        return allNames.filter((cur) => {
-            let i = 0
-
-            // fuzzy search bitches
-            for (const l of search) {
-                const j = cur.indexOf(l, i)
-                if (j == -1) {
-                    return false
-                }
-
-                i = j
-            }
-
-            return true
-        })
-    }
-
-    $: visibleTables = doSearch($tableOrder, tableSearchValue)
+    $: visibleTables = fuzzySearch(tableSearchValue, $tableOrder)
 
     function addTable(): void {
         const t = defaultTable()
@@ -159,7 +140,7 @@
 <div class="page-container row" style="--cursor:{dragging ? 'grabbing' : ''}">
     <div class="col sidebar" style="--width:{curWidth}px">
         <div class="row search">
-            <Search size={24} class="primary icon" />
+            <Search size="1.3rem" class="primary" />
             <input bind:value={tableSearchValue} placeholder="Search Tables" />
             <IconButton on:input={addTable}>
                 <Plus class="icon" />
@@ -231,6 +212,7 @@
         padding: 0.75rem;
         gap: 12px;
         overflow-y: scroll;
+        padding-bottom: 10rem;
     }
 
     .sidebar,
