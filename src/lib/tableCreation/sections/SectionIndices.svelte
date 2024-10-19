@@ -63,6 +63,7 @@
         <IndexCreation
             bind:dropdownID={dropdown}
             bind:curColNames={$indices[tableName][i].colNames}
+            bind:indexType={$indices[tableName][i].type}
             indexIndex={i}
             tableName={tableName}
             on:delete={() => removeIndex(i)}

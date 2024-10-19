@@ -5,13 +5,17 @@
     import IconButton from "$lib/IconButton.svelte"
     import { inputHandlerFactory } from "$lib/input"
     import { createEventDispatcher } from "svelte"
+    import type { IndexType } from "$lib/types"
     import { multiColIndexExceptions } from "$lib/dal/tmpData"
+    import IndexPopupWrapper from "../IndexPopupWrapper.svelte"
 
     // The index of the index we are editing
     export let indexIndex: number
     export let tableName: string
     export let dropdownID: number
+    // Bug avoidance: specific binds dont crash <3
     export let curColNames: string[]
+    export let indexType: IndexType
 
     $: allColNames = $tables[tableName].cols.map(c => c.name)
 
@@ -49,35 +53,65 @@
     }>()
 </script>
 
-<div
-    class="wrapper row" tabindex="0" role="button"
-    on:click={onDropdownInput} on:keydown={onDropdownInput}
-    aria-pressed={shouldShowDropdown}
->
-    {#if shouldShowDropdown}
-        <IndexDropdown
-            {allColNames}
-            bind:indexCols={curColNames}
-            on:close={closeDropdown}
-        />
-    {/if}
+<div class="row container">
+    <IndexPopupWrapper
+        direction="right"
+        iconSize='1.2rem'
+        id="mci-{indexIndex}"
+        indexType={indexType}
+        allowSettingNone={false}
+        on:setIndex={({ detail }) => {
+            indexType = detail
+        }}
+    />
 
+    <div
+        class="wrapper row" tabindex="0" role="button"
+        on:click={onDropdownInput} on:keydown={onDropdownInput}
+        aria-pressed={shouldShowDropdown}
+    >
+        {#if shouldShowDropdown}
+            <IndexDropdown
+                {allColNames}
+                bind:indexCols={curColNames}
+                on:close={closeDropdown}
+            />
+        {/if}
+
+        {#each curColNames as col, i}
+            <div class="row col-data">
+                <p>{col}</p>
+                <IconButton extraClass="trash" on:input={() => {
                     if (curColNames.length <= 2) {
                         addException()
                     }
+                    curColNames.splice(i, 1)
+                    curColNames = curColNames
+                }}>
+                    <Trash2 size='0.8rem' />
+                </IconButton>
+            </div>
+        {/each}
 
-    <div class="pad" />
-    <IconButton extraClass="plus" on:input={toggleDropdown}>
-        <Plus size='1rem' />
-    </IconButton>
-    <IconButton extraClass="trash" on:input={() => dispatch('delete')}>
-        <Trash2 size='1rem' />
-    </IconButton>
+        <div class="pad" />
+        <IconButton extraClass="plus" on:input={toggleDropdown}>
+            <Plus size='1rem' />
+        </IconButton>
+        <IconButton extraClass="trash" on:input={() => dispatch('delete')}>
+            <Trash2 size='1rem' />
+        </IconButton>
+    </div>
 </div>
 
 <style lang="scss">
     @use '$lib/utils/multi_index' as ind;
     @use '$lib/utils/input';
+
+    .container {
+        position: relative;
+        align-items: center;
+        gap: 1rem;
+    }
 
     .wrapper {
         cursor: pointer;
