@@ -4,7 +4,7 @@
     import type { SvelteComponent } from 'svelte'
 
     export let type: IndexType
-    export let size: number
+    export let size: number | string
     export let active = false
 
     const icons: Record<IndexType, typeof SvelteComponent<IconProps>> = {
