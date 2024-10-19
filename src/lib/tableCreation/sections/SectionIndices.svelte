@@ -65,15 +65,6 @@
             bind:curColNames={$indices[tableName][i].colNames}
             indexIndex={i}
             tableName={tableName}
-            on:setException={({ detail: v }) => {
-                if (v) {
-                    $multiColIndexExceptions[tableName].add(i)
-                } else {
-                    $multiColIndexExceptions[tableName].delete(i)
-                }
-
-                $multiColIndexExceptions[tableName] = $multiColIndexExceptions[tableName]
-            }}
             on:delete={() => removeIndex(i)}
         />
     {/each}

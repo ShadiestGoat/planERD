@@ -5,6 +5,7 @@
     import IconButton from "$lib/IconButton.svelte"
     import { inputHandlerFactory } from "$lib/input"
     import { createEventDispatcher } from "svelte"
+    import { multiColIndexExceptions } from "$lib/dal/tmpData"
 
     // The index of the index we are editing
     export let indexIndex: number
@@ -14,16 +15,28 @@
 
     $: allColNames = $tables[tableName].cols.map(c => c.name)
 
+    function addException(): void {
+        $multiColIndexExceptions[tableName].add(indexIndex)
+        $multiColIndexExceptions[tableName] = $multiColIndexExceptions[tableName]
+    }
+    function rmException(): void {
+        $multiColIndexExceptions[tableName].delete(indexIndex)
+        $multiColIndexExceptions[tableName] = $multiColIndexExceptions[tableName]
+    }
+
     function closeDropdown(): void {
         dropdownID = -1
-        dispatch('setException', false)
+
+        if (curColNames.length >= 2) {
+            rmException()
+        }
     }
 
     function toggleDropdown(): void  {
         if (shouldShowDropdown) {
             closeDropdown()
         } else {
-            dispatch('setException', true)
+            addException()
             dropdownID = indexIndex
         }
     }
@@ -32,7 +45,6 @@
 
     $: shouldShowDropdown = dropdownID == indexIndex
     const dispatch = createEventDispatcher<{
-        setException: boolean,
         delete: void,
     }>()
 </script>
@@ -50,18 +62,9 @@
         />
     {/if}
 
-    {#each curColNames as col, i}
-        <div class="row col-data">
-            <p>{col}</p>
-            <IconButton extraClass="trash" on:input={() => {
-                dispatch('setException', true)
-                curColNames.splice(i, 1)
-                curColNames = curColNames
-            }}>
-                <Trash2 size='0.8rem' />
-            </IconButton>
-        </div>
-    {/each}
+                    if (curColNames.length <= 2) {
+                        addException()
+                    }
 
     <div class="pad" />
     <IconButton extraClass="plus" on:input={toggleDropdown}>
