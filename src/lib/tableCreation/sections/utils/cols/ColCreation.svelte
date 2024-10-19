@@ -1,23 +1,19 @@
 <script lang="ts">
     import { GripVertical, Ghost, Trash2 } from 'lucide-svelte'
     import { createEventDispatcher } from 'svelte'
-
     import { allSQLTypes, tables } from '$lib/dal/data'
     import { IndexType } from '$lib/types'
     import type { Column, Index } from '$lib/types'
-
-    import IndexIcon from '$lib/IndexIcon.svelte'
-    import IndexPopup from './IndexPopup.svelte'
     import IconButton from '$lib/IconButton.svelte'
     import Input from '$lib/utils/Input.svelte'
     import { validateColName } from '$lib/tableCreation/validators'
+    import IndexPopupWrapper from '../IndexPopupWrapper.svelte'
 
     export let tableName: string
 
     export let singleIndex: Index | undefined
 
     export let colIndex: number
-    export let indexPopup: number
 
     export let isNull: boolean
     export let colType: string
@@ -65,38 +61,14 @@
         <Ghost size={18} />
     </IconButton>
 
-    <IconButton
-        extraClass="ind"
-        active={!!singleIndex}
-        on:input={({ detail: e }) => {
-            e.stopPropagation()
-
-            if (indexPopup == colIndex) {
-                indexPopup = -1
-            } else {
-                indexPopup = colIndex
-            }
-        }}
-    >
-        <IndexIcon
-            size={18}
-            active={!!singleIndex}
-            type={singleIndex ? singleIndex.type : IndexType.NONE}
-        />
-    </IconButton>
-
-    {#if colIndex == indexPopup}
-        <IndexPopup
-            curIndexType={singleIndex ? singleIndex.type : IndexType.NONE}
-            on:input={({ detail }) => {
-                dispatch('setIndex', detail)
-                indexPopup = -1
-            }}
-            direction="left"
-            allowSettingNone={true}
-            on:close={() => (indexPopup = -1)}
-        />
-    {/if}
+    <IndexPopupWrapper
+        indexType={singleIndex ? singleIndex.type : IndexType.NONE}
+        iconSize={18}
+        direction="left"
+        id="col-{colIndex}"
+        allowSettingNone
+        on:setIndex={({ detail }) => dispatch('setIndex', detail)}
+    />
 
     <IconButton extraClass="trash" active={false} on:input={() => dispatch('delete')}>
         <Trash2 size={18} class="trash" />

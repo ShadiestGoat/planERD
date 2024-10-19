@@ -11,8 +11,6 @@
 
     $: tableName = tableData.name
 
-    let indexPopup = -1
-
     type SingleIndexCache = Record<string, { i: number; v: Index }>
     function makeSingleIndexCache(tableIndices: Index[], exceptions?: Set<number>): SingleIndexCache {
         if (!tableIndices || tableIndices.length == 0) return {}
@@ -127,7 +125,6 @@
     {#each tableData.cols as col, i}
         <ColCreation
             colIndex={i}
-            bind:indexPopup
             bind:colType={$tables[tableName].cols[i].type}
             bind:isNull={$tables[tableName].cols[i].nullable}
             singleIndex={singleIndexCache[col.name]?.v}
