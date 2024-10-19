@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { tables } from '$lib/dal/data'
+    import { tables, multiColIndexExceptions } from '$lib/dal/data'
     import { Trash2, Plus } from 'lucide-svelte'
     import IndexDropdown from './IndexDropdown.svelte'
     import IconButton from '$lib/IconButton.svelte'
     import { inputHandlerFactory } from '$lib/input'
     import { createEventDispatcher } from 'svelte'
     import type { IndexType } from '$lib/types'
-    import { multiColIndexExceptions } from '$lib/dal/tmpData'
     import IndexPopupWrapper from '../IndexPopupWrapper.svelte'
 
     // The index of the index we are editing
@@ -19,14 +18,18 @@
 
     $: allColNames = $tables[tableName].cols.map((c) => c.name)
 
-    function addException(): void {
-        $multiColIndexExceptions[tableName].add(indexIndex)
-        $multiColIndexExceptions[tableName] = $multiColIndexExceptions[tableName]
+    function exceptionWrap(h: () => void): () => void {
+        return () => {
+            if (!$multiColIndexExceptions[tableName]) {
+                $multiColIndexExceptions[tableName] = new Set()
+            }
+            h()
+            $multiColIndexExceptions[tableName] = $multiColIndexExceptions[tableName]
+        }
     }
-    function rmException(): void {
-        $multiColIndexExceptions[tableName].delete(indexIndex)
-        $multiColIndexExceptions[tableName] = $multiColIndexExceptions[tableName]
-    }
+
+    const addException = exceptionWrap(() => $multiColIndexExceptions[tableName].add(indexIndex))
+    const rmException = exceptionWrap(() => $multiColIndexExceptions[tableName].delete(indexIndex))
 
     function closeDropdown(): void {
         dropdownID = -1
@@ -138,6 +141,10 @@
         &.min {
             align-self: stretch;
             margin: 0.5rem 0;
+        }
+
+        &.bad {
+            outline: $danger 1px solid;
         }
 
         .pad {

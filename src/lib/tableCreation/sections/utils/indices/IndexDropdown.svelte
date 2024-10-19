@@ -3,6 +3,7 @@
     import Input from '$lib/utils/Input.svelte'
     import { createEventDispatcher } from 'svelte'
     import BgCloser from '$lib/utils/BgCloser.svelte'
+    import { fly } from 'svelte/transition'
 
     export let allColNames: string[]
 
@@ -27,7 +28,12 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="wrapper" on:click={(e) => e.stopPropagation()}>
+<div
+    class="wrapper"
+    on:click={(e) => e.stopPropagation()}
+    in:fly={{ y: '1rem' }}
+    out:fly={{ y: '1rem' }}
+>
     <!-- TODO: Use this input to filter visible columns -->
     <Input />
     <Separator />

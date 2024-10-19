@@ -1,7 +1,7 @@
 import type { Node, XYPosition } from '@xyflow/svelte'
 import type { Index, Table } from '$lib/types'
 import { nodes } from './nodes'
-import { indices, tableOrder, tables } from './data'
+import { indices, multiColIndexExceptions, tableOrder, tables } from './data'
 import { get } from 'svelte/store'
 import { tableNode } from './api'
 
@@ -10,7 +10,8 @@ export let dataLoaded = false
 export enum StorageKeys {
     POS = 'xy',
     TABLES = 'tables',
-    INDICES = 'indices'
+    INDICES = 'indices',
+    MULTI_COL_EXCEPTIONS = 'multi_col_exceptions'
     // RELATIONS = 'relations'
 }
 
@@ -18,6 +19,7 @@ type StorageData = {
     [StorageKeys.POS]: Record<string, XYPosition>
     [StorageKeys.TABLES]: Table[]
     [StorageKeys.INDICES]: Record<string, Index[]>
+    [StorageKeys.MULTI_COL_EXCEPTIONS]: Record<string, number[]>
     // [StorageKeys.RELATIONS]: Relation[],
 }
 
@@ -42,6 +44,15 @@ export function saveTables(order: string[], tables: Record<string, Table>): void
 
 export function saveIndices(ind: Record<string, Index[]>): void {
     localStorage.setItem(StorageKeys.INDICES, JSON.stringify(ind))
+}
+
+export function saveMultiColException(exceptions: Record<string, Set<number>>): void {
+    localStorage.setItem(
+        StorageKeys.MULTI_COL_EXCEPTIONS,
+        JSON.stringify(
+            Object.fromEntries(Object.keys(exceptions).map((k) => [k, Array.from(exceptions[k])]))
+        )
+    )
 }
 
 nodes.subscribe((v) => {
@@ -73,7 +84,15 @@ indices.subscribe((v) => {
 
     setTimeout(() => {
         saveIndices(v)
-    })
+    }, 1)
+})
+
+multiColIndexExceptions.subscribe((v) => {
+    if (!dataLoaded) return
+
+    setTimeout(() => {
+        saveMultiColException(v)
+    }, 1)
 })
 
 async function readLocalStorageAsync<K extends StorageKeys>(
@@ -89,10 +108,11 @@ async function readLocalStorageAsync<K extends StorageKeys>(
 export async function loadData(): Promise<void> {
     if (dataLoaded) return
 
-    const [dataPos, dataIndex, dataTable] = await Promise.all([
+    const [dataPos, dataIndex, dataTable, exceptions] = await Promise.all([
         readLocalStorageAsync(StorageKeys.POS, {}),
         readLocalStorageAsync(StorageKeys.INDICES, {}),
-        readLocalStorageAsync(StorageKeys.TABLES, [])
+        readLocalStorageAsync(StorageKeys.TABLES, []),
+        readLocalStorageAsync(StorageKeys.MULTI_COL_EXCEPTIONS, {})
     ])
 
     const order = dataTable.map((v) => v.name)
@@ -123,6 +143,10 @@ export async function loadData(): Promise<void> {
     nodes.set(loadedNodes)
 
     indices.set(dataIndex)
+
+    multiColIndexExceptions.set(
+        Object.fromEntries(Object.keys(exceptions).map((k) => [k, new Set(exceptions[k])]))
+    )
 
     dataLoaded = true
 }

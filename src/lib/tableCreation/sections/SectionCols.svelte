@@ -2,8 +2,7 @@
     import SectionBase from './SectionBase.svelte'
     import type { Index, Table } from '$lib/types'
     import { IndexType } from '$lib/types'
-    import { indices, tables } from '$lib/dal/data'
-    import { multiColIndexExceptions } from '$lib/dal/tmpData'
+    import { indices, tables, multiColIndexExceptions } from '$lib/dal/data'
     import ColCreation from './utils/cols/ColCreation.svelte'
     import { defaultColumn } from '$lib/dal/api'
 

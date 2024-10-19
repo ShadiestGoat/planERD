@@ -1,7 +1,6 @@
 <script lang="ts">
     import { NodeResizer, type NodeProps } from '@xyflow/svelte'
-    import { indices, tables } from '../dal/data'
-    import { multiColIndexExceptions } from '../dal/tmpData'
+    import { indices, tables, multiColIndexExceptions } from '../dal/data'
     import TableColumn from './TableColumn.svelte'
     import TableIndex from './TableIndex.svelte'
     import TableNodeSection from './TableNodeSection.svelte'
