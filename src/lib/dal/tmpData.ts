@@ -5,3 +5,4 @@ import { writable } from "svelte/store"
  * Table Name -> { Set(IndexIndex) }
  */
 export const multiColIndexExceptions = writable<Record<string, Set<number>>>({})
+export const indexPopupID = writable<string>("")

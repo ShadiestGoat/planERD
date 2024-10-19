@@ -29,7 +29,11 @@
 
 <BgCloser {dispatch} />
 
-<div class="container row" style="--label-count: {visibleIcons.length}" in:fly={{ x: flyAmt }} out:fly={{ x: flyAmt }}>
+<div class="container row {direction}" style="--label-count: {visibleIcons.length}" in:fly={{ x: flyAmt }} out:fly={{ x: flyAmt }}>
+    {#if direction == "right"}
+        <div class="tip-right" />
+    {/if}
+
     <div class="wrapper col">
         {#each visibleIcons as cfg}
             <div
@@ -45,7 +49,9 @@
         {/each}
     </div>
 
-    <div class="tip-{direction}" />
+    {#if direction == "left"}
+        <div class="tip-left" />
+    {/if}
 </div>
 
 <style lang="scss">
@@ -70,6 +76,9 @@
         totalHeight($maxRemSize),
     );
 
+    $baseOffset: -4px;
+    $offsetOffset: calc($tipWidth + $width);
+
     h4 {
         font-size: $labelFontSize;
         pointer-events: none;
@@ -82,8 +91,15 @@
         grid-column: -3;
 
         justify-self: left;
-        left: calc(0px - 4px - $tipWidth - $width);
         z-index: 10;
+    }
+
+    .left {
+        left: calc($baseOffset - $offsetOffset)
+    }
+
+    .right {
+        right: calc($baseOffset + $offsetOffset);
     }
 
     .tip-right {
@@ -91,7 +107,7 @@
 
         border-top: $tipWidth solid transparent;
         border-bottom: $tipWidth solid transparent;
-        border-left: $tipWidth solid $borderColor;
+        border-right: $tipWidth solid $borderColor;
     }
 
     .tip-left {
