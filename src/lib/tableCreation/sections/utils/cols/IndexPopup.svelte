@@ -6,19 +6,17 @@
     import IndexIcon from '$lib/IndexIcon.svelte'
     import BgCloser from '$lib/utils/BgCloser.svelte'
 
-    type realIndexType = IndexType
-
-    const icons: [string, realIndexType][] = [
+    const icons: [string, IndexType][] = [
         ['Not Indexed', IndexType.NONE],
         ['Indexed', IndexType.INDEX],
         ['Unique', IndexType.UNIQUE],
         ['Primary Key', IndexType.PRIMARY]
     ]
 
-    export let curIndexType: realIndexType
-    const dispatch = createEventDispatcher<{ input: realIndexType; close: void }>()
+    export let curIndexType: IndexType
+    const dispatch = createEventDispatcher<{ input: IndexType; close: void }>()
 
-    const onInput = (v: realIndexType): InputHandler => {
+    const onInput = (v: IndexType): InputHandler => {
         return inputHandlerFactory(() => dispatch('input', v))
     }
 </script>
