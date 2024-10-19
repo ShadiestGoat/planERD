@@ -56,7 +56,7 @@
 <div class="row container">
     <IndexPopupWrapper
         direction="right"
-        iconSize="1.2rem"
+        iconSize="1rem"
         id="mci-{indexIndex}"
         {indexType}
         allowSettingNone={false}
@@ -66,7 +66,7 @@
     />
 
     <div
-        class="wrapper row"
+        class="wrapper row {curColNames.length == 0 ? 'min' : ''}"
         tabindex="0"
         role="button"
         on:click={onDropdownInput}
@@ -94,8 +94,9 @@
                 </IconButton>
             </div>
         {/each}
+    </div>
 
-        <div class="pad" />
+    <div class="controls col">
         <IconButton extraClass="plus" on:input={toggleDropdown}>
             <Plus size="1rem" />
         </IconButton>
@@ -111,20 +112,32 @@
 
     .container {
         position: relative;
-        align-items: center;
         gap: 1rem;
+        align-items: center;
+
+        :global(.icon-btn) {
+            padding: 6px;
+        }
+
+        @include input.forceIconColor($danger, 'trash');
     }
 
     .wrapper {
         cursor: pointer;
         transition: 0.5s;
         position: relative;
+        align-items: center;
 
         @include ind.wrapper;
 
         &:focus-visible,
         &:hover {
             outline: $primary 1px solid;
+        }
+
+        &.min {
+            align-self: stretch;
+            margin: 0.5rem 0;
         }
 
         .pad {
@@ -136,8 +149,9 @@
 
             @include ind.col-data(0.8rem);
         }
+    }
 
-        @include input.forceIconColor($danger, 'trash');
+    .controls {
         @include input.forceIconColor($primary, 'plus');
     }
 </style>
