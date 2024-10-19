@@ -31,7 +31,6 @@ export function mkValidateMultiColIndex(
     const cache = tmp.map((v) => new Set(v.colNames))
 
     return (v) => {
-        console.log(v, cache)
         if (v.length < 2) return false
 
         const s = new Set(v)
