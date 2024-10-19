@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Handle, Position } from '@xyflow/svelte'
-    import { indices } from '../dal/data'
+    import { indices, multiColIndexExceptions } from '../dal/data'
     import { type Column, type Index } from '../types'
     import IndexIcon from '$lib/IndexIcon.svelte'
     import { ICON_SIZE } from '.'
@@ -17,11 +17,11 @@
         return t + arr
     })(data.type, data.arrayLevel)
 
-    $: index = (function (tableIndices: Index[] | null, n: string) {
+    $: index = (function (tableIndices: Index[] | null, n: string, exceptions?: Set<number>) {
         if (!tableIndices) return
 
-        return tableIndices.find((ind) => ind.colNames.length == 1 && ind.colNames[0] == n)
-    })($indices[tableName], data.name)
+        return tableIndices.find((ind, i) => ind.colNames.length == 1 && ind.colNames[0] == n && !exceptions?.has(i))
+    })($indices[tableName], data.name, $multiColIndexExceptions[tableName])
 </script>
 
 <div class="index-icon-wrapper">

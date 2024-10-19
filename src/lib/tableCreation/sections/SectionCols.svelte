@@ -2,7 +2,7 @@
     import SectionBase from './SectionBase.svelte'
     import type { Index, Table } from '$lib/types'
     import { IndexType } from '$lib/types'
-    import { indices, tables } from '$lib/dal/data'
+    import { indices, multiColIndexExceptions, tables } from '$lib/dal/data'
     import ColCreation from './utils/cols/ColCreation.svelte'
     import { defaultColumn } from '$lib/dal/api'
 
@@ -13,13 +13,14 @@
     let indexPopup = -1
 
     type SingleIndexCache = Record<string, { i: number; v: Index }>
-    function makeSingleIndexCache(tableIndices: Index[]): SingleIndexCache {
+    function makeSingleIndexCache(tableIndices: Index[], exceptions?: Set<number>): SingleIndexCache {
         if (!tableIndices || tableIndices.length == 0) return {}
 
         const cache: SingleIndexCache = {}
 
         tableIndices.forEach((v, i) => {
-            if (!v.colNames.length) return
+            if (v.colNames.length != 1) return
+            if (exceptions?.has(i)) return
 
             cache[v.colNames[0]] = { v, i }
         })
@@ -28,7 +29,7 @@
     }
 
     /** A record of col name -> data about all the single-column-indices */
-    $: singleIndexCache = makeSingleIndexCache($indices[tableName])
+    $: singleIndexCache = makeSingleIndexCache($indices[tableName], $multiColIndexExceptions[tableName])
 
     function setSingleIndex(colName: string, newIndexType: IndexType): void {
         const oldI = singleIndexCache[colName]?.i ?? -1
@@ -69,15 +70,23 @@
         // Remove ind
         if ($indices[tableName]) {
             $indices[tableName] = $indices[tableName]
-                .map((v) => {
+                .map((v, i) => {
                     const ind = v.colNames.indexOf(colData.name)
                     if (ind == -1) return v
 
-                    if (v.colNames.length <= 2) {
+                    if (v.colNames.length == 1) {
                         return null
                     }
 
                     v.colNames.splice(ind, 1)
+                    if (v.colNames.length == 1) {
+                        if (!$multiColIndexExceptions[tableName]) {
+                            $multiColIndexExceptions[tableName] = new Set([i])
+                        } else {
+                            $multiColIndexExceptions[tableName].add(i)
+                            $multiColIndexExceptions[tableName] = $multiColIndexExceptions[tableName]
+                        }
+                    }
 
                     return v
                 })
