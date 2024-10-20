@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { Handle, Position } from '@xyflow/svelte'
     import { indices, multiColIndexExceptions } from '../dal/data'
     import { type Column, type Index } from '../types'
     import IndexIcon from '$lib/IndexIcon.svelte'
@@ -40,8 +39,8 @@
     <p class="dull">{typeName}</p>
 </div>
 
-<Handle type="target" position={Position.Left} id="{tableName}.{data.name}" />
-<Handle type="source" position={Position.Right} id="{tableName}.{data.name}" />
+<!-- <Handle type="target" position={Position.Left} id="{tableName}.{data.name}" />
+<Handle type="source" position={Position.Right} id="{tableName}.{data.name}" /> -->
 
 <style lang="scss">
     @use 'vars';
