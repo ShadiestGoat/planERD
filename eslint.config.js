@@ -76,7 +76,6 @@ export default [
                     fixStyle: 'separate-type-imports'
                 }
             ],
-            '@stylistic/indent': ['error', 4],
             '@stylistic/semi': ['error', 'never'],
             '@stylistic/no-trailing-spaces': 'warn',
             // Fucking piece of shit >:(
