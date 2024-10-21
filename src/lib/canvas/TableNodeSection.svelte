@@ -11,7 +11,7 @@
     <Separator thick />
 
     {#each data as d, i}
-        <svelte:component this={comp} data={d} {...restOfTheData} />
+        <svelte:component this={comp} data={d} {...restOfTheData} sectionIndex={i} />
 
         {#if data.length - 1 != i}
             <Separator />
