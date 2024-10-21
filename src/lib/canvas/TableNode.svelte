@@ -176,10 +176,11 @@
 </div>
 
 <style lang="scss">
+    @use 'vars';
+
     $iconSize: 12px;
     $nodeBG: $gray-9;
     $nodeBG2: $gray-8;
-    $nodePad: 0.5rem;
 
     .maxxer {
         height: 100%;
@@ -189,7 +190,7 @@
     .node-wrapper {
         background-color: $nodeBG;
 
-        padding: $nodePad 0;
+        padding: vars.$node-v-pad 0;
         border-radius: 12.5px;
 
         border: $nodeBG 1px solid;
@@ -199,11 +200,12 @@
 
         &.selected {
             border: $primary 4px solid;
+            --border-size: 4px;
         }
     }
 
     .resize {
-        padding: 0 calc($nodePad * 1.5);
+        padding: 0 vars.$node-h-pad;
         cursor: col-resize;
     }
 
