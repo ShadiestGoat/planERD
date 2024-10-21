@@ -68,6 +68,9 @@
 
     .col-type {
         grid-column: 3;
+        // Hack? Yes.
+        // Do I care? No.
+        padding: 4px 0;
     }
 
     .dull {
