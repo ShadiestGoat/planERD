@@ -1,6 +1,7 @@
 $font-size: 0.9rem;
 
 .index-icon-wrapper {
+    display: flex;
     justify-self: center;
     grid-column: 1;
 }
