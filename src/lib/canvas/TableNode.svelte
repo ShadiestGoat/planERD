@@ -1,5 +1,10 @@
 <script lang="ts">
-    import { type NodeProps, useInternalNode, useUpdateNodeInternals } from '@xyflow/svelte'
+    import {
+        type NodeProps,
+        useInternalNode,
+        useUpdateNodeInternals,
+        useStore
+    } from '@xyflow/svelte'
     import { indices, tables, multiColIndexExceptions } from '../dal/data'
     import TableColumn from './TableColumn.svelte'
     import TableIndex from './TableIndex.svelte'
@@ -33,6 +38,7 @@
 
     const node = useInternalNode(id)
     const updateNode = useUpdateNodeInternals()
+    const { viewport } = useStore()
 
     let dragOpts:
         | {
@@ -42,8 +48,11 @@
         | undefined
     let elmWrapper: HTMLDivElement | undefined
 
-    function calculateMinWidth(_colNames: Column[]): number {
-        const parent = elmWrapper?.firstChild?.firstChild
+    function calculateMinWidth(
+        _colNames: Column[],
+        parent: Element | undefined,
+        zoom: number
+    ): number {
         if (!parent) return 200
         if (!parent.hasChildNodes()) return 200
 
@@ -64,23 +73,34 @@
                   : ''
             if (!nType) return
 
+            if (name == 'aaaa') console.log(e)
+
             const w = e.getBoundingClientRect().width
             if (w > maxes[nType]) {
                 maxes[nType] = w
             }
         })
 
-        // padding x2 + icon col + max name size + max type size + gap x2 + extra pad <3
-        // 0.75 rem * 2 + 16px + max name + max type + 8px + 16px
-        // ~27px + 32px + maxes
-        // 49px + maxes
-        return 49 + maxes.n + maxes.t
+        if (name == 'aaaa') console.log(maxes)
+        // padding x2 + icon col + max name size + max type size + col gap x2 + extra pad <3
+        // 0.75 rem * 2 + 16px + maxes + 8px + 16px
+        // ~27px + 40px + maxes
+        // 67px + maxes
+        return ((67 + maxes.n + maxes.t) * 1) / zoom
     }
 
-    $: minWidth = calculateMinWidth($tables[name].cols)
+    $: minWidth = calculateMinWidth(
+        $tables[name].cols,
+        elmWrapper?.firstChild?.firstChild as Element,
+        $viewport.zoom ?? 1
+    )
 
     onMount(() => {
-        minWidth = calculateMinWidth([])
+        minWidth = calculateMinWidth(
+            [],
+            elmWrapper?.firstChild?.firstChild as Element,
+            $viewport.zoom ?? 1
+        )
     })
 
     function mouseDown(e: MouseEvent): void {
