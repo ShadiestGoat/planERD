@@ -86,7 +86,7 @@
         // 0.75 rem * 2 + 16px + maxes + 8px + 16px
         // ~27px + 40px + maxes
         // 67px + maxes
-        return ((67 + maxes.n + maxes.t) * 1) / zoom
+        return (67 + maxes.n + maxes.t) / (zoom > 1 ? 1 : zoom)
     }
 
     $: minWidth = calculateMinWidth(
