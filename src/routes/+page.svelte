@@ -1,6 +1,6 @@
 <script lang="ts">
     import { indices, tableOrder } from '$lib/dal/data'
-    import { nodes } from '$lib/dal/nodes'
+    import { nodes, edges } from '$lib/dal/nodes'
     import TableCreation from '$lib/tableCreation/TableCreation.svelte'
     import TableNode from '$lib/canvas/TableNode.svelte'
     import {
@@ -9,7 +9,6 @@
         Controls,
         MiniMap,
         SvelteFlow,
-        type Edge,
         useStore
     } from '@xyflow/svelte'
     import '@xyflow/svelte/dist/style.css'
@@ -21,6 +20,7 @@
     import { onMount } from 'svelte'
     import { loadData } from '$lib/dal/save'
     import { fuzzySearch } from '$lib/utils/search'
+    import CustomEdge from '$lib/canvas/CustomEdge.svelte'
 
     // Also set the scss var
     const BAR_DRAG_WIDTH = 8
@@ -79,7 +79,6 @@
 
     let dragging = false
 
-    const edges = writable<Edge[]>([])
     const { fitView: flowFitView } = useStore()
 
     onMount(async () => {
@@ -170,6 +169,12 @@
                 table: TableNode
             }}
             colorMode={'dark'}
+            edgeTypes={{
+                floater: CustomEdge
+            }}
+            defaultEdgeOptions={{
+                type: 'floater'
+            }}
         >
             <Controls />
             <Background bgColor="#0d1117" variant={BackgroundVariant.Cross} />
