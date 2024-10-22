@@ -25,14 +25,12 @@
     $: sourceNode = useInternalNode(source)
     $: targetNode = useInternalNode(target)
 
-    function inBetween(v: number, min: number, max: number, a = true): boolean {
+    function inBetween(v: number, min: number, max: number): boolean {
         if (max < 0) {
             v -= min
             max -= min
             min -= min
         }
-
-        if (a) console.log(v > min, v < max)
 
         return v > min && v < max
     }

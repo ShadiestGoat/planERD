@@ -73,15 +73,12 @@
                   : ''
             if (!nType) return
 
-            if (name == 'aaaa') console.log(e)
-
             const w = e.getBoundingClientRect().width
             if (w > maxes[nType]) {
                 maxes[nType] = w
             }
         })
 
-        if (name == 'aaaa') console.log(maxes)
         // padding x2 + icon col + max name size + max type size + col gap x2 + extra pad <3
         // 0.75 rem * 2 + 16px + maxes + 8px + 16px
         // ~27px + 40px + maxes
