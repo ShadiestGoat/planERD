@@ -72,9 +72,9 @@
     />
 
     <div
-        class="wrapper row {curColNames.length == 0 ? 'min' : ''} {validate(curColNames)
-            ? ''
-            : 'bad'}"
+        class="wrapper row"
+        class:bad={!validate(curColNames)}
+        class:min={curColNames.length == 0}
         tabindex="0"
         role="button"
         on:click={onDropdownInput}

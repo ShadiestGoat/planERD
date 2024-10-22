@@ -42,7 +42,8 @@
     <div class="wrapper col">
         {#each visibleIcons as cfg}
             <div
-                class="row index-type {curIndexType == cfg[1] ? 'active' : ''}"
+                class="row index-type"
+                class:active={curIndexType == cfg[1]}
                 role="button"
                 tabindex="0"
                 on:keypress={onInput(cfg[1])}

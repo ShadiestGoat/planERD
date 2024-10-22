@@ -153,7 +153,8 @@
     </div>
 
     <div
-        class="col resize-bar {dragging ? 'active' : ''}"
+        class="col resize-bar"
+        class:active={dragging}
         role="presentation"
         on:mousedown={(e) => (dragging = e.buttons === 1)}
     />

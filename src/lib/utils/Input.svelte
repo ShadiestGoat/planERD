@@ -18,7 +18,8 @@
 
 <!-- svelte-ignore a11y-autofocus -->
 <input
-    class="{valueIsGood ? '' : 'bad'} {extraClass}"
+    class={extraClass}
+    class:bad={!valueIsGood}
     {placeholder}
     {autofocus}
     type="text"

@@ -15,7 +15,7 @@
     <IndexIcon size={ICON_SIZE} type={data.v.type} active />
 </div>
 
-<div class="row wrapper {validate(data.v.colNames) ? '' : 'bad'}">
+<div class="row wrapper" class:bad={!validate(data.v.colNames)}>
     {#each data.v.colNames as col}
         <div class="col col-data">
             <p>{col}</p>

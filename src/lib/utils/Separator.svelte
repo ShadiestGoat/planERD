@@ -1,10 +1,8 @@
 <script lang="ts">
     export let thick = false
-
-    $: className = thick ? 'thick' : ''
 </script>
 
-<hr class={className} />
+<hr class:thick />
 
 <style lang="scss">
     hr {

@@ -22,7 +22,9 @@
 
 <div
     aria-disabled={disabled}
-    class="wrapper col icon-btn {extraClass} {active ? 'active' : ''} {noColor ? '' : 'color'}"
+    class="wrapper col icon-btn {extraClass}"
+    class:active
+    class:color={!noColor}
     role="button"
     tabindex="0"
     on:click={onInput}

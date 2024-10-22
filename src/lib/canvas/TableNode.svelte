@@ -151,12 +151,13 @@
 
 <div
     bind:this={elmWrapper}
-    class="node-wrapper maxxer {selected ? 'selected' : ''}"
-    style="--node-width: {width && width >= minWidth ? width : minWidth}px"
+    class="node-wrapper maxxer"
+    class:selected
+    style:--node-width="{width && width >= minWidth ? width : minWidth}px"
 >
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="resize" on:mousedown={mouseDown}>
-        <div class="node maxxer {dragging ? 'dragging' : ''}">
+        <div class="node maxxer" class:dragging>
             <div class="header col">
                 <h4>{name}</h4>
             </div>
