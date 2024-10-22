@@ -29,9 +29,9 @@
     $: row = (sectionIndex + 1) * 2 + 1
 
     const connection = useConnection()
-    const handleID = `${tableName}.${data.name}`
+    const handleID = `${tableName} ${data.name}`
 
-    $: isTarget = $connection.toHandle?.id == handleID
+    $: isTarget = $connection.toHandle?.id?.startsWith(handleID + ' ')
     $: isValid = $connection.inProgress && $connection.fromNode?.id != tableName
 </script>
 
@@ -51,18 +51,18 @@
         isConnectable={$connection.inProgress}
     />
 
-    {#if !$connection.inProgress}
+    {#if !$connection.inProgress || $connection.fromHandle?.id?.startsWith(handleID + ' ')}
         <Handle
             class="handle source left"
             type="source"
             position={Position.Left}
-            id="{handleID}.l"
+            id="{handleID} sl"
         />
         <Handle
             class="handle source right"
             type="source"
             position={Position.Right}
-            id="{handleID}.r"
+            id="{handleID} sr"
         />
     {/if}
 </div>
