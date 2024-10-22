@@ -67,17 +67,17 @@
     {/if}
 </div>
 
-<div class="base index-icon-wrapper" style="--row: {row}">
+<div class="base index-icon-wrapper" style:--row={row}>
     {#if index}
         <IndexIcon size={ICON_SIZE} type={index.type} active />
     {/if}
 </div>
-<div class="base col-name" style="--row: {row}">
+<div class="base col-name" style:--row={row}>
     <p>
         {data.name}{#if data.nullable}<span class="dull">?</span>{/if}
     </p>
 </div>
-<div class="base col-type" style="--row: {row}">
+<div class="base col-type" style:--row={row}>
     <p class="dull">{typeName}</p>
 </div>
 
