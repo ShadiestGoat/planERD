@@ -28,16 +28,12 @@ export enum ColRelationType {
     ONE_TO_ONE_STRICT
 }
 
-export type ColRelation = {
-    colRef: string
-    type: ColRelationType
-}
-
 export type Relation = {
-    /** These are col refs - tableName.colName */
-    from: ColRelation
-    /** These are col refs - tableName.colName */
-    to: ColRelation
+    type: ColRelationType
+    /** These are col refs - 'tableName colName' */
+    from: string
+    /** These are col refs - 'tableName colName' */
+    to: string
 }
 
 export type Table = {

@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
-import { indices, tableOrder, tables } from './data'
+import { indices, relations, tableOrder, tables } from './data'
 import { nodes } from './nodes'
-import type { Column, Table } from '$lib/types'
+import { ColRelationType, type Column, type Table } from '$lib/types'
 import {
     DEFAULT_COL_NAME,
     DEFAULT_COL_TYPE,
@@ -175,3 +175,20 @@ export function removeTable(n: string): void {
         })
     }, 1)
 }
+
+export function addRelation(source: string, dist: string): void {
+    relations.update((v) => {
+        return [
+            ...v,
+            {
+                type: ColRelationType.ONE_TO_N,
+                from: source,
+                to: dist
+            }
+        ]
+    })
+}
+
+// TODO:
+// export function addEdge(r: Relation): void {
+// }

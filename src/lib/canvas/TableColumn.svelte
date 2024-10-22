@@ -1,9 +1,16 @@
 <script lang="ts">
-    import { indices, multiColIndexExceptions } from '../dal/data'
+    import { indices, multiColIndexExceptions, relations, tables } from '../dal/data'
     import { type Column, type Index } from '../types'
     import IndexIcon from '$lib/IndexIcon.svelte'
     import { ICON_SIZE } from '.'
-    import { Handle, Position, useConnection } from '@xyflow/svelte'
+    import {
+        Handle,
+        Position,
+        useConnection,
+        type Connection,
+        type HandleProps
+    } from '@xyflow/svelte'
+    import { addRelation } from '$lib/dal/api'
 
     export let data: Column
     export let tableName: string
@@ -32,7 +39,62 @@
     const handleID = `${tableName} ${data.name}`
 
     $: isTarget = $connection.toHandle?.id?.startsWith(handleID + ' ')
-    $: isValid = $connection.inProgress && $connection.fromNode?.id != tableName
+    $: isValid =
+        $connection.inProgress &&
+        $connection.fromNode?.id != tableName &&
+        isLegalType(
+            $connection.fromNode.id,
+            ($connection.fromHandle.id?.split(' ') ?? ['', ''])[1],
+            data.type
+        )
+
+    function isLegalType(sourceTable: string, sourceColName: string, curColType: string): boolean {
+        const sourceCol = $tables[sourceTable].cols.find((v) => v.name == sourceColName)
+        if (!sourceCol) return false
+
+        return sourceCol.type == curColType
+    }
+
+    $: shouldDisplayTLeft = !$connection.inProgress || $connection.from.x <= $connection.to.x
+    $: shouldDisplayTRight = !$connection.inProgress || $connection.from.x > $connection.to.x
+
+    function onConnect(e: Connection[]): void {
+        const c = e[0]
+        if (!c.sourceHandle || !c.targetHandle) return
+
+        addRelation(c.sourceHandle.slice(0, -3), c.targetHandle.slice(0, -3))
+    }
+
+    function onDisconnect(e: Connection[]): void {
+        const oldSet = new Set([e[0].sourceHandle?.slice(0, -3), e[0].targetHandle?.slice(0, -3)])
+
+        $relations = $relations.filter(
+            (v) => oldSet.symmetricDifference(new Set([v.from, v.to])).size != 0
+        )
+    }
+
+    // True TS master
+    function isTrueValid(
+        e: Parameters<Exclude<HandleProps['isValidConnection'], undefined>>['0']
+    ): boolean {
+        if (e.source == e.target) return false
+
+        const source = e.sourceHandle?.slice(0, -3)
+        const dist = e.targetHandle?.slice(0, -3)
+        if (!source || !dist) return false
+
+        const [sTable, sCol] = source.split(' ')
+        if (!isLegalType(sTable, sCol, data.type)) return false
+
+        const curSet = new Set([source, dist])
+        for (const r of $relations) {
+            const rSet = new Set([r.from, r.to])
+
+            if (rSet.symmetricDifference(curSet).size == 0) return false
+        }
+
+        return true
+    }
 </script>
 
 <div
@@ -42,14 +104,31 @@
     style:--row={row}
 />
 
-<div class="base max-row bg-handle" style="--row: {row}">
-    <Handle
-        class="dropoff handle"
-        type="target"
-        position={Position.Left}
-        id={handleID}
-        isConnectable={$connection.inProgress}
-    />
+<div class="base max-row bg-handle row" style:--row={row}>
+    {#if !!shouldDisplayTLeft}
+        <Handle
+            class="dropoff handle left"
+            type="target"
+            position={Position.Left}
+            id="{handleID} tl"
+            isConnectable={$connection.inProgress}
+            onconnect={onConnect}
+            ondisconnect={onDisconnect}
+            isValidConnection={isTrueValid}
+        />
+    {/if}
+    {#if !!shouldDisplayTRight}
+        <Handle
+            class="dropoff handle right"
+            type="target"
+            position={Position.Right}
+            id="{handleID} tr"
+            isConnectable={$connection.inProgress}
+            onconnect={onConnect}
+            ondisconnect={onDisconnect}
+            isValidConnection={isTrueValid}
+        />
+    {/if}
 
     {#if !$connection.inProgress || $connection.fromHandle?.id?.startsWith(handleID + ' ')}
         <Handle
@@ -109,11 +188,15 @@
         }
 
         :global(.dropoff) {
-            width: 100%;
-            transform: none;
+            width: 50%;
             height: 100%;
+
+            transform: none;
             top: 0;
             border-radius: 0;
+
+            flex-grow: 2;
+            position: relative;
         }
 
         :global(.source) {
@@ -122,11 +205,11 @@
             background: $primary;
         }
 
-        :global(.left) {
+        :global(.source.left) {
             left: $handle-offset;
         }
 
-        :global(.right) {
+        :global(.source.right) {
             right: $handle-offset;
         }
     }
