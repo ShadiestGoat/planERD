@@ -31,7 +31,7 @@
 
 <div
     class="container row {direction}"
-    style="--label-count: {visibleIcons.length}"
+    style:--label-count={visibleIcons.length}
     in:fly={{ x: flyAmt }}
     out:fly={{ x: flyAmt }}
 >

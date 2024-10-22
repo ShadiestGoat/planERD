@@ -136,8 +136,8 @@
     <h3>Reserved for Future Cool Shit:tm:</h3>
 </header>
 
-<div class="page-container row" style="--cursor:{dragging ? 'grabbing' : ''}">
-    <div class="col sidebar" style="--width:{curWidth}px">
+<div class="page-container row" style:--cursor={dragging ? 'grabbing' : ''}>
+    <div class="col sidebar" style:--width="{curWidth}px">
         <div class="row search">
             <Search size="1.3rem" class="primary" />
             <input bind:value={tableSearchValue} placeholder="Search Tables" />
@@ -158,7 +158,7 @@
         on:mousedown={(e) => (dragging = e.buttons === 1)}
     />
 
-    <div class="col draw-wrapper" style="--width:{$clientWidth - curWidth - BAR_DRAG_WIDTH}px">
+    <div class="col draw-wrapper" style:--width="{$clientWidth - curWidth - BAR_DRAG_WIDTH}px">
         <SvelteFlow
             {nodes}
             {edges}

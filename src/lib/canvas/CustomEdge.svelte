@@ -17,7 +17,6 @@
     export let sourceHandleId: EdgeProps['sourceHandleId'] = ''
     export let targetHandleId: EdgeProps['targetHandleId'] = ''
     export let markerEnd: EdgeProps['markerEnd'] = undefined
-    export let style: EdgeProps['style'] = undefined
     export let id: EdgeProps['id']
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -87,7 +86,7 @@
     $: edgePath = mkPath($sourceNode, $targetNode)
 </script>
 
-<path {id} marker-end={markerEnd} d={edgePath} {style} />
+<path {id} marker-end={markerEnd} d={edgePath} />
 
 <style lang="scss">
     path {

@@ -80,7 +80,21 @@ export default [
             '@stylistic/no-trailing-spaces': 'warn',
             // Fucking piece of shit >:(
             // Breaks svelte <3
-            'import/no-duplicates': 'off'
+            'import/no-duplicates': 'off',
+            'svelte/no-dupe-on-directives': 'error',
+            'svelte/no-dupe-use-directives': 'error',
+            'svelte/no-target-blank': 'warn',
+            'svelte/block-lang': [
+                'error',
+                {
+                    script: ['ts'],
+                    style: ['scss']
+                }
+            ],
+            'svelte/require-event-dispatcher-types': 'warn',
+            'svelte/require-optimized-style-attribute': 'warn',
+            'svelte/prefer-style-directive': 'warn',
+            'svelte/prefer-class-directive': 'warn'
         }
     }
 ]

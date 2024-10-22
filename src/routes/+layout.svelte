@@ -4,7 +4,7 @@
     import '@fontsource/roboto'
 </script>
 
-<div style="height: 100dvh; width: 100dvw">
+<div style:height="100dvh" style:width="100dvw">
     <SvelteFlowProvider>
         <slot />
     </SvelteFlowProvider>
