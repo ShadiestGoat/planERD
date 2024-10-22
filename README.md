@@ -7,12 +7,12 @@ _PS: Its made in svelte <3_
 ## Project Status
 
 This project is still in development. Its not in a real usable state. Some major features that are still missing are:
--   [ ] Enums
--   [ ] Table node resizing
--   [ ] Data saving
--   [ ] Data Relations
--   [ ] Exporter
--   [ ] Various bugs
+- [ ] Enums
+- [ ] Data Relations
+- [ ] Exporter
+- [ ] True canvas intractability
+- [ ] Landing Page
+- [ ] Various bugs
 
 ## Info
 
