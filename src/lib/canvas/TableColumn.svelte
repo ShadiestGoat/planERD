@@ -83,8 +83,8 @@
         const dist = e.targetHandle?.slice(0, -3)
         if (!source || !dist) return false
 
-        const [sTable, sCol] = source.split(' ')
-        if (!isLegalType(sTable, sCol, data.type)) return false
+        const [dTable, dCol] = dist.split(' ')
+        if (!isLegalType(dTable, dCol, data.type)) return false
 
         const curSet = new Set([source, dist])
         for (const r of $relations) {
@@ -136,12 +136,14 @@
             type="source"
             position={Position.Left}
             id="{handleID} sl"
+            isValidConnection={isTrueValid}
         />
         <Handle
             class="handle source right"
             type="source"
             position={Position.Right}
             id="{handleID} sr"
+            isValidConnection={isTrueValid}
         />
     {/if}
 </div>
@@ -227,7 +229,7 @@
             background: $gray-8;
         }
 
-        &.is-target {
+        &.is-valid.is-target {
             background: $gray-7;
         }
     }
