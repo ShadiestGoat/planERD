@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { indices, tableOrder } from '$lib/dal/data'
+    import { indices, relations, tableOrder } from '$lib/dal/data'
     import { nodes, edges } from '$lib/dal/nodes'
     import TableCreation from '$lib/tableCreation/TableCreation.svelte'
     import TableNode from '$lib/canvas/TableNode.svelte'
@@ -9,13 +9,15 @@
         Controls,
         MiniMap,
         SvelteFlow,
-        useStore
+        useStore,
+        type Node,
+        type Edge
     } from '@xyflow/svelte'
     import '@xyflow/svelte/dist/style.css'
     import { writable } from 'svelte/store'
     import { Search, Plus } from 'lucide-svelte'
     import IconButton from '$lib/IconButton.svelte'
-    import { addTableData, defaultTable } from '$lib/dal/api'
+    import { addTableData, defaultTable, removeTable } from '$lib/dal/api'
     import { IndexType } from '$lib/types'
     import { onMount } from 'svelte'
     import { loadData } from '$lib/dal/save'
@@ -124,6 +126,26 @@
             }
         ]
     }
+
+    function onDelete({ nodes, edges }: { nodes: Node[]; edges: Edge[] }): void {
+        const ids = nodes.map((v) => v.id)
+
+        // Edges & Relations get deleted via other means
+        nodes.forEach((v) => {
+            removeTable(v.id)
+        })
+
+        edges.forEach((v) => {
+            if (!v.sourceHandle || !v.targetHandle) return
+            if (ids.includes(v.source)) return
+            if (ids.includes(v.target)) return
+
+            const rmSet = new Set([v.sourceHandle.slice(0, -3), v.targetHandle.slice(0, -3)])
+            $relations = $relations.filter((r) => {
+                return new Set([r.from, r.to]).symmetricDifference(rmSet).size != 0
+            })
+        })
+    }
 </script>
 
 <svelte:window
@@ -175,6 +197,7 @@
             defaultEdgeOptions={{
                 type: 'floater'
             }}
+            ondelete={onDelete}
         >
             <Controls />
             <Background bgColor="#0d1117" variant={BackgroundVariant.Cross} />

@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 import { indices, relations, tableOrder, tables } from './data'
-import { nodes } from './nodes'
+import { edges, nodes } from './nodes'
 import { ColRelationType, type Column, type Table } from '$lib/types'
 import {
     DEFAULT_COL_NAME,
@@ -8,7 +8,19 @@ import {
     DEFAULT_TABLE_COLUMN,
     DEFAULT_TABLE_NAME
 } from './settings'
-import { type Node, type XYPosition } from '@xyflow/svelte'
+import { type Edge, type Node, type XYPosition } from '@xyflow/svelte'
+
+function renameEdgeTable(e: Edge, p: 'source' | 'target', oldName: string, newName: string): Edge {
+    if (e[p] == oldName) {
+        e[p] = newName
+
+        if (e[`${p}Handle`]) {
+            e[`${p}Handle`] = newName + e[`${p}Handle`]?.slice(oldName.length)
+        }
+    }
+
+    return e
+}
 
 export function renameTable(oldName: string, newName: string): void {
     const curIndices = get(indices)
@@ -41,6 +53,28 @@ export function renameTable(oldName: string, newName: string): void {
         cur[cur.indexOf(oldName)] = newName
 
         return cur
+    })
+
+    edges.update((cur) => {
+        return cur.map((v) => {
+            v = renameEdgeTable(v, 'source', oldName, newName)
+            v = renameEdgeTable(v, 'target', oldName, newName)
+
+            return v
+        })
+    })
+
+    relations.update((cur) => {
+        return cur.map((v) => {
+            if (v.from.startsWith(oldName + ' ')) {
+                v.from = newName + v.from.slice(oldName.length)
+            }
+            if (v.to.startsWith(oldName + ' ')) {
+                v.to = newName + v.to.slice(oldName.length)
+            }
+
+            return v
+        })
     })
 
     // Now we delete our shit
@@ -144,19 +178,19 @@ export function addTableData(t: Table, pos?: XYPosition): void {
 
 export function removeTable(n: string): void {
     tableOrder.update((cur) => {
-        cur.splice(
-            cur.findIndex((v) => v == n),
-            1
-        )
+        const i = cur.indexOf(n)
+        if (i == -1) return cur
+
+        cur.splice(i, 1)
 
         return cur
     })
 
     nodes.update((cur) => {
-        cur.splice(
-            cur.findIndex((v) => v.type == 'table' && v.data.name == n),
-            1
-        )
+        const i = cur.findIndex((v) => v.type == 'table' && v.data.name == n)
+        if (i == -1) return cur
+
+        cur.splice(i, 1)
 
         return cur
     })
@@ -173,6 +207,10 @@ export function removeTable(n: string): void {
 
             return cur
         })
+
+        relations.update((cur) => {
+            return cur.filter((r) => !(r.to.startsWith(n + ' ') || r.from.startsWith(n + ' ')))
+        })
     }, 1)
 }
 
@@ -188,7 +226,3 @@ export function addRelation(source: string, dist: string): void {
         ]
     })
 }
-
-// TODO:
-// export function addEdge(r: Relation): void {
-// }

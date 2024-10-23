@@ -65,14 +65,6 @@
         addRelation(c.sourceHandle.slice(0, -3), c.targetHandle.slice(0, -3))
     }
 
-    function onDisconnect(e: Connection[]): void {
-        const oldSet = new Set([e[0].sourceHandle?.slice(0, -3), e[0].targetHandle?.slice(0, -3)])
-
-        $relations = $relations.filter(
-            (v) => oldSet.symmetricDifference(new Set([v.from, v.to])).size != 0
-        )
-    }
-
     // True TS master
     function isTrueValid(
         e: Parameters<Exclude<HandleProps['isValidConnection'], undefined>>['0']
@@ -113,8 +105,6 @@
             id="{handleID} tl"
             isConnectable={$connection.inProgress}
             onconnect={onConnect}
-            ondisconnect={onDisconnect}
-            isValidConnection={isTrueValid}
         />
     {/if}
     {#if !!shouldDisplayTRight}
@@ -125,8 +115,6 @@
             id="{handleID} tr"
             isConnectable={$connection.inProgress}
             onconnect={onConnect}
-            ondisconnect={onDisconnect}
-            isValidConnection={isTrueValid}
         />
     {/if}
 

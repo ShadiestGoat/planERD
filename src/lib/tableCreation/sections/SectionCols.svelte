@@ -2,9 +2,10 @@
     import SectionBase from './SectionBase.svelte'
     import type { Index, Table } from '$lib/types'
     import { IndexType } from '$lib/types'
-    import { indices, tables, multiColIndexExceptions } from '$lib/dal/data'
+    import { indices, tables, multiColIndexExceptions, relations } from '$lib/dal/data'
     import ColCreation from './utils/cols/ColCreation.svelte'
     import { defaultColumn } from '$lib/dal/api'
+    import { edges } from '$lib/dal/nodes'
 
     export let tableData: Table
 
@@ -98,7 +99,15 @@
                 .filter((v) => v !== null)
         }
 
-        // TODO: rm relations
+        $relations = $relations.filter((v) => {
+            return !(v.from.includes(` ${colData.name} `) || v.to.includes(` ${colData.name} `))
+        })
+        $edges = $edges.filter((v) => {
+            return !(
+                v.sourceHandle?.startsWith(`${tableName} ${colData.name}`) ||
+                v.targetHandle?.startsWith(`${tableName} ${colData.name}`)
+            )
+        })
     }
 
     function onColumnRename(i: number, newName: string): void {
@@ -117,7 +126,31 @@
             })
         }
 
-        // TODO: Rename relations
+        $relations = $relations.map((v) => {
+            const og = `${tableName} ${oldName}`,
+                newCol = `${tableName} ${newName}`
+
+            if (v.from == og) {
+                v.from = newCol
+            }
+            if (v.to == og) {
+                v.to = newCol
+            }
+
+            return v
+        })
+
+        $edges = $edges.map((v) => {
+            ;(['source', 'target'] as const).forEach((k) => {
+                if (v[k] == tableName) {
+                    if (v[`${k}Handle`]?.startsWith(tableName + ' ' + newName + ' ')) {
+                        v[`${k}Handle`] = tableName + ' ' + newName + v[k].slice(-3)
+                    }
+                }
+            })
+
+            return v
+        })
     }
 
     function addColumn(): void {
