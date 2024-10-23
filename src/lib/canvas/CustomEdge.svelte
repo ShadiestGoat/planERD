@@ -36,7 +36,7 @@
     }
 
     function figureOutXs(aMin: number, aMax: number, bMin: number, bMax: number): [number, number] {
-        if (inBetween(aMin, bMin, bMax) || inBetween(bMin, aMin, aMax, false)) {
+        if (inBetween(aMin, bMin, bMax) || inBetween(bMin, aMin, aMax)) {
             const v = Math.abs(aMin - bMin) < Math.abs(aMax - bMax)
 
             return v ? [aMin, bMin] : [aMax, bMax]
