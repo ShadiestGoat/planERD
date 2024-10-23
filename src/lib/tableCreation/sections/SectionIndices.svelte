@@ -27,7 +27,9 @@
 
     let dropdown = -1
 
-    function mkUsefulIndex(allIndices: Index[], exceptions: Set<number>): number[] {
+    function mkUsefulIndex(allIndices: Index[] | undefined, exceptions: Set<number>): number[] {
+        if (!allIndices) return []
+
         let cache = allIndices.map((v, i) => ({ v, i }))
 
         return cache
