@@ -3,7 +3,7 @@ import type { Index, Relation, Table } from '$lib/types'
 import { edges, nodes } from './nodes'
 import { indices, multiColIndexExceptions, relations, tableOrder, tables } from './data'
 import { get } from 'svelte/store'
-import { tableNode } from './api'
+import { APITable } from './api'
 
 export let dataLoaded = false
 
@@ -109,7 +109,7 @@ export async function loadData(): Promise<void> {
             if (nodeType != 'table') return null
             if (!realTables[name]) return null
 
-            return tableNode(name, dataPos[n])
+            return APITable.node(name, dataPos[n])
         })
         .filter((v) => v !== null)
 

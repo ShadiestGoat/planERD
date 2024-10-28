@@ -5,9 +5,10 @@
 
     import Input from '$lib/utils/Input.svelte'
     import { validateTableName } from './validators'
-    import { removeTable, renameTable } from '$lib/dal/api'
+    import { APITable } from '$lib/dal/api'
     import SectionCols from './sections/SectionCols.svelte'
     import SectionIndices from './sections/SectionIndices.svelte'
+    import { useUpdateNodeInternals } from '@xyflow/svelte'
 
     export let tableName = ''
 
@@ -16,6 +17,8 @@
     let editingName = false
     let nameIsGood = true
     let editingNameValue = tableName
+
+    const tableAPI = new APITable(useUpdateNodeInternals())
 
     function onEditIcon(): void {
         nameIsGood = true
@@ -30,7 +33,7 @@
 
         if (!nameIsGood) return
 
-        renameTable(tableName, editingNameValue)
+        tableAPI.rename(tableName, editingNameValue)
 
         tableName = editingNameValue
         editingName = false
@@ -43,7 +46,7 @@
     }
 
     function delTable(): void {
-        removeTable(tableName)
+        tableAPI.delete(tableName)
     }
 </script>
 

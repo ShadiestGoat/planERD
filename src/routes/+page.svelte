@@ -11,13 +11,14 @@
         SvelteFlow,
         useStore,
         type Node,
-        type Edge
+        type Edge,
+        useUpdateNodeInternals
     } from '@xyflow/svelte'
     import '@xyflow/svelte/dist/style.css'
     import { writable } from 'svelte/store'
     import { Search, Plus } from 'lucide-svelte'
     import IconButton from '$lib/IconButton.svelte'
-    import { addTableData, defaultTable, removeTable } from '$lib/dal/api'
+    import { APITable } from '$lib/dal/api'
     import { IndexType } from '$lib/types'
     import { onMount } from 'svelte'
     import { loadData } from '$lib/dal/save'
@@ -45,6 +46,9 @@
     // total = 481.25
     // total ~= 500
     const ABS_MIN_WIDTH = 500
+
+    const updateNodes = useUpdateNodeInternals()
+    const tableAPI = new APITable(updateNodes)
 
     clientWidth.subscribe((newV) => {
         const shouldSetCurWidth = curWidth == maxWidth * defaultWidthRatio || !widthMade
@@ -86,6 +90,7 @@
     onMount(async () => {
         loadData()
 
+        updateNodes($tableOrder)
         flowFitView()
     })
 
@@ -94,7 +99,7 @@
     $: visibleTables = fuzzySearch(tableSearchValue, $tableOrder)
 
     function addTable(): void {
-        const t = defaultTable()
+        const t = APITable.fullData(APITable.defaultName($tableOrder))
 
         const rightNode = $nodes.length
             ? [...$nodes].sort(
@@ -105,19 +110,12 @@
               )[0]
             : null
 
-        addTableData(
-            t,
-            rightNode
-                ? {
-                      x: rightNode.position.x + (rightNode.measured?.width ?? 0) + 40,
-                      y: 0
-                  }
-                : undefined
-        )
-
-        setTimeout(() => {
-            flowFitView()
-        }, 2)
+        tableAPI.createRaw(t, {
+            x: rightNode
+                ? rightNode.position.x + (rightNode.width ?? rightNode.measured?.width ?? 0) + 60
+                : 0,
+            y: 0
+        })
 
         $indices[t.name] = [
             {
@@ -125,6 +123,10 @@
                 type: IndexType.PRIMARY
             }
         ]
+
+        setTimeout(() => {
+            flowFitView()
+        }, 5)
     }
 
     function onDelete({ nodes, edges }: { nodes: Node[]; edges: Edge[] }): void {
@@ -132,7 +134,7 @@
 
         // Edges & Relations get deleted via other means
         nodes.forEach((v) => {
-            removeTable(v.id)
+            tableAPI.delete(v.id)
         })
 
         edges.forEach((v) => {
