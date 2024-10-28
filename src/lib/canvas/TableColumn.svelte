@@ -11,6 +11,7 @@
         type HandleProps
     } from '@xyflow/svelte'
     import { addRelation } from '$lib/dal/api'
+    import { edges } from '$lib/dal/nodes'
 
     export let data: Column
     export let tableName: string
@@ -55,8 +56,25 @@
         return sourceCol.type == curColType
     }
 
-    $: shouldDisplayTLeft = !$connection.inProgress || $connection.from.x <= $connection.to.x
-    $: shouldDisplayTRight = !$connection.inProgress || $connection.from.x > $connection.to.x
+    let shouldDisplayTLeft = true
+    let shouldDisplayTRight = true
+    let shouldDisplaySources = true
+
+    $: {
+        const { inProgress, from, to, fromHandle } = $connection
+
+        const displayRow =
+            !inProgress ||
+            !!$edges.find(
+                (v) =>
+                    v.targetHandle?.startsWith(handleID + ' ') ||
+                    v.sourceHandle?.startsWith(handleID + ' ')
+            )
+
+        shouldDisplayTLeft = displayRow || from.x <= to.x
+        shouldDisplayTRight = displayRow || from.x > to.x
+        shouldDisplaySources = displayRow || !!fromHandle?.id?.startsWith(handleID + ' ')
+    }
 
     function onConnect(e: Connection[]): void {
         const c = e[0]
@@ -97,7 +115,7 @@
 />
 
 <div class="base max-row bg-handle row" style:--row={row}>
-    {#if !!shouldDisplayTLeft}
+    {#if shouldDisplayTLeft}
         <Handle
             class="dropoff handle left"
             type="target"
@@ -107,7 +125,7 @@
             onconnect={onConnect}
         />
     {/if}
-    {#if !!shouldDisplayTRight}
+    {#if shouldDisplayTRight}
         <Handle
             class="dropoff handle right"
             type="target"
@@ -118,7 +136,7 @@
         />
     {/if}
 
-    {#if !$connection.inProgress || $connection.fromHandle?.id?.startsWith(handleID + ' ')}
+    {#if shouldDisplaySources}
         <Handle
             class="handle source left"
             type="source"
