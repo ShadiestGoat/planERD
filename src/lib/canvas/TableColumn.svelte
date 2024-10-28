@@ -63,17 +63,14 @@
     $: {
         const { inProgress, from, to, fromHandle } = $connection
 
-        const displayRow =
-            !inProgress ||
-            !!$edges.find(
-                (v) =>
-                    v.targetHandle?.startsWith(handleID + ' ') ||
-                    v.sourceHandle?.startsWith(handleID + ' ')
-            )
+        const displayTarget =
+            !inProgress || !!$edges.find((v) => v.targetHandle?.startsWith(handleID + ' '))
+        const displaySource =
+            !inProgress || !!$edges.find((v) => v.sourceHandle?.startsWith(handleID + ' '))
 
-        shouldDisplayTLeft = displayRow || from.x <= to.x
-        shouldDisplayTRight = displayRow || from.x > to.x
-        shouldDisplaySources = displayRow || !!fromHandle?.id?.startsWith(handleID + ' ')
+        shouldDisplayTLeft = displayTarget || from.x <= to.x
+        shouldDisplayTRight = displayTarget || from.x > to.x
+        shouldDisplaySources = displaySource || !!fromHandle?.id?.startsWith(handleID + ' ')
     }
 
     function onConnect(e: Connection[]): void {
