@@ -18,6 +18,7 @@
     export let targetHandleId: EdgeProps['targetHandleId'] = ''
     export let markerEnd: EdgeProps['markerEnd'] = undefined
     export let id: EdgeProps['id']
+    export let selected: EdgeProps['selected'] = false
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     $$restProps
@@ -84,12 +85,18 @@
     $: edgePath = mkPath($sourceNode, $targetNode)
 </script>
 
-<path {id} marker-end={markerEnd} d={edgePath} />
+<path {id} marker-end={markerEnd} d={edgePath} class:selected />
 
 <style lang="scss">
     path {
         stroke: $primary;
-        stroke-width: 2px;
+        stroke-width: 3px;
         fill: none;
+
+        transition: stroke-width 0.5s;
+    }
+
+    .selected {
+        stroke-width: 5px;
     }
 </style>
