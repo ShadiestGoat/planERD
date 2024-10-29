@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { inputHandlerFactory, type InputHandler } from '$lib/input'
+    import { inputAction } from '$lib/input'
     import { IndexType } from '$lib/types'
     import { createEventDispatcher } from 'svelte'
     import { fly } from 'svelte/transition'
@@ -21,10 +21,6 @@
     $: visibleIcons = allowSettingNone ? icons : icons.slice(1)
 
     const dispatch = createEventDispatcher<{ input: IndexType; close: void }>()
-
-    const onInput = (v: IndexType): InputHandler => {
-        return inputHandlerFactory(() => dispatch('input', v))
-    }
 </script>
 
 <BgCloser {dispatch} />
@@ -46,8 +42,7 @@
                 class:active={curIndexType == cfg[1]}
                 role="button"
                 tabindex="0"
-                on:keypress={onInput(cfg[1])}
-                on:click={onInput(cfg[1])}
+                use:inputAction={() => dispatch('input', cfg[1])}
             >
                 <IndexIcon active={curIndexType == cfg[1]} size={18} type={cfg[1]} />
                 <h4>{cfg[0]}</h4>

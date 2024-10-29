@@ -3,7 +3,7 @@
     import { Trash2, Plus } from 'lucide-svelte'
     import IndexDropdown from './IndexDropdown.svelte'
     import IconButton from '$lib/IconButton.svelte'
-    import { inputHandlerFactory } from '$lib/input'
+    import { inputAction } from '$lib/input'
     import { createEventDispatcher } from 'svelte'
     import type { IndexType } from '$lib/types'
     import IndexPopupWrapper from '../IndexPopupWrapper.svelte'
@@ -49,8 +49,6 @@
         }
     }
 
-    const onDropdownInput = inputHandlerFactory(toggleDropdown)
-
     $: shouldShowDropdown = dropdownID == indexIndex
     const dispatch = createEventDispatcher<{
         delete: void
@@ -77,8 +75,7 @@
         class:min={curColNames.length == 0}
         tabindex="0"
         role="button"
-        on:click={onDropdownInput}
-        on:keydown={onDropdownInput}
+        use:inputAction={() => toggleDropdown()}
         aria-pressed={shouldShowDropdown}
     >
         {#if shouldShowDropdown}

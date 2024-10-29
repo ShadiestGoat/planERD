@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { inputHandlerFactory, type AnyInputEvent } from '$lib/input'
+    import { type AnyInputEvent, inputAction } from '$lib/input'
     import { createEventDispatcher } from 'svelte'
 
     const dispatch = createEventDispatcher<{ input: AnyInputEvent & { target: Element } }>()
@@ -10,14 +10,14 @@
     export let noColor = false
     export let disabled = false
 
-    const onInput = inputHandlerFactory((e) => {
+    function onInput(e: AnyInputEvent): void {
         if (doToggle) {
             active = !active
         }
 
         e.stopPropagation()
         dispatch('input', e as AnyInputEvent & { target: Element })
-    })
+    }
 </script>
 
 <div
@@ -27,8 +27,7 @@
     class:color={!noColor}
     role="button"
     tabindex="0"
-    on:click={onInput}
-    on:keypress={onInput}
+    use:inputAction={onInput}
 >
     <slot />
 </div>

@@ -6,11 +6,20 @@ function isKBEvt(e: AnyInputEvent): e is KeyboardEvent {
 
 export type InputHandler = (e: AnyInputEvent) => void
 
-export function inputHandlerFactory(h: InputHandler): InputHandler {
+function inputHandlerFactory(h: InputHandler): InputHandler {
     return (e) => {
         if (isKBEvt(e) && !['Enter', 'Space', ' '].includes(e.key)) return
 
         e.preventDefault()
         h(e)
     }
+}
+
+export function inputAction(n: GlobalEventHandlers, d: InputHandler): void {
+    const h = inputHandlerFactory(d)
+
+    n.onclick = h
+    n.onkeydown = h
+
+    return
 }
