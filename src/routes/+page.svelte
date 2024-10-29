@@ -24,6 +24,8 @@
     import { loadData } from '$lib/dal/save'
     import { fuzzySearch } from '$lib/utils/search'
     import CustomEdge from '$lib/canvas/CustomEdge.svelte'
+    import { sidebarTab, SidebarTabs } from '$lib/dal/tmpData'
+    import { inputAction } from '$lib/input'
 
     // Also set the scss var
     const BAR_DRAG_WIDTH = 8
@@ -148,6 +150,24 @@
             })
         })
     }
+
+    const tabConfig: [SidebarTabs, string][] = [
+        [SidebarTabs.TABLES, 'Tables'],
+        [SidebarTabs.RELATIONS, 'Relations'],
+        [SidebarTabs.ENUMS, 'Enums']
+    ]
+
+    let tabScaling = false
+    function onTabChange(c: SidebarTabs): () => void {
+        return () => {
+            $sidebarTab = c
+            tabScaling = true
+
+            setTimeout(() => {
+                tabScaling = false
+            }, 250)
+        }
+    }
 </script>
 
 <svelte:window
@@ -162,6 +182,22 @@
 
 <div class="page-container row" style:--cursor={dragging ? 'grabbing' : ''}>
     <div class="col sidebar" style:--width="{curWidth}px">
+        <div class="tab-wrapper">
+            <div class="row selection" style:--col={$sidebarTab} class:scaling={tabScaling} />
+
+            {#each tabConfig as t, i}
+                <div
+                    class="row tab"
+                    style:--col={i + 1}
+                    role="button"
+                    tabindex="0"
+                    use:inputAction={onTabChange(t[0])}
+                >
+                    <h4>{t[1]}</h4>
+                </div>
+            {/each}
+        </div>
+
         <div class="row search">
             <Search size="1.3rem" class="primary" />
             <input bind:value={tableSearchValue} placeholder="Search Tables" />
@@ -280,6 +316,44 @@
         :global(.icon) {
             width: $iconSize;
             height: $iconSize;
+        }
+    }
+
+    .tab-wrapper {
+        width: 100%;
+        display: grid;
+        grid-template: 1fr / repeat(3, 1fr);
+        padding: 0.5rem;
+        background: $gray-10;
+        border-radius: 12px;
+
+        > div {
+            padding: 0.25rem 0;
+            justify-content: center;
+            border-radius: 12px;
+            grid-row: 1;
+            position: relative;
+        }
+
+        .tab {
+            cursor: pointer;
+            width: 100%;
+            grid-column: var(--col);
+            z-index: 1;
+        }
+
+        .selection {
+            background: $secondary;
+            grid-column-start: 1;
+            grid-column-end: -1;
+            transition: 0.35s;
+            width: calc(100% / 3);
+            transform: translateX(calc(100% * var(--col)));
+            z-index: 0;
+        }
+
+        .scaling {
+            transform: translateX(calc(100% * var(--col))) scaleX(1.25);
         }
     }
 </style>
