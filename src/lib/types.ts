@@ -22,14 +22,16 @@ export type Index = {
 }
 
 export enum ColRelationType {
-    ONE_TO_N,
-    N_TO_ONE,
-    ONE_TO_ONE,
-    ONE_TO_ONE_STRICT
+    TO_ONE,
+    TO_MANY,
+    TO_ONE_STRICT,
+    TO_MANY_STRICT,
+    TO_ONE_OPTIONAL
 }
 
 export type Relation = {
-    type: ColRelationType
+    fromType: ColRelationType
+    toType: ColRelationType
     /** These are col refs - 'tableName colName' */
     from: string
     /** These are col refs - 'tableName colName' */

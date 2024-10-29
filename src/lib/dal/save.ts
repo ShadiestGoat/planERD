@@ -129,7 +129,9 @@ export async function loadData(): Promise<void> {
                 source: v.from.split(' ')[0],
                 target: v.to.split(' ')[0],
                 sourceHandle: `${v.from} sl`,
-                targetHandle: `${v.to} tl`
+                targetHandle: `${v.to} tl`,
+                markerEnd: `m-${v.toType}`,
+                markerStart: `m-${v.fromType}`
             }
         })
     )

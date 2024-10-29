@@ -24,6 +24,7 @@
     import { loadData } from '$lib/dal/save'
     import { fuzzySearch } from '$lib/utils/search'
     import CustomEdge from '$lib/canvas/CustomEdge.svelte'
+    import Markers from '$lib/canvas/markers/Markers.svelte'
     import { sidebarTab, SidebarTabs } from '$lib/dal/tmpData'
     import { inputAction } from '$lib/input'
 
@@ -239,6 +240,7 @@
         >
             <Controls />
             <Background bgColor="#0d1117" variant={BackgroundVariant.Cross} />
+            <Markers />
             <MiniMap />
         </SvelteFlow>
     </div>

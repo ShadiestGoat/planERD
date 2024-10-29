@@ -236,7 +236,8 @@ export function addRelation(source: string, dist: string): void {
         return [
             ...v,
             {
-                type: ColRelationType.ONE_TO_N,
+                fromType: ColRelationType.TO_ONE,
+                toType: ColRelationType.TO_ONE,
                 from: source,
                 to: dist
             }
